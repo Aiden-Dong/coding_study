@@ -1,0 +1,28 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}/dist/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/dist/conf</directory>
+            <outputDirectory>conf</outputDirectory>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/dist/web</directory>
+            <outputDirectory>web</outputDirectory>
+        </fileSet>
+    </fileSets>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+        </dependencySet>
+    </dependencySets>
+</assembly>

@@ -1,0 +1,21 @@
+<assembly>
+    <id>package</id>
+    <formats>
+        <format>tar.gz</format>
+    </formats>
+
+    <fileSets>
+        <fileSet>
+            <directory>../timezone-test/target/conf</directory>
+            <outputDirectory>conf</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../timezone-test/target/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../timezone-test/target/lib</directory>
+            <outputDirectory>lib</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
