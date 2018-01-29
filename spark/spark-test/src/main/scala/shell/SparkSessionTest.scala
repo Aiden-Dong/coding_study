@@ -1,4 +1,5 @@
 package shell
+import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{StructField, StructType}
@@ -27,10 +28,8 @@ object SparkSessionTest {
       .getOrCreate()
 
     // 获取数据
-    val testSql = sparkSession
-      .read
-      .text("s3://mob-emr-test/dongtao/mobvista/ods_adn_trackingnew/2017/02/02/23").as[String].toJavaRDD
-
+    val testSql = sparkSession.sparkContext
+        .textFile("s3://mob-emr-test/dongtao/mobvista/ods_adn_trackingnew/2017/02/*/23", 20)
     // 截取字段
     val colGet = testSql.filter((vLine:String) =>{
       if(vLine.split("\t").size > 36){
@@ -52,7 +51,8 @@ object SparkSessionTest {
     })
 
     // 按照　device_model:app_id 聚合求展现量
-    val result = colGet.map((eleMap:Map[String,String])=>{(eleMap("device_model") + ":" + eleMap("app_id"), eleMap("impression").asInstanceOf[Int])})
+    val result = colGet
+      .map((eleMap:Map[String,String])=>{(eleMap("device_model") + ":" + eleMap("app_id"), Integer.parseInt(eleMap("impression")))})
          .reduceByKey(_+_)
          .sortBy(f=_._2, ascending = true)
          .map((ele)=>{
