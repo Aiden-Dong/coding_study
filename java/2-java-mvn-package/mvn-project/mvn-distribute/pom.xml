@@ -31,7 +31,7 @@
                 <executions>
                     <execution>
                         <id>package-file</id>
-                        <phase>install</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>single</goal>
                         </goals>
