@@ -1,5 +1,6 @@
 package shell
-import org.apache.spark.rdd.RDD
+import org.apache.hadoop.io.{LongWritable, Text}
+import org.apache.hadoop.mapred.lib.CombineTextInputFormat
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types.{StructField, StructType}
@@ -25,7 +26,15 @@ object SparkSessionTest {
       .config("spark.rdd.compress", "true")
       .config("spark.io.compression.codec", "snappy")
       .config("spark.sql.warehouse.dir", "s3://mob-emr-test/spark-warehouse")
+      .config("spark.sql.hive.inputformat","org.apache.hadoop.mapred.lib.CombineTextInputFormat")
       .getOrCreate()
+
+    val sc =sparkSession.sparkContext;
+
+    val combineTextInputFormat = new CombineTextInputFormat
+
+
+    val rdd = sc.newAPIHadoopFile[LongWritable, Text, CombineTextInputFormat]("s3://mob-emr-test/dongtao/mobvista/ods_adn_trackingnew/2017/02/*/23")
 
     // 获取数据
     val testSql = sparkSession.sparkContext

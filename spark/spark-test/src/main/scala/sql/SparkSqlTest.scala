@@ -21,8 +21,8 @@ object SparkSqlTest extends App{
     .enableHiveSupport()
     .getOrCreate()
 
-  val textFile = args(1)
-  val sql =args(0).stripMargin
+  val textFile = "s3://mob-emr-test/dongtao/tmp/test_text"
+  val sql ="select * from dev.tmp_pkg_agg"
 
   val sql1 = spark.sql(sql).repartition(10)
     .write.format("csv")
@@ -30,7 +30,4 @@ object SparkSqlTest extends App{
     .save(textFile)
 
   spark.stop()
-
-  System.exit(0)
-
 }
