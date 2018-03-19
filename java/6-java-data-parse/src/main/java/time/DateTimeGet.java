@@ -25,11 +25,17 @@ public class DateTimeGet {
 
         //System.setProperty("user.timezone", "UTC");
 
-        System.out.println(System.getProperty("user.timezone"));
+        //System.out.println("===");
+        //System.out.println(System.getProperty("user.timezone"));
 
-        DateTime time = DateTime.parse("2017-09-01", DateTimeFormat.forPattern("yyyy-MM-dd"));
+
+        DateTimeZone zone = DateTimeZone.forID("+0800");
+
+        System.out.println(zone.getID());
+
+        //DateTime time = DateTime.parse("2017-09-01", DateTimeFormat.forPattern("yyyy-MM-dd"));
         //time  = time.withZone(DateTimeZone.UTC);
-        out.println(time);
+        //out.println(time);
     }
 
     // ISO Test
