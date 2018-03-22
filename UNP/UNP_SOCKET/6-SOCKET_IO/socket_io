@@ -1,0 +1,59 @@
+-> 为socket设置时间超时的三种方式
+  1> 调用 alarm, 它在指定超时期满时产生SIGALRM信号。
+  2> 在多路转发中使用 如 select
+  3> 使用较新的 SO_RCVTIMEO 和 SO_SNDTIMEO
+
+-> 基本的套接字传输接口:
+    TCP :
+        // 普通文件的读写接口
+        ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+        ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+
+        ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
+        ssize_t writev(int sockfd, struct iovec *iov, int iovcnt);
+    UDP:
+        ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,const struct sockaddr *dest_addr, socklen_t addrlen);
+        ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
+    通用:
+        ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+        ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+
+        struct msghdr {
+                   void         *msg_name;       // 发送或接口端的socket地址， 对于面向连接的传输此处为NULL
+                   socklen_t     msg_namelen;    // Socket 地址长度
+                   struct iovec *msg_iov;        // 读写缓冲区
+                   size_t        msg_iovlen;     // 缓冲区的个数
+                   void         *msg_control;    // 辅助数据缓冲区
+                   size_t        msg_controllen; // 辅助数据缓冲区大小
+                   int           msg_flags;      // 发送或接受信息标志
+          };
+          struct cmsghdr {
+                  socklen_t     cmsg_len;     // 包括首部在内的空间大小
+                  int           cmsg_level;   // originating protocol
+                  int           cmsg_type;    // protocol-specific type
+              /* followed by
+                  unsigned char cmsg_data[]; */
+            };
+
+            struct iovec {                    /* Scatter/gather array items */
+                     void  *iov_base;           // Starting address
+                     size_t iov_len;             // Number of bytes to transfer
+            };
+
+-> I/O 复用技术
+        #include <sys/epoll.h>
+        int epoll_create(int size);                                                           // 创建一个EPOLL池
+        int epoll_ctl(int epollfd, int op, int fd, struct epoll_event *event);                // 对复用池进行操作
+        int epoll_wait(int epollfd, struct epoll_event *events, int maxevents, int timeout);  // 等待时间发生
+
+        typedef union epoll_data{
+          void        *ptr;
+          int         fd;
+          uint32_t    u32;
+          uint64_t    u64;
+        }epoll_data_t;
+        
+        struct epoll_event{
+          uint32_t        events;
+          epoll_data_t    data;
+        }

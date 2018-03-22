@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>原型开发模式</title>
+    <script type="text/javascript" charset="utf-8">
+      /*
+      *   动态原型模式：  让属性和方法都封装到一起
+      */
+
+      function Person(name, age, friends){
+        this.name = name;
+        this.age = age;
+        this.frieds = frieds;
+        //动态原型方法：
+        if(typeof this.sayName != 'function'){      // 保证只生成一次
+          Person.prototype.sayName = function(){
+
+          }
+        }
+      }
+
+      /*
+       *     稳妥构造函数模式： durable object (稳妥对象) 非常安全的环境中
+       *     -> 没有公共属性， 不能使用this对象
+       */
+       funciton Person(name){
+         var obj = new Object;  // 创建一个要返回的对象
+         var name = name;       // 可以定一个私有的变量和函数 private
+         obj.sayName = function(){
+           alert(name);
+         }
+       }
+       var p1 = new Person("saligia");
+       p1.sayName();
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>location 对象</title>
+    <script type="text/javascript" charset="utf-8">
+        /*
+        *       location 属性：
+        *               hash        // 返回 # 之后的内容
+        *               host        // 服务器名：端口
+        *               hostname    // 服务器名
+        *               href        // 超链接
+        *               pathname    // 文件路径
+        *               port        // 端口
+        *               protocol    // 应用协议
+        */
+        
+      alert(location.hostname);         // 主机名
+      alert(location.href);             // 连接
+      alert(location.pathname);         // 主机路径
+      alert(location.protocol);         // 协议
+
+      // 位置操作 --- 两种方式
+      location.assign("http://www.baidu.com");
+      location.href = "http://www.sina.com";
+      // 阻止返回前一个页面
+      location.replace("http://www.qq.com");
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

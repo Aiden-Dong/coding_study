@@ -1,0 +1,38 @@
+<!DOCTYPY html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Object 类型</title>
+        <script type="text/javascript" charset="utf-8">
+            /*
+            *   Object 数据类型
+            *           1.创建object 的两种方法 : 
+            *                1> var obj = new object();             //法一
+            *                2> var obj = {};                       //法二
+            *           2. 设置属性的两种方式 :
+            *                1> obj.name = "saligia";               // 法一
+            *                2> obj["name"] = "saligia";            // 法二
+            *           3. 删除属性或方法 ： delete         // 例 ：delete obj.name; 
+            *           4. Object 的属性和方法:
+            *                      -> Object.constructor                        // 构造函数
+            *                      -> Object.isPrototypeOf(object)              // 传入对象是的原型否是当前对象
+            *                      -> Object.hasOwnProperty(propertyName);      // 属性是否在当前实例的中
+            *                      -> Object.propertyIsEnumable(propertyName);  // 属性是否能够被枚举；
+            *                      -> Object.toString()                         // 转字符串
+            *                      -> Object.valueOf()                      
+            */
+            
+            // test
+            
+            var one = new Object();
+            one.name = "saligia";
+            alert(one.constructor);
+            alert(one.hasOwnProperty("name"));
+            alert(one.toString());
+            alert(one.propertyIsEnumerable("name"));
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

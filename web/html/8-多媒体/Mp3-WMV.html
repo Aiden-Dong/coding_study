@@ -1,0 +1,31 @@
+<!-----------------------------------------------------------------
+Mp3音频及WMV视频的插入:
+  使用 <embed>...</embed>标记插入Flash 动画
+    autostart   自动|非自动播放 （true/false）
+    loop        音乐循环的次数
+    背景音乐 <bgsound src="URL">
+
+  使用 <object> .... </object>
+      属性名           属性值       说明
+      name          src           音乐路径
+                    autoplay      是否自动播放 true|false
+------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>音频视频的插入</title>
+
+  </head>
+  <body>
+      <!------------------------------------------
+      <embed src="燕归巢.mp3" width="300" height="300">
+      ------------------------------------------>
+
+        <object data="燕归巢.mp3" width="300" height="300">
+          <param name="src" value="燕归巢.mp3">
+          <param name="autoplay" value="false">
+
+        </object>
+  </body>
+</html>

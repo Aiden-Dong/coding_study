@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>插入标记</title>
+    <script type="text/javascript" charset="utf-8">
+        
+        /*
+        *   插入标记:
+        *           innerHTML  // 调用元素所有子元素的标记
+        *           outerHTML  // 调用元素 + 其所有子元素的标记
+        *   插入文本:
+        *           innerText  // 返回所有子元素的文本 
+        *           outerText 
+        *           
+        */
+        
+    </script>
+  </head>
+  <body>
+      
+    <div id="one">
+      <li style="circle">
+          <ul>first item</ul>
+          <ul>secound item</ul>
+          <ul>third item</ul>
+      </li>
+    </div>
+      
+    <script type="text/javascript"  charset="utf-8">
+        var div_ele = document.getElementById("one");
+        alert(div_ele.innerHTML);
+        alert(div_ele.outerHTML);
+        alert(div_ele.innerText);
+    </script>
+      
+  </body>
+</html>

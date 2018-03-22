@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>面向对象的集中方式</title>
+    <script type="text/javascript" charset = "utf-8">
+    /*
+    *   创建对象的三种方式
+    */
+    // 工厂模式
+    function createPerson(name, age, job){
+      var obj = new Object();
+      obj.name = name;
+      obj.age = age;
+      obj.job = job;
+      return job;
+    }
+    var one = createPerson("saligia", 22, "1024");
+
+    // 构造函数模式
+    function Person(name, age, job){
+      this.name = name;
+      this.age = age;
+      this.job = job;
+    }
+    var two = new Person("saligia", 22, "1024");
+
+    // 组合模式
+    function Person(name, age, job){
+      this.name = name;
+      this.age = age;
+      this.job = job;
+    }
+    Person.prototype = {
+      constructor : Person,
+      show : function(){
+        alert("name : " + this.name + "\n"+
+              "age  : " + this.age + "\n" +
+              "job  : " + this.job + "\n");
+      }
+    }
+
+    // 关于 constructor 问题
+    function Sublime(){
+      this.one = "one";
+    }
+    Sublime.prototype = new Person("saligia", 20, "0002");
+    var first = new Sublime();
+    // 能找到本对象的实例 但是 constructor对象已经指向了超类
+    alert(first.one);
+    alert(first.constructor);
+
+    /*
+    *     继承
+    */
+    // 原型链与借用构造函数的组合形式 -------- 常用
+    function Person(name, age, job){
+      this.name = name;
+      this.age = age;
+      this.job = job;
+    }
+    Person.prototype = {
+      constructor : Person,
+      show : function(){
+        alert("name : " + this.name + "\n"+
+              "age  : " + this.age + "\n" +
+              "job  : " + this.job + "\n");
+      }
+    }
+
+    function One(name , age, job, friends){
+      Person.call(this, name, age, job);
+      this.friends = friends;
+    }
+    One.prototype = new Person();
+
+    // 原型式继承
+    function object(obj){
+      function It(){}
+      It.prototype = obj;
+      return It;
+    }
+
+    // 寄生式继承
+    function createPerson(obj){
+      var clone = object(obj);
+      clone.sayHi = function(){
+        alert("Hi");
+      }
+      return clone;
+    }
+    </script>
+
+  </head>
+  <body>
+
+  </body>
+</html>

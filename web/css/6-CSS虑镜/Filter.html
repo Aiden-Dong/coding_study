@@ -1,0 +1,68 @@
+<!--------------------------------------------------------------------------
+Filter 属性：
+      设置或索引对象所应用的虑镜或虑镜集合。此属性仅作用与有布局的对象
+    Alpha 虑镜的使用
+          属性值         值                       说明
+          opacity       0-100                   对象的亮度
+          style         1，2，3                  虑镜样式
+    Blur 虑镜的使用
+          属性值         值                       说明
+          add           true/false              是否印象派
+          direction     0-360              【     角度
+          strength      数字                    模糊度
+    Fliph,Flipv 虑镜：
+          filph     // 水平翻转  ---------- 无属性值
+          flipv     // 垂直翻转
+    DropShadow 虑镜
+          属性          值                     说明
+          color         颜色                  阴影颜色
+          offx          数字                  x坐标偏移
+          offy          数字                  y坐标偏移
+          positive      true/false           是否建立透明
+   Glow 虑镜
+         属性          值                    说明
+         color        颜色                   发光颜色
+         strength     数字                   发光厚度
+   Gray, Invert, xray 虑镜：
+          gray          //        黑白
+          invert        //        泛光
+          xray          //        x 射线
+    Shadow 虑镜
+          属性           值                   说明
+          color         颜色                阴影颜色
+          direction     0-366               阴影方向
+          strength      数字                厚度
+---------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>虑镜</title>
+    <style type="text/css">
+      img{
+        width: 500px;
+        height: 350px;
+
+        border-style: double;
+        border-width: 10px;
+        text-align: center;
+        filter: xray();
+      }
+      div{
+        text-align: center;
+        width: 100%;
+        height: 300;
+        color:black;
+        font-size: 20px;
+        font-weight: 5px;
+        filter: dropshadow(color=red, offx=5, offy=5);
+      }
+    </style>
+  </head>
+  <body>
+      <img src="7.jpg" alt=""/>
+      <div class="">
+          Hello world
+      </div>
+  </body>
+</html>

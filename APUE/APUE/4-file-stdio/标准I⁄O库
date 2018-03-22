@@ -1,0 +1,184 @@
+struct _iobuf {
+     char *		_ptr; //文件输入的下一个位置
+     int 		_cnt; //当前缓冲区的相对位置
+     char *		_base; //指基础位置(应该是文件的其始位置)
+     int 		_flag; //文件标志
+     int 		_file; //文件的有效性验证
+     int 		_charbuf; //检查缓冲区状况,如果无缓冲区则不读取
+     int 		_bufsiz; //文件的大小
+     char *		_tmpfname; //临时文件名
+};
+
+typedef struct _iobuf FILE; 
+流和FILE 对象：
+		流定向决定了所读，写的字符是单字节还是多字节的。 当一个流最初被创建时， 它并没有定向。如若在未定向的流上使用一个多字节I/O
+		函数，则将该流的定向设置为宽定向的， 若在未定向的流上使用一个单字节的I/O函数， 则将该流定向为字节定向的。
+		
+	  设置流的定向：
+		
+		    #include <stdio.h>
+		    #include <wchar.h>
+		    int fwide(FILE *fp, int mode);			// 设置流定向
+			  
+	       说明：
+			 1） 如果 mode 参数值为负， fwide 将试图使指定的流是字节定向的；
+			 2） 如果 mode 参数值为正， fwide 将试图使指定的流是宽定向的
+			 3） 如果 mode 参数为 0 ， fwide 将不试图设置流定向， 但返回标志该流定向的值
+			 
+标准输入，标准输出和标准错误
+
+     缓冲：
+	       1） 全缓冲：
+			在这种情况下， 在填满标准I/O缓冲区后才进行实际I/O操作。 对于驻留在磁盘上的文件通常是由标准I/O库实施全缓冲的，在一个流
+			上执行第一次I/O 操作时， 相关标准I/O函数通常调用malloc 获得需要使用的缓冲区
+	       2）行缓冲：
+			在这种情况下， 当在输入和输出中遇到换行符时， 标准I/O库执行I/O操作。
+	       3）不带缓冲：
+			 标准I/O不对字符进行缓冲存储， 需要从内核中读取数据
+	  
+		    更改缓冲区类型：
+			      #include <stdio.h>
+			      void setbuf(FILE *restrict fp, char *restrict buf);
+			      void setvbuf(FILE *restrict fp, char *restrict buf, int mode, size_t size);
+			
+			      说明 ： 
+				   1）要求流在以被打开后调用， 而且也应该对该流执行任何一个其他操作之前调用
+				   2）setbuf 为了带缓冲进行I/O， 参数buf 必须指向一个长度为 BUFSIZ 的缓冲区， 该流为全缓冲， 如果该流引用终端设备，则可能为
+					行缓冲， 为了关闭缓冲 ， buf == NULL
+				   3） setvbuf, 精确的说明所需的缓冲类型， mode --- _IOFBF(全缓冲) | _IOLBF (行缓冲) | _IONBF(不带缓冲)， 如果 buf == NULL , 则
+					系统将自动为其分配缓冲区
+
+		冲洗流：
+		
+				   #include <stdio.h>
+				   int fflush(FILE *fp);  // 使所有的未写的数据都送往内核
+打开流：
+
+	       #include <stdio.h>
+	       FILE *fopen(const char *restrict pathname, const char *restrict type);
+	       FILE *freopen(const char *restrict pathname, const char *restrict type, FILE *restrict fp);
+	       FILE *fdopen(int fd, const char *type);		// 将文件描述符转化为 标准I/O流
+	       int fileno(FILE *fp);					// 将标准I/O流转化为文件描述符
+	       
+	      说明：
+		    1）fopen 函数打开路径名为pathname 的一个指定文件
+		    2）freopen 函数在一个指定的流上打开一个指定的文件， 如果该流已经打开， 则先关闭流， 如果该流已经定向， 则使用freopen 清除该定向
+		    3）fdopen 函数区一个已有的文件描述符并使一个标准I/O流与该描述符相结合
+		    
+		    r: 为读打开		|   		w: 把文件截断为0， 或为写而创建		| 		a:追加， 为在文件尾写而打开或为写而创建
+		   r+:	为读和写而打开	|		w+:把文件截断为0，或为读和写而打开		|		a+:为在文件尾读和写打开或创建
+	       
+	       注意：
+		    1）如果中间没有fflush, fssek, fsetpos 或 rewind, 则在输出的后面不能直接跟输入
+		    2）如果中间没有fseek, fsetpos或rewind,或者一个输入操作没有到达文件尾端， 则在输入操作之后不能直接跟随输出
+		    
+		// 关闭一个流：
+		#include <stdio.h>
+		int fclose(FILE *fp);
+			 
+读和写流：
+
+	 每次一个字符的I/O：
+	 
+		    #include <stdio.h>
+		    int getc(FILE *fp);
+		    int fgetc(FILE *fp);
+		    int getchar(void);
+		    
+		    说明：
+			      1） getc 可以被实现为宏， 所以其参数不应该是具有副作用的表达式， 因为它可能会被计算多次
+			      2）因为 fgetc 一定是一个函数， 所以可以得到其地址，这就允许将fgetc的地址作为参数传送给另一个函数
+			      3）调用 fgetc 所需时间可能比调用getc 要长， 因为调用函数所需要的时间通常长于调用宏
+	
+		    #include <stdio.h>
+		    int putc(int c, FILE *fp);
+		    int fputc(int c, FILE *fp);
+		    int putchar(int c);
+	
+		    文件标志：
+				   #include <stdio.h>
+				   int ferror(FILE *fp);		// 检查是否发生错误
+				   int feof(FILE *fp);		// 检查是否到达文件尾
+				   
+				   void  clearerr(FILE *fp);	//清除文件出错跟到达文件尾标志
+		
+		    将一个字符压入流中
+		
+				   #include <stdio.h>
+				   int ungetc(int c, FILE *fp);
+				   
+			      说明：
+				   当文件读到文件尾(EOF)时, 仍可以送回一个字符， 因为一次成功的 ungetc 调用会清除该流的文件结束标志
+	
+	每次一行的I/O：
+	
+			 #include <stdio.h>
+			 char *fgets(char *restrict buf, int n, FILE *restrict fp);
+			 char *gets(char *buf);							// 不能指定读取字符的大小， 不推荐使用
+			 
+			 int fputs(const char *restrict str, FILE *restrict fp);
+			 int puts(const char *restict str);
+			 
+	二进制I/O：
+			 #include <stdio.h>
+			 size_t fread(void *restict ptr, size_t size, size_t nobj, FILE *restrict fp);
+			 size_t fwrite(void *restrict ptr, size_t size, size_t nobj, FILE *restrict fp);
+			 
+			 说明：
+				   fread fwrite 返回读或写的对象数，读取错误或者到达文件尾可使用feof , ferror 函数来检测
+定位流：
+
+			 #include <stdio.h>
+			 long ftell(FILE *fp);						// 返回文件的起始位置
+			 int fseek(FILE *fp, long offset, int whence);		// 设置文件偏移量
+			 void rewind(FILE *fp);						// 回到文件的起始位置
+			 
+格式化文件I/O
+
+		    #include <stdio.h>
+		    int printf(const char *restrict format, ....);
+		    int fprintf(FILE *restrict fp, const char *restrict format, ...);
+		    int dprintf(int fp, const char *restrict format, .....);
+		    int sprintf(char *restrict buf, const char *restrict format, ....);
+		    int snprintf(char *restrict buf, size_t n, const char *restrict format, .....);
+
+		    #include <stdio.h>
+		    int scanf(const char *restrict format, .....);
+		    int fscanf(FILE *restrict fp, const char *restrict format, ...);
+		    int sscanf(const char *restrict buf, const char *restrict format, ....);
+		    
+临时文件：
+		    #include <stdio.h>
+		    char *tmpnam(char *ptr);			// 对多调用 TMP_MAX 次
+		    FILE *tmpfile(void);
+		    
+		    说明：
+			      1） 若 ptr == NULL 则产生的路径名放在一个静态区中， 指向该静态区的指针作为函数值返回，
+			      2）tmpfile 创建一个临时的文件（wb+）, 在关闭该文件或程序结束时将自动删除该文件
+			      3）tmpnam 经常应用的标准UNIX 技术是先调用tmpnam 产生一个唯一的文件名，然后用该路径名创建一个文件，并立刻unlink它
+			      
+		    #include <stdlib.h>
+		    char *mkdtemp(char *template);		// 创建一个目录
+		    char *mkstemp(char *template);		// 创建一个文件  
+		    
+		    说明：
+			 1) 名字是通过 template 字符串进行选择的，这个字符串的最后6位设置为XXXXXX的路径名， 函数将这些占位符替换成不同的字符来构建
+			      一个唯一路径名
+			 2）如果成功则修改template 字符串反映临时文件的名字
+			 3）由mkdtemp 函数创建的目录使用的访问集为 ： S_IRWXU
+			 4）由mkstemp 函数创建的文件使用的访问集为 ： S_IRUSR  |  S_IWUSR
+			 5）这两个函数创建的文件或目录不会自动删除， 必须自己对它解除链接
+
+内存流：
+
+	   创建缓冲区：
+			#include <stdio.h>
+			FILE *fmemopen(void *restrict buf, size_t size, const char *restrict type);	// 自定义打开模式
+			FILE *open_memstream(char **bufp, size_t *sizep);				// 只能用于写打开
+			
+			注意（open_memstream）：
+			
+				  1） 不能自己指定缓冲区， 但可以通过 bufp跟 sizep 来获取
+				  2） 关闭流后需要自己释放缓冲区；
+				  3）对流添加字节会增加缓冲区的大小。
+	

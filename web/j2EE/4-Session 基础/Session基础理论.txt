@@ -1,0 +1,36 @@
+理论：
+	
+	-> 在某段时间一连串客户端与服务器端的“交易”
+	-> 在JSP/Servlet中，如果浏览器不支持Cookie， 可以通过 URL 重写来实现，就是将一些额外的数据追加到表示回话的每个URL末尾，
+			服务器在该提示符与其存储的有关的该会话的数据之间简历关联。
+			如: hello.jsp?jsessionid=1234
+	-> 可以通过程序来终止一个会话。 如果客户端在一定的时间内没有操作， 服务器会自动终止回话。
+	-> 通过HttpSession 来读写Session 
+	-> 与 Cookie相比， session 没有路径访问问题
+			同一个application 下的 servlet/jsp 可以共享一个session, 前提是同一个客户端窗口
+	
+	Session 的两种实现方式：
+			-> Cookie 方式 ： 如果浏览器支持 Cookie, 创建 Session 的时候会把 SessionID 保存在 Cookie 里
+			-> URL 重写方式 ： 如果不支持 Cookie, 必须自己编程使用 URL 重写的方式实现 Session :
+							 -> resp.encodeURL();
+							 		转码 后面加 SessionID
+			
+	<session-config> : 配置自己的session信息
+			<session-timeout>timeout</session-timeout> // 设置自己的session什么时候过期
+			
+			接口：
+					HttpSession req.getSession();	// 获取Session 如果没有则创建Session
+										 -> true  // 如果没有则创建
+										 -> false // 如果没有不创建
+					HttpSession 方法:
+								-> isNew()								// session 是否是最新创建
+								-> getId()								// 获取session ID
+								-> getCreationTime()			// 获取 session 的创建时间
+								-> getLastAccessedTime()	// 获取 session 最后访问的事件
+								-> getAttribute(sessName);// 获取 session 名字
+								-> setAttribute(sessName, sessValue);	// 获取 session 值
+								
+			req.getRequestedSessionId()						// 获取客户端请求的session ID
+			req.isRequestedSessionIdFromCookie()	// session 是否来自cookies
+			req.isRequestedSessionIdFromURL()			// session 是否来自 URL
+			req.isRequestedSessionIdValid()				// sessionID 是否有效

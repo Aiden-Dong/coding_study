@@ -1,0 +1,37 @@
+/*
+* 超链接属性
+*/
+a{
+  font-size:20px;
+  text-decoration: none;
+  color:green;
+  font-weight: bold;
+  text-align: center;
+}
+/* 链接的总样式 */
+a:link{
+  color: blue;
+}
+/* 已访问过的样式 */
+a:visited{
+  color:red;
+}
+/* 正在访问的样式 */
+a:active{
+  color:yellow;
+}
+/* 鼠标正在上边的样式 */
+a:hover{
+  color:black;
+}
+/*
+*       ：focus 属性
+*/
+input{
+  width:200px;
+  height:25px;
+  font-size: 24px;
+}
+input:focus{
+  background: green;
+}

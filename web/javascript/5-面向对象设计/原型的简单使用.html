@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>原型的简单使用</title>
+    <script type="text/javascript" charset="utf-8">
+      /*
+      *     简单使用
+      */
+        function Person(){
+
+        }
+        Person.prototype ={
+          //constructor :Person,    // 声明原型的构造器
+
+          name : "saligia",
+          age  :  23,
+          job  : "程序员",
+          show : function(){
+            alert("name : " + this.name +"\n"+
+                  "age  : " + this.age +"\n"+
+                  "job  : " + this.job +"\n");
+          }
+        };
+
+        // ECMA5 的给原型对象重新设置构造器的方法
+        // Object.defineProperty();
+        Object.defineProperty(Person.prototype,"constructor",{
+          enumerable:false,
+          value:Person
+        });
+        var p1 = new Person();
+        p1.show();
+
+        //原型的动态特性
+        function One(){
+
+        }
+        var th1 = new One();
+
+        One.prototype.say = function(){
+          alert("this is a function");
+        }
+        th1.say();
+
+        // 原型对象中存在的问题
+        function Person(){
+
+        }
+        Person.prototype ={
+          name : "saligia",
+          age  :  23,
+          job  : "程序员",
+          friends: ["李四", "王五"],
+
+          show : function(){
+            alert("name : " + this.name +"\n"+
+                  "age  : " + this.age +"\n"+
+                  "job  : " + this.job +"\n");
+          }
+        }
+        var p1 = new Person();
+        p1.friends.push("赵六");
+        alert(p1.friends);
+        var p2 = new Person();
+        alert(p2.friends);
+
+        // 组合使用原型和构造函数式(定义一个类开发时常用的方式)
+        function The(name, age, friends, job){
+          this.name = name;
+          this.age = age;
+          this.friends = friends;
+          this.job = job;
+        }
+        The.prototype = {
+          constructor : The,
+          show        : function(){
+            alert("name : " + this.name +"\n"+
+                  "age  : " + this.age +"\n"+
+                  "job : " + this.job +"\n"+
+                  "friends :" +this.friends);
+          }
+        }
+        var one = new The("saligia", 20, ["one", "two", "three"], "程序员");
+        one.show();
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

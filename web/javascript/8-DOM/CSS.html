@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSS 样式操作</title>
+    <style type="text/css" charset="utf-8">
+        body#body_id{
+            background-color:darkgray;
+            padding:40px;
+        }
+        div#div_id{
+            margin-bottom:  10px;
+            border:2px solid  blue;
+            width:200px;
+            height:200px;
+        }
+        
+    </style>
+    <style type="text/css" charset "utf-8">
+        
+        /*
+        *      元素样式的访问:
+        *           -> style 属性:           // 获取元素的css 属性
+        *                   cssText         // 访问 style 中的css 代码
+        *                   length          // 应用给元素的 css 属性的数量
+        *                   parentRule      // 表示 css 信息的 cssRule 对象
+        *
+        *       操作样式表：
+        *                  // 测试 : document.implementation.hasFeature("StyleSheets","2.0");
+        *            document.styleSheets       // 获取样式表
+        *               // cssRules   // 样式表中包含的样式规则的集合。 IE 使用rules属性
+        *               // deleteRules (index)        // 删除 cssRules 集合中指定位置的规则       | IE : removeRule()
+        *               // insertRules(rule, index)   // 想指定位置插入rule字符串                | ID : addRule()
+        *        对单个样式的操作
+        *               cssText                 // 返回一条 css 记录的规则
+        *               style                   // css 规则详情
+        */
+        
+        
+    </style>
+    </head>
+  <body id="body_id">
+      <div  id='div_id'></div>
+      <script type="text/javascript" charset="utf-8">
+          var body_ele = document.getElementById("body_id");
+          var div_ele = document.createElement("div");
+          
+          div_ele.style.width = "300px";
+          div_ele.style.height = "120px";
+          div_ele.style.backgroundColor="green";
+          body_ele.appendChild(div_ele);
+          
+          var sheets = document.styleSheets;
+          
+          for(var i = 0; i < sheets.length;i++){
+              var cssRules = sheets[i].cssRules || sheets[i].roles;
+              for(var j = 0; j < cssRules.length; j++){
+                  alert(cssRules[j].cssText);
+              }
+          }
+        
+      </script>
+  </body>
+</html>

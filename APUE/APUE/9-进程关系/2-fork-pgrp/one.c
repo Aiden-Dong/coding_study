@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main()
+{
+	while(1)
+	{
+		printf("hello world !!\n");
+		sleep(1);
+		printf("hello everyone !!\n");
+		sleep(1);
+	}
+
+	return 0;
+}

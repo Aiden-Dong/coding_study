@@ -1,0 +1,14 @@
+说明 :
+
+	1） 在同级间接关系中 ：
+				1> const 指针可以指向非 const 变量
+
+                                2> 非 const 指针不可指向 const 变量
+				
+				3> 在指针与指针中 :  非 const 指针可以赋给 const指针
+                                                     const 指针 不可赋给 非 const 变量
+        2） 在不同级的间接关系中 :
+                                1> 只可进行相同类型的赋值传递   ， 例如 ：
+                                                                        const 与 const 型
+                                                                       非 const 与非 const 型      
+                             

@@ -1,0 +1,70 @@
+说明：
+	  本章描述的I/O 为不带缓冲的I/O
+	  
+文件描述符：
+
+	  UNIX 系统shell  把文件描述符0与进程的标准输入关联， 把文件描述符1与进程的标准输出关联，把文件描述符2与标准错误关联
+	      
+	      #include <unistd.h>
+	      STDIN_FILENO
+	      STDOUT_FILENO
+	      STDERR_FILENO
+	      
+函数 open 和 openat
+
+			 #include <fcntl.h>
+			 int open (const char *path, int oflag, ... /* mode_t mode */);
+			 int openat(int fd, const char *path, int oflag, .../* mode_t mode */) ;
+		    
+		    oflag:
+			 O_RDONLY(只读)		O_WRONLY（只写）		O_RDWR（读写）		O_EXEC（只执行）		O_SEARCH（只搜索）
+			 // 以上 5 个常量中必须且只能执行一个
+			 O_APPEND(追加)	O_CLOEXEC(FD_CLOEXEC)		O_CREAR(创建)		O_DIRCETORY(目录)	O_NOCTTY(终端设备不分配控制终端)
+			 O_NOFOLLOW（非符号连接）	O_NONBLOCK(非阻塞模式)		O_SYNC (同步写)	O_TRUNC(截断) 
+			 
+函数 creat :
+			 #include <fcntl.h>
+			 int creat(const char *path, mode_t mode);
+		    
+函数 close:
+			 #include <unistd.h>
+			 int close(int fd);
+		    
+函数 lseek:
+			 #include <unistd.h>
+			 off_t lseek(int fd, off_t offset, int whence);
+函数 read:
+			 #include <unistd.h>
+			 ssize_t read(int fd, void *buf, size_t nbytes);
+函数 write:
+			 #include <unistd.h>
+			 ssize_t write(int fd, void *buf, size_t nbytes);
+原子操作：
+			 #include <unistd.h>
+			 ssize_t pread(int fd, void *buf, size_t nbytes, off_t offset);
+			 ssize_t pwrite(int fd, const void *buf, size_t nbytes, off_t offset);
+函数dup和dup2:
+			 #include <unistd.h>
+			 int dup(int fd);
+			 int dup2(int fd, int fd2);
+			 
+			 说明：
+				   1） dup 返回新的文件描述符一定是当前可用文件描述符中的最小值
+				   2） 对于dup2 如果 fd2已经打开， 则先将其关闭， fd2 的FD_CLOEXEC 文件描述符标志就被清除
+				  
+同步缓存函数：
+			 #include <unistd.h>
+			 int fsync(int fd);			// 等待数据写磁盘操作结束才返回
+			 int fdatasync(int fd);		// 只对数据部分产生影响（类似于fsync）
+			 void sync(void);			// 只将所修改过的块缓冲区排入写队列
+			 
+函数 fcntl:
+			 #include <fcntl.h>
+			 int fcntl(int fd, int cmd, .../* int arg */);
+			 
+			 说明：
+				   1） 复制一个已有的文件描述符（F_DUPFD   |    F_DUPFD_CLOEXEC）
+				   2)	 获得/设置文件描述符标示 （F_GETFD    |    F_SETFD）
+				   3)	 获得/设置文件状态标志    （F_GETFL 	  |    F_SETFL）  // 必须要 O_ACCMODE  取得访问方式位
+				   4)	 获得/设置异步I/O所有权	(F_GETOWN |    F_SETOWN)
+				   5)	 获取/设置记录锁		(F_GETLK,  F_SETLK    F_SETLKW)

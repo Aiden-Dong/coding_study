@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Object 类</title>
+    <script type="text/javascript" charset="utf-8">
+      /*
+      * Object 类是所有类的基础类
+      */
+
+      // 1 > 实例化Object 的方法：
+      //var obj = new Object();     // 法一
+      var obj = {};                 // 法二；
+      // 2 >  给对象设置属性：
+      obj.name="saligia";
+      obj.age = 20;         // 设置属性 法一
+      obj['day']=1970;      // 设置属性 法二
+      obj.say = function(){
+        alert("hello world");
+      }
+      // 3 > 调用对象的方法：
+      alert(obj.name);
+      obj.say();
+      // 4 > 删除对象的属性和方法：
+      delete obj.age;
+
+      // 5 > 遍历一个对象的方法 ------ for in
+      for(var it in obj){
+        alert(it + ":" + obj[it]);    // -> 使用中括号
+      }
+      /*
+      *     -> Object 属性和方法
+      */
+      // 1> constructor 保存对象的创建函数：
+      alert(obj.constructor());
+      // 2> hasOwnProperty(propertyName); // 检测对象中是否有该属性存在
+      alert(obj.hasOwnProperty("say"));
+      // 3> isPropertyOf();   // 检测原型
+      // 4> toLocalString();  toString()// 返回对象的字符串表示
+      // 5> valueOf();        // 返回对象的字符串， 数值或布尔表示
+
+      /*
+      * 自定义  Map 类
+      */
+      /*
+      function Map(){
+        var obj = new Object();
+
+        this.put = function (key, value) {
+          obj[key] = value;
+        }
+        this.size = function(){
+          var count = 0;
+          for(var it in obj){
+            count++;
+          }
+          return count;
+        }
+        this.get = function(key){
+          return obj[key];
+        }
+      }
+
+      var list = new Map();
+      list.put("one", 100);
+      list.put("two", 200);
+      alert(list.size());
+      alert(list.get("one"));
+      */
+      alert(Math.random());
+      var strj = "Hello world";
+      alert(escape(strj));
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

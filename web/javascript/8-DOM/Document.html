@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Document 类型</title>
+    <script type="text/javascript" charset="utf-8">
+      
+     /*
+      *     -> Document 类型表示文档,document对象是Document 的一个实例，表示整个HTML 页面。
+      *     -> document 对象是windows 对象的一个属性。 可以将其作为全局属性来访问
+      *     -> 查找元素:
+      *                 document.getElementById(id_name);
+      *                 document.getElementsByName(name_name);      // 返回一个数组
+      *                 document.getElementsByTagName(Tag_name);    // 返回一个数组
+      *                 document.getElementsByClassName(class_name);// 返回一个数组
+      *                     -> HTMLCollection 对象
+      *
+      *     -> 创建元素：
+      *                 document.createElement(element_name);       // 创建元素节点
+      *                 document.createTextNode(string_value);      // 创建文本节点
+      */
+        
+      alert(window.document);  
+    </script>
+  </head>
+    
+  <body id="body">
+      
+      <div id="text_div" name="show_div" class="class_div">Hello world</div>
+      
+      <script type="text/javascript" charset="utf-8">
+          
+          // 查找元素
+          var id_element = document.getElementById("text_div");
+          var body_id = document.getElementById("body");
+          var name_element=document.getElementsByName("show_div");
+          var tag_element = document.getElementsByTagName("div");
+          var class_element=document.getElementsByClassName("class_div");
+          
+          alert(id_element.nodeType + id_element.nodeName + id_element.nodeValue + id_element.firstChild.nodeValue +                   id_element.firstChild.nodeType + "\n" +
+                name_element[0].nodeType + name_element[0].nodeName + name_element[0].nodeValue + "\n" +
+                tag_element[0].nodeType + tag_element[0].nodeName + tag_element[0].nodeValue + "\n" +
+                class_element[0].nodeType + class_element[0].nodeName + class_element[0].nodeValue);
+          
+          // 创建元素
+          var new_div = document.createElement("div");
+          var text_node = document.createTextNode("New Node");
+          
+          // 元素的添加与删除
+          new_div.appendChild(text_node);
+          body_id.removeChild(id_element);
+          body_id.appendChild(new_div); 
+          
+      </script>
+          
+  </body>
+</html>

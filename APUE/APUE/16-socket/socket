@@ -1,0 +1,158 @@
+套接字描述符：
+     
+	       #include <sys/socket.h>
+	       int socket(int domain, int type, int protocol);
+	       说明：
+			 domain:
+					AF_INET 	: IPv4 因特网域		AP_UNIX 	  : UNIX 域
+					AF_INET6   : IPv6因特网域		AF_UPSPEC  : 未指定
+			 type:
+					SOCK_DGRAM 		: 固定长度的， 无连接的不可靠的报文传递
+					SOCK_RAM 		: IP 协议的数据报接口
+					SOCK_STREAM  		: 有序的， 可靠的，双向的， 面向连接的字节流
+					SOCK_SEQPACKET	: 固定长度的， 有序的， 可靠的 ， 面向连接的报文传递
+			 protocol:
+					IPPROTO_IP 	: IPv4 网络协议					IPPROTO_RAM : 原始IP 数据报协议
+					IPPROTO_IPV6 	: IPv6 网络协议					IPPROTO_TCP  : 传输控制协议
+					IPPROTO_ICMP	: 因特网控制报文协议				IPPROTO_UDP  : 用户数据报协议
+					
+			 说明：
+				   SOCK_RAM : 套接字提供一个数据报接口， 用于直接访问下面的 网络层   需要由超级用户特权
+				   
+	       //禁止一个套接字的 I/O
+	       
+	       #include <sys/socket.h>
+	       int shutdown(int sockfd, int how);
+	       how:
+			 SHUT_RD		SHUT_WR		SHUT_RDWR
+			 
+寻址：
+
+     字节序：
+     
+	 网络协议制定了字节序， 一次因此异构计算机系统能够交换协议信息而不会被字节序所混淆
+	 TCP/IP 协议栈使用 大端 字节序
+	 
+		    #include <arpa/inet.h>
+		    uint32_t htonl(uint32_t hostint32);
+		    uint16_t htons(uint16_t hostint16);
+		    uint32_t ntohl(uint32_t netint32);
+		    uint16_t ntohs(uint16_t netint16);
+	 
+     地址格式：
+	  
+	       // 二进制地址与点分十进制的转换
+	       #include <arpa/inet.h>
+	       const char *inet_ntop(int domain, const void *restrict addr, char * restrict str, socklen_t size);
+	       int inet_pton(int domain, const char *restrict str, void *restrict addr);
+     
+     地址查询：
+     
+		    struct sockaddr{
+			 sa_family_t 	sa_family;		// 2字节
+			 char 			sa_data[14];	// 14字节
+		    }
+		    
+		    strcut sockaddr_in{										
+			 sa_family_t 	sin_family;			// domain    // 2字节
+			 in_port_t		sin_port;			// 网络端口  // 2字节
+			 struct in_addr	sin_addr;			// ip 地址     wo// 4字节
+			 unsigned char 	sin_zero[8];		// 填充为 0   // 8字节
+		    }
+		    
+		    struct in_addr{
+		    in_addr_t s_addr;
+		    }
+		    
+		    struct addrinfo{
+		    int 			ai_flags;			// 自定义行为
+		    int 			ai_family;			// domain
+		    int 			ai_socktype;		// type
+		    int 			ai_protocol;		// protocol
+		    socklen_t		ai_addrlen;			// sizeof(sockaddr)
+		    struct sockaddr 	*ai_addr;			// sockaddr
+		    char			*canonname;		//  主机的正规名
+		    struct addrinfo	*ai_next;			// 下一个地址信息
+		    }
+		
+		    int getaddrinfo(const char *restrict host, 
+					 const char*restrict service, 
+					 const struct addrinfo *restrict hint, 
+					 struct addrinfo **restrict res);
+		    int getnameinfo(const struct sockaddr *restrict addr, socklen_t alen, 
+					   char *restrict host, socklen_t hostlen, 
+					   char *restrict service, socklen_t servlen, int flags);
+					   
+	将套接字和地址关联：
+	
+	  #include <sys/socket.h>
+	  int bind(int socket, const struct sockaddr *addr, socklen_t len);
+	  
+	  说明：
+		    如果指定的IP地址为 INADDR_ANY, 套接字端点可以被绑定到所有的系统网络接口上， 这意味这可以接收这个系统所安装
+		    的任何一个网卡的数据包
+		
+	  // 获取绑定在套接字上的地址
+	  #include <sys/socket.h>
+	  int getsockname(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict alenp);
+	  
+	  // 获取对等方的地址
+	  int getpeername(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict alenp);
+	
+建立链接：
+
+	       // 客户端
+	       #include <sys/socket.h>
+	       int connect(int sockfd, const struct sockaddr *addr, socklen_t len);
+	       
+	       注意：
+			 如果 connect 失败， 可迁移的应用程序需要关闭套接字， 如果想重试， 必须打开一个新的套接字
+			 
+		// 等待处理的监听队列（服务端）	
+		listen(int sockfd, int backlog);
+		
+		// 获得连接请求并建立连接
+		int accept(int sockfd, struct sockaddr *restrict addr, socklen_t *restrict len);
+		
+		说明：
+			 如果没有连接， 则accept 会阻塞直到一个请求到来，
+			 
+数据传输：
+
+	 数据发送：
+			 #include <sys/socket.h>
+			 ssize_t send(int sockfd, const void *buf, size_t nbytes, int flags);
+			 ssize_t sendto(int sockfd, const void *buf, size_t nbytes, int flags,
+					     const struct sockaddr *desaddr, socklen_t deslen);
+			ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+			
+			说明：
+				   我们所能保证值时当send 发送成功时， 数据已被无错误的发送到网络驱动程序上
+				  
+	数据接受：
+			 #include <sys/socket.h>
+			 ssize_t recv(int sockfd, const void *buf, size_t nbytes, int flags);
+			 ssize_t recvfrom(int sockfd, const void *buf, size_t nbytes, int flags,
+					     struct sockaddr *desaddr, socklen_t deslen);		// 获取发送方的地址
+			ssize_t recvmsg(int sockfd, const struct msghdr *msg, int flags);
+
+			
+套接字选项：
+		    // 控制套接字的行为
+		    #include <sys/socket.h>
+		    int setsockopt(int sockfd, int level, int option, const void *val, socklen_t len);
+		    int getsockopt(int sockfd, int level, int option, void *val, socklen_t *restrict lenp);
+		 
+带外数据：
+
+	       1）带外数据先行传输， 即使传输队列已经有数据， 
+	       2）TCP 仅支持一个字节的紧急数据， 但是允许紧急数据在普通传递机制数据流之外传输， （send 函数中的任何一个里指定MSG_OOB）
+	       3）如果发送的字节超过一个， 最后一个为紧急数据字节
+	    
+非阻塞和异步I/O
+	  
+	       启动异步I/O 是一个两个步骤的过程:
+			      1) 建立套接字所有权， 这样信号可以被传递到合适的进程  
+					fcntl(fd, F_SETOWN, pid);
+			      2）通知套接字当I/O 操作不会阻塞时发信号
+					fcntl(fd, F_SETFL, flags|O_ASYNC);

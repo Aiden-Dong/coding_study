@@ -1,0 +1,111 @@
+UDP 是无连接不可靠的数据报协议
+
+UDP 常用的函数套接字：
+  #include <sys/socket.h>
+  int sendto(int sockfd, const void *buf, size_t buflen, int flags,  struct sockaddr* addr, socklen_t addrlen);
+  int recvfrom(int sockfd, const void *buf, size_t buflen, int flags, struct sockaddr *addr, socklen_t *addrlen);
+
+UDP的异步错误：
+  -> 一个基本的思想是， 对于一个UDP套接字， 他引发的异步错误却不返回给他，除非他是以连接
+  -> UDP 的connect :
+      UDP 通过 connect 与服务器进行连接， 不过这种方法却与 TCP 连接大相径庭， 没有三次握手过程， 内核只是检查是否有立即返回的错误， 并记录对端的地址与端口
+      -> 我们不能给以连接的UDP的输出操作指定对端的ip 或端口号
+      -> 即使使用 sendto, 对端地址也得为空子段
+      -> 以连接的UDP套接字引发的异步错误会返回给调用进程， 而未连接的不会
+      -> 断开连接需要调用 AF_UNSPEC
+
+UDP 广播：
+  -> IPV6 不支持广播， 使用广播的任何IPV4应用程序到IPV6那里都得重写改写成为多播实现
+  -> 使用 IPV4 广播必须要首先开启广播选项
+  用途：
+    -> 在本地子网中定位一个服务器主机
+    -> 在有多个客户机与一个服务器的通信的局域网环境中减少分组流通
+
+  -> 广播地址的表示：
+    1> 定向广播地址 {子网ID, -1} ： 通常情况下路由器不转发这种数据包
+    2> 受限广播地址 {-1, -1}:路由器从不转发
+    3> 广播ip地址对应的 mac 地址 ff:ff:ff:ff:ff:ff
+
+    说明：
+        1> 如果某主机收到了一个广播后， 在其运输层发现无匹配端口并丢弃报文时， 不能发送 ICMP 端口不可达错误， 防止网络风暴
+        2> 源自 berkeley 的内核不允许对广播数据包执行分片， 如果目的地址是广播地址的数据包发送大小超过了外出接口的MTU，那么调用他的系统调用将
+           返回 EMSGSIZE错误
+UDP 多播：
+  1> 多播地址：
+            -> IPV4：
+                  IP地址：  224.0.0.1 - 239.255.255.255
+                  MAC   :  以太网的高序3位为 ：01：00：5e ， 下一位 : 0 | 低序23位复制自多播组的低序23位
+                  说明：
+                      1> 224.0.0.1 是所有主机组
+                      2> 224.0.0.2 所有路由器组
+
+            -> IPv6:
+
+                IP地址： ff : 01/02 : 80位的0 : 32位组ID
+                MAC   : 高序两个自己是 33：33 | 低序4个字节是从 ip地址的低序中复制得来
+                说明：
+                      1> ff01::1  ff02::1是所有节点组
+                      2> ff01::2  ff02::2 ff05::2 是所有路由器组
+    2> 多播数据报的发送：
+            -> 发送多播数据报无需做任何处理； 发送进程不必为此加入加入多播组
+            -> 如果中间主机不支持ipv4 多播的能力， 他将忽略该帧，
+            -> 该帧基于不完备过滤(散列算法)被对方主机接受， 其中的过滤操作由相应的接口使用该帧的以太网目的主机地址进行
+            -> 该帧传入网络层后，执行完备过滤操作： 网络层比较该地址和本机的接受应用进程加入的多播组，如果没有匹配，则丢弃该分区
+            -> 该帧从网络层传递到运输层之后， 由运输层匹配端口
+
+    3> 源特定多播(SSM)
+            -> 接受进程向多播路由器提供了发送进程的源地址作为多播组加入操作的一部分
+
+    4> 多播套接字选项：
+        选项名                               数据类型                         说明
+        ==========================================================================================
+        IP_MULTICAST_IF                     struct in_addr                指定外出多播数据报的默认接口
+        IP_MULTICAST_TTL                    uint8_t                       指定外出多播数据报的TTL
+        IP_MULTICAST_LOOP                   uint8_t                       开启或禁止外出数据报的回馈
+        ------------------------------------------------------------------------------------------
+        IPV6_MULTICAST_IF                   uint32_t                      指定外出多播数据报的默认接口
+        IPV6_MULTICATST_HOPS                uint8_t                       指定外出多播数据报的TTL
+        IPV6_MULTICAST_LOOP                 uint8_t                       开启或禁止外出数据报的回馈
+        ===========================================================================================
+        IP_ADD_MEMBERSHIP                   struct ip_mreq                加入多播组
+        IP_DROP_MEMBERSHIP                  struct ip_mreq                离开多播组
+        IP_BLOCK_SOURCE                     struct ip_mreq_source         阻塞某个源的多播组
+        IP_UNBLOCK_SOURCE                   struct ip_mreq_source         接触某个源的阻塞
+        IP_ADD_SOURCE_MEMBERSHIP            struct ip_mreq_source         加入一个源特定多播组
+        IP_DROP_SOURCE_MEMBERSHIP           struct ip_mreq_source         离开一个源特定多播组
+        -------------------------------------------------------------------------------------------
+        IPV6_JOIN_GROUP                     struct ipv6_mreq              加入多播组
+        IPV6_LEAVE_GROUP                    struct ipv6_mreq              离开多播组
+        --------------------------------------------------------------------------------------------
+        MCAST_JOIN_GROUP                    struct group_req              加入多播组
+        MCAST_LEAVE_GROUP                   struct group_req              离开多播组
+        MCAST_BLOCK_SOURCE                  struct group_source_req       阻塞某个源的多播组
+        MCAST_UNBLOCK_SOURCE                struct group_source_req       解除某个源的阻塞
+        MCAST_JOIN_SOURCE_GROUP             struct group_source_req       加入一个源特定多播组
+        MCAST_LEAVE_SOURCE_GROUP            struct group_source_req       离开一个源特定多播组
+        ===========================================================================================
+        struct ip_mreq{
+          struct in_addr imr_inderface; // 本地接口
+          struct in_addr imr_multiaddr; // 广播地址
+        }
+        struct ip_mreq_source{
+          struct in_addr imr_interface;
+          struct in_addr imr_sourceaddr;
+          struct in_addr imr_multiaddr;
+        }
+        ---------------------------------------------------
+        struct ipv6_mreq{
+          struct in6_addr ipv6mr_interface;
+          struct in6_addr ipv6mr_multiaddr;
+        }
+        --------------------------------------------------
+        struct group_req{
+          uint32_t                    gr_interface;
+          struct sockaddr_storage     gr_group;
+        }
+        struct group_source_req{
+          uint32_t                     gr_interface;
+          struct sockaddr_storage      gr_source;
+          struct sockaddr_storage      gr_group;
+        }
+        ==============================================================================================

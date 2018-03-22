@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Node 类型</title>
+    <script type="text/javascript" charset="utf-8">
+        /*
+        *   1> Javascript 中所有的节点类型都继承自Node 类型, 所有节点都共享相同的基本属性和方法
+        *   2> 属性:
+        *           nodeType    // 节点类型
+        *           nodeName    // 节点名称
+        *           nodeValue   // 元素值
+        *           childNodes  // 子节点的类型 -> NodeList
+                                -> NodeList  双向链表 ： 
+                                                // firstChild      对象第一个元素
+                                                // lastChild       对象最后一元素
+                                                // length          长度
+                                                // perviousSibling 前一个元素
+                                                // nextSibling     后一个元素
+                    hasChildNode   // 是否存在子属性
+            3> 方法：
+                appendChild(new_node)           // 在子节点的最后添加节点
+                insertBefore(newNode, preNode); // 在制定位置的前面插入一个新的元素
+                replaceChild(newNode, oldNode); // 替换指定元素
+                removeChild(reNode);            // 移除节点
+                cloneNode();                    // 克隆节点
+                normalize();                    // 处理文本节点
+                
+        *           
+        *
+        *
+        */
+        
+    </script>
+
+  </head>
+
+  <body>
+    <div>
+      <table>
+        <tr>
+          <td id="first">hello world</td>
+          <td>hello sprintg</td>
+        </tr>
+      </table>
+    </div>
+
+    <script defer="defer" type="text/javascript"  charset="utf-8">
+    /*
+    *       javascript 中所有的节点类型都继承自 Node 类型
+    *
+    */
+      alert(document.nodeName);
+      var nod = document.documentElement;
+      alert(nod.nodeName);
+      alert(document.body.nodeName);
+      alert(document.title);
+      var tid = document.getElementById("first");
+      alert(tid.nodeValue);
+    </script>
+  </body>
+
+</html>

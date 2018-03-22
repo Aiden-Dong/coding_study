@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>原型</title>
+    <script type="text/javascript"  charset="utf-8">
+
+    /*
+    *   ===================================================================
+    *   方法属性：
+    *             类名.prototype                              // 获取原型对象
+    *             原型.isPrototypeOf(对象)；                   // 判断是否具有原型关系
+    *             Object.getPrototypeOf(对象);                // 获取实例对象的原型
+    *             方法名 in 对象名                             // in 操作符
+    *             getOwnPropertyNames                        // 获取对象的方法属性
+    *   ===================================================================
+    */
+      /*
+      *   prototype ----- 原型
+      */
+      // 构造函数方式 -------- 引入原型的原因：
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+        this.sayName = function() {
+          alert("Hello world");
+        }
+        this.show = show;
+      }
+      function show(){
+        alert("the");
+      }
+
+      var one = new Person("one", 22);
+      var two = new Person("two", 20);
+
+      alert(one.sayName == two.sayName);  // false
+      alert(one.show == two.show);        // true
+
+      // 创建一个函数的时候都有一个 prototype 属性， 这个属性是一个指针
+      // 这个指针总是指向一个对象
+      // 这个对象的用途就是将特定的属性和方法包含在内， 起到一个共享的作用
+      function One(name, age) {
+        this.name = name;
+        this.age = age;
+      }
+
+      var obj = One.prototype;  // 用来存放公共属性 ---被所有实例所共享
+      alert(obj.constructor);   // 对象的构造函数
+      obj.show=function(){
+        alert("Hello world");
+      }
+
+      var it1 = new One("it1", 1);
+      var it2 = new One("it2", 2);
+      alert(it1.show == it2.show);
+      alert(obj.isPrototypeOf(it1));  //  测试是否是属于原型关系
+
+      /*
+      * 根据实例对象获得原型对象
+      */
+
+      // Object.getPrototypeOf() :
+      function The(){
+
+      }
+      The.prototype.name = "saligia";
+      The.prototype.show =function(){
+        alert(this.name);
+      }
+      var obj = new The();
+      Object.getPrototypeOf(obj).show();
+      // 根据实例对象获取原型对象
+      // 判断一个对象是属于原型属性还是属于实例属性
+      // hasOwnProperrty()  方法 不能返回公共属性
+      var obj1 = new The();
+
+      // in 操作符 : for-in
+      var obj2 = new The();
+      alert("name" in obj2);    // 确定是否在存在于 原型 或 实例 中
+
+      /*
+      *     Object.keys()   // 找到对象中的所有属性 ------- 不能显示公共属性
+      */
+      // Object.getOwnPropertyNames 枚举出所有属性； 不管该属性是否能被枚举
+      var obj3 = new The();
+      obj3.age = 23;
+      obj3.sex = '男';
+      var arr = Object.keys(obj3);
+      alert(arr);
+      var arr = Object.keys(The.prototype);
+      alert(arr);
+      alert(Object.getOwnPropertyNames(obj3));
+      
+    </script>0
+  </head>
+  <body>
+
+  </body>
+</html>

@@ -1,0 +1,54 @@
+string 类：
+
+	构造函数 ：  // NBTS 传统的字符串 
+		     // size_type 依赖于实现的整形  
+
+		string (const char *s)  	// 将 string 初始化为 s 指向的 NBTS  ;
+		string (size_type n , char c)  	// 创建一个包含 n 个元素的整形 ， 其中的每个元素被初始化为 c ;
+		string (const string &str)	// (调用srting 类的复制构造函数)
+		string ()		-----	// 调用string 类的默认构造函数
+		string (const char *s , size_type n)  // 将string 对象 初始化为指向 NBTS 前 n 个字节 ；
+		string <class Iter>
+		string (Iter begin , Iter end) 	// 将 string 对象初始化为（begin , end）间的字符（指针指向位置）
+		string (string & str , size_type n1 , size_type n2)  // 将 string 对象初始化为从 str（n1-n2）位置
+
+
+	string 类的输入 ：
+		
+		string stuff ;
+		cin >> stuff ;
+		getline (cin , stuff) ;
+		getline (cin , stuff ':') ;	// 用 ：当作输入边界 ； 
+
+智能指针模板：
+
+	要创建智能指针对象 ， 必须包含头文件 memory    // 智能指针对象内部包含有 delete , 未解决不方便 对 new 使用
+						      // delete 的情况
+
+	auto_ptr :
+
+		模板 auto_ptr 所包含如下构造函数 ：
+		
+		template <class X > auto_ptr
+		{
+		   explicit auto_ptr (X * p = 0) throw () ;
+		}  
+
+		使用 如下：
+
+		auto_ptr <string> (new string("hellow world !!!")  ;
+
+		注意 ：两个对象的赋值将使得转移内存块的所有权 ；
+
+	unique_ptr :
+
+		类似于 auto_ptr 但 unique_ptr 将跟为严格 ， 不允许将两个指针指向同一个对象 ， （但如果不产生悬挂指针则
+		允许控制权转移）；
+
+		注意：  如果是 new [] 则必须使用 delete[] , 而 unque_ptr 有这个选项 ；
+
+	shared_ptr :
+
+		跟踪引用特定对象的只能指针 ， 当完全对象释放时 ， 才调用 delete 析构函数 ；
+
+ 

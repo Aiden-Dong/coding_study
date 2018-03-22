@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>私有变量</title>
+    <script type="text/javascript"  charset="utf-8">
+      /*
+      *   模仿块级作用域
+      */
+      (function(){
+        for(var i = 0; i < 10; i++){
+
+        }
+
+      })();
+
+      function MyObject(){
+        /*
+        *     私有变量
+        */
+          // 私有变量和私有函数
+          var privateVariable = 10;
+          function privateFunction(){
+            return false;
+          }
+          // 特权方法：
+          this.publicMethod = function(){
+            privateVariable ++;
+            return privateFunction();
+          }
+      }
+      var obj = new MyObject();
+
+      // 静态私有变量
+      (function () {
+        // 私有变量和私有函数
+        var privateVariable = 10;
+        function privateFunction(){
+            return false;
+        }
+        // 构造函数
+        MyObject = function(){      // 全局变量
+
+        }
+        // 共有/特权对象
+        MyObject.prototype.publicMethod = function(){
+          privateVariable++;
+          return privateFunction();
+        }
+      })();
+
+      /*
+      *     模块模式：
+      */
+      var application = function(){
+          // 私有变量和函数
+          var componets = new Array();
+          // 初始化 --- 声明一个类时， 内部代码顺序执行
+          componets.push(new BaseComponet());
+
+          // 公共
+          return {
+            getComponetCount : function(){
+              return componets.length;
+            }
+            registerComponent : function(componet){
+              if(typeof componet == "object"){
+                componets.push(componet);
+              }
+            }
+          }
+      }
+
+      // 增强的模块模式
+      var singleton = function(){
+        // 私有变量和私有函数
+        var privateVariable = 10;
+        function privateFunction(){
+          return false;
+        }
+        var object = new CustomType();  // 创建对象
+        // 添加特权/共有属性和方法
+        object.publicProperty = true;
+
+        object.publicMethod = function(){
+          privateVariable++;
+          return privateFunction();
+        }
+        return object;
+      }
+
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

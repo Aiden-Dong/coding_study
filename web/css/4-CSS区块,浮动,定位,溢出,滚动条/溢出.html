@@ -1,0 +1,47 @@
+<!--------------------------------------------------------------------------------
+溢出的使用：
+            属性名                 属性值                           说明
+            overflow              visible                         不剪切内容也不添加滚动条
+                                  auto                            在必要时对象内容才会被剪切或显示滚动条
+                                  hiden                           不显示超过区域的内容
+                                  scroll                          总是显示滚动条
+          overflow-x
+          overflow-y
+---------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>溢出的使用</title>
+    <style type="text/css">
+      div{
+        overflow: auto;
+        width: 500px;
+        height: 200px;
+        background-color: #585F68;
+      }
+      p{
+        font-size: 20px;
+        font-style: italic;
+        font-weight: bold;
+        color:red;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div >
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+      <p>hello world</p>
+    </div>
+  </body>
+</html>

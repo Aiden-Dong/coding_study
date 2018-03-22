@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Javascript 面向对象</title>
+  </head>
+
+  <script type="text/javascript" charset="utf-8">
+
+    var obj = new Object();
+    obj.name = "saligia";
+    obj.sex = "男";
+    obj.sayName=function() {
+      alert("姓名 : " + obj.name);
+    }
+
+    /*
+    *    类的概念
+    */
+
+    // 第一种形式 ： 工厂模型
+    function createPerson(name, sex, age){
+      var obj = new Object();
+      obj.name = name;
+      obj.sex = sex;
+      obj.age = age;
+
+      obj.show = function() {
+        alert(this.name + " : " + this.sex + " : " + this.age);
+      }
+      return obj;
+    }
+    var one = new createPerson("first", "男", 20);
+    one.show();
+
+    // 第二种形式 ： 构造函数式
+    // 构造一个对象 new 关键字， 传递参数， 执行模版代码， 返回对象
+    function Person(name, sex, age){
+      this.name = name;
+      this.sex = sex;
+      this.age = age;
+      this.show=function() {
+        alert(this.name + " : " + this.sex + " : " + this.age);
+      }
+    }
+
+    var two = new Person("second", "男", 20);
+    two.show();
+    // 判断类的类型
+    alert(two.constructor == Person);
+    alert(two instanceof Person);
+    alert(two instanceof Object);
+
+    /*
+    *     创建对象的方式
+    */
+    // 当作构造函数去使用
+    var three = new Person("third", "男", 23);
+    // 作为普通的函数去使用
+    Person("fore", "男", 24);  // 直接定义在 window 上
+    show();
+    // 在另一个对象的作用域中调用
+    var o = new Object();
+    Person.call(o, "five", "男", 24);
+    o.show();
+
+  </script>
+  <body>
+
+  </body>
+</html>

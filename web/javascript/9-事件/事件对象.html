@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>事件对象</title>
+        <link rel="stylesheet" href="event.css" charset="utf-8">
+        <script type="text/javascript" charset="utf-8">
+            
+            /*
+            *     -> 触发DOM 上的某个事件的同事， 会产生与事件相关的　event 对象
+            *       event 对象方法:
+            *           // 非 IE 情况下
+            *               preventDefault()    // 取消事件的默认行为
+            *               stopPropagation()   // 取消事件的进一步捕获或冒泡
+            *               target              // 事件的目标
+            *               type                // 被触发的事件类型
+            *           // IE 情况下
+            *               cancelBubble        // ture ---- 取消事件的冒泡
+            *               returnValue         // false --- 取消事件的默认行为
+            *               srcElement          // 事件的目标
+            *               type                // 被触发的事件类型
+            *       事件类型:
+            *            -> UI 事件
+            *               load                // 当加载完成够则会激发
+            *               resize              // 浏览器的窗口大小更改时会触发
+            *             -> 焦点事件
+            *                blur               // 元素失去焦点时触发
+            *                focus              // 元素获得焦点时触发
+            *             -> 鼠标与滚轮事件
+            *                click              // 用户单机主鼠标按钮
+            *                dblclick            // 用户双击主鼠标按钮
+            *                mousedown          // 用户按下了任意鼠标按钮是触发
+            *                mouseup            // 用户释放鼠标是触发
+            *                mouseenter         // 鼠标光标从元素外首次移动到元素范围内时触发
+            *                mouseleave         // 鼠标光标从元素内移动到元素范围外时触发
+            *                mousemove          // 鼠标在元素内部移动时重复触发
+            *                      > 鼠标所在客户区坐标位置：
+            *                           clientX | clientY
+            *                      > 鼠标所在页面坐标位置:
+            *                           pageX   | pageY
+            *                      > 鼠标所在屏幕坐标位置:
+            *                           screenX | screenY
+            *            -> 键盘事件：
+            *               keydown     // 当用户按下键盘上的任意键时触发
+            *               keyup       // 当用户释放键时触发
+            *               keypress    // 当用户按下键盘上的字符键时触发
+            *                       -> keyCode  // 非字符按键
+            *                       -> charCode // 字符按键
+            *           -> textInput事件： | DOM 3
+            *               当用户在可编辑区域键入字符时， 会触发textInput 事件
+            *               
+            *   
+            */
+            
+        </script>
+    </head>
+    <body id="body_id">
+        <script type="text/javascript" charset="utf-8">
+            
+            if(typeof window.addEventListener == "function"){
+                window.addEventListener("load", function(event_window){
+                    var text = document.getElementById("text_id");
+                    var passwd = document.getElementById("passwd_id");
+                    var cancel = document.getElementById("cancel_button");
+                    var submit = document.getElementById("submit_button");
+                    var show = document.getElementById("show_text");
+                    var position = document.getElementById("table_div");
+                    
+                    var text;
+                    
+                    text.addEventListener("keypress", function(key_event){
+                        text+=String.fromCharCode(key_event.charCode);
+                        show.innerHTML = "用户按键 : " + text ;
+                    });
+                    cancel.addEventListener("click", function(){
+                        passwd.value = "";
+                        text.value = "";
+                    });
+                    position.addEventListener("mousemove", function(event){
+                        show.innerHTML = event.clientX + "<br/>" + event.clientY;
+                    });
+                    function submit_event(event){
+                        show.innerHTML = text.value + "<br/>" + passwd.value;
+                    }
+                    text.addEventListener("blur", function(text_event){
+                        if(text.value.length != 0 && passwd.value.length != 0){
+                            submit.addEventListener("click", submit_event);
+                        }else{
+                            submit.removeEventListener("click", submit_event);
+                        }
+                    });
+                    
+                    passwd.addEventListener("blur", function(passwd_event){
+                        if(text.value.length != 0 && passwd.value.length != 0){ 
+                            submit.addEventListener("click", submit_event);
+                        }else{
+                            submit.removeEventListener("click", submit_event);
+                        }
+                    });  
+                });
+            }else{
+                window.attachEvent("onload", function(event){
+                   var text = document.getElementById("text_id");
+                    var passwd = document.getElementById("passwd_id");
+                    var submit = document.getElementById("submit_button");
+                    
+                    function submit_event(event){
+                        alert(text.value + " : " + passwd.value);
+                    }
+                    
+                    text.attachEvent("onblur", function(text_event){
+                       
+                        if(text.value.length != 0 && passwd.value.length != 0){
+                            
+                            submit.attachEvent("onclick", submit_event);
+                        }else{
+                            submit.detachEvent("onclick", submit_event);
+                        }
+                    });
+                    
+                    passwd.attachEvent("onblur", function(passwd_event){
+                        
+                        if(text.value.length != 0 && passwd.value.length != 0){
+                          
+                            submit.attachEvent("ondblclick", submit_event);
+                        }else{
+                            submit.detachEvent("ondblclick", submit_event);
+                        }
+                    });
+                   
+                })
+            }
+            
+        </script>
+        <form class="form_class" id="form_id">
+            <fieldset>
+            <legend id="legend_id">事件表单</legend>
+            <div id="div_form">
+                <div id="div_login_window">
+                <div id="table_div">
+                <table id="login_id">
+                    <tr>
+                        <td class="cell_class">用户名:</td>
+                        <td class="cell_class">
+                            <input class = "text_input" id = "text_id" type="text" name="login_name"  maxlength=20>
+                        </td>   
+                    </tr>
+                    <tr>
+                        <td class="cell_class">密码:</td>
+                        <td class="cell_class">
+                            <input class= "text_input" id="passwd_id" type="password" name="login_passwd" max_length=20>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                <div id="show_text">
+                 </div>
+                    
+                <div>
+                <div id="button_div">
+                    <table>
+                        <tr>
+                            <td class="button_id">
+                                <input type="button" id = "cancel_button" class="button_input" name="Cancel" value="cancel">
+                            </td>
+                            <td class="button_id">
+                                <input type="button" id="submit_button" class="button_input" name="Submit" value="submit">
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+                </div>
+            </div>
+            </fieldset>
+        </form>
+    </body>
+</html>

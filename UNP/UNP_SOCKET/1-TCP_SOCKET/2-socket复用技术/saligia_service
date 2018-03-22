@@ -1,0 +1,53 @@
+#!/bin/sh
+
+LOCKFILE=./.saligia_ftp_lock
+SERPID=`ps -aux | grep " ./service.out$" | awk '{print $2}'`
+
+case $1 in
+	"start")
+		if [ ! -f $LOCKFILE ]
+		then
+			touch $LOCKFILE
+			echo "file lock" > $LOCKFILE
+			chmod 2600 $LOCKFILE
+		fi
+
+		if [ -n "$SERPID" ]
+		then 
+			echo "service opening now"
+		else
+			./service.out
+		fi
+
+		;;
+	"restart")
+		
+		if [ -n "$SERPID" ]
+		then
+			kill -s 2 $SERPID
+			./service.out	
+		else
+			echo "false : service is not opening"
+		fi
+		;;
+	"stop")	
+		
+		if [ -n "$SERPID" ]
+		then
+			kill -s 2 $SERPID
+		else
+			echo "service closing now"
+		fi
+		;;
+	"status")
+		
+		if [ -n "$SERPID" ]
+		then
+			echo "opening"
+		else
+			echo "closing"
+		fi
+		;;
+	*)
+		echo "saligia_service {start|restart|stop|status}"
+esac

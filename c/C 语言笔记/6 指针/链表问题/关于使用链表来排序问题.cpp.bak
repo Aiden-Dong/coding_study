@@ -1,0 +1,102 @@
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+
+typedef struct Card{
+	char name [15];
+	char card[20];
+	struct Card * Next ;
+} NOTE , *PNOTE ; 
+
+void push (NOTE ** HEAD , char * name , char * card) ; // 压栈
+void watch (PNOTE One) ; // 遍历整个栈区 
+
+int main ()
+{
+	char name [15] ;
+	char card [20] ;
+
+	int  a ; // 用于记录选择 
+
+	PNOTE HEAD = NULL; // 首栈指针
+	PNOTE END = NULL;	//
+
+	while (a != 3)
+	{
+start:
+	printf ("是否选择压入新成员 :\n 1: 压入新成员 \n 2: 遍历文件\n");
+
+
+	scanf ("%d" , &a) ;
+
+	if (a == 1 || a == 2 )
+	{
+		getchar () ;
+
+		switch (a)
+		{
+		case 1 :	// 选择压栈 
+			puts ("请输入姓名 : ") ;
+			gets (name) ;
+			puts ("请输入学号 : ") ;
+			gets (card) ;
+			push (& HEAD , name , card) ;
+			break ;
+		case 2:	// 遍历全栈
+			watch (HEAD) ;
+			break ;
+		}
+	}
+	
+	else
+	{
+		printf ("请重新选择 !!!!\n") ;
+		while (getchar() != '\n') ;
+		goto start ;
+	}
+	}
+
+
+	return 0 ;
+}
+//====== 经典排序压栈方法====================
+void push (NOTE ** HEAD , char * name , char * card)
+{
+	PNOTE curunt ;
+	PNOTE previous ;
+	PNOTE New ;
+
+	curunt = * HEAD ;
+	previous = NULL ;
+
+	while (curunt != NULL && strcmp (curunt->card , card) < 0)
+	{
+		previous = curunt ;
+		curunt = curunt->Next ;
+	}
+	
+	New = (PNOTE) malloc ( sizeof (NOTE) ) ;
+	strcpy (New->card , card) ;
+	strcpy (New->name , name) ;
+
+	New->Next  = curunt ;
+
+	if (previous == NULL)
+		*HEAD = New ;
+	else 
+		previous->Next = New ;
+}
+//====== 经典排序压栈方法====================
+void watch (PNOTE One)
+{
+	if (One != NULL)
+		while (One != NULL)
+		{
+			printf ("姓名 : %s \n" , One->name );;
+			printf ("学号 : %s \n" , One->card );
+			printf ("\n");
+			One = One->Next ;
+		}
+	else
+		printf ("此栈为空!!!\n") ;
+}

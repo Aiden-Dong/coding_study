@@ -1,0 +1,41 @@
+<!--------------------------------------------------------------
+Flash 动画的插入:
+    -> embed 标记插入 Flash动画：
+      格式
+          <embed type="video/quicktime" src="#" width="300" height="300">
+          属性：
+                  src        // flash 路径
+                  width      // flash 宽度
+                  height     // flash 高度
+                  wmode      // 播放模式 {
+                        window      // 使flash 自身的矩形窗口来播放
+                        opaque      // 使flash隐藏页面上位于他后面
+                        transparent // 使flash某一部分透明
+                }
+    -> object 标记插入Flash动画
+      格式
+          <object data="http://" type="mimetype"></object>
+          type      // flash 的类型
+          data      // flash 路径
+          width     // 宽度
+          height    // 高度
+          必须使用子标签 <param name="foo" value="bar"> 完成 flash 的插入
+          name    flash 属性
+          value   flash 值
+
+---------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Flash的插入</title>
+  </head>
+  <body bgcolor="#585F68">
+    <embed type="video/quicktime" src="one.swf" width="300" height="300" wmode="transparent">
+      <object data="one.swf" type="mimetype" width="300"  height="300" >
+        <param name="src" value="one.swf">
+        <param name="wmode" value="transparent">
+      </object>
+
+  </body>
+</html>

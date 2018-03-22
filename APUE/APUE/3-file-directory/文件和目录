@@ -1,0 +1,184 @@
+struct stat{
+     mode_t 		st_mode;		//	文件模式
+     ino_t			st_ino;		//	inode 节点号
+     dev_t			st_dev;		// 	设备号
+     dev_t			st_rdev;		// 	特殊设备号
+     nlink_t			st_nlink;		// 	文件连接数
+     uid_t			st_uid;		// 	文件所属 UID
+     gid_t			st_gid;		// 	文件所属 GID
+     off_t			st_size;		// 	文件大小
+     struct 	timespec	st_atime;		// 	文件的最后访问时间
+     struct 	timespec	st_mtime;		// 	文件的最后修改时间
+     struct 	timespec	st_ctime;		// 	文件的状态最后改变时间
+     blksize_t		st_blksize;		// 	文件块大小
+     blkcnt_t		st_blocks;		// 	文件的块数量
+} 
+
+函数	stat, fstat, fstatat, lstat
+
+	       #include <sys/stat.h>
+	       int stat(const char *restrict pathname, struct stat *restrict buf);
+	       int fstat(int fd, struct stat *buf);
+	       int lstat(const char *restrict pathname, struct stat *restrict buf);
+	       int fstatat(int fd, const char *restrict pathname, struct stat *restrict buf, int flag);
+	       
+	       文件类型获取：
+				   stat->st_mode & S_IFMT
+				   
+文件的访问权限：
+
+	       1） 若进程的有效用户是超级用户， 则给与超级用户对整个文件系统进程处理的最充分的自由
+	       2） 若进程的有效用户ID 等于文件的所有者ID ， 那么如果所有者时当的访问权限位被设置，则允许访问， 否则拒绝访问
+	       3） 若进程的有效组ID 或进程的附属组ID之一等于文件的组ID， 那么如果组时当的访问权限位被设置， 则允许访问，否则拒绝访问。
+	       4） 如其他用户适当的访问权限位被设置，则允许访问， 否则拒绝访问
+	
+新文件和目录的所有权：
+
+	       如果它所在的目录的设置组ID位被设置， 则新文件的 组ID 为目录的组 ID， 否则为进程的有效组 ID
+	      
+函数 access 和 faccessat
+	  
+		 #include<unistd.h>
+		 int access(const char *pathname, int mode);
+		 int faccessat(int fd, const char *pathname, int mode, int flag);
+		 
+		 // R_OK		W_OK		X_OK
+		 
+函数 umask:
+
+	       #include <sys/stat.h>
+	       mode_t umask(mode_t cmask); 
+	       
+	       说明：
+			 对于目录来说  默认权限 : drwxrwxrwx
+			 对于文件来说  由于没有可执行权限  所以默认的权限为 ： -rw-rw-rw-
+
+函数	chmod, fchmod  fchmodat:
+
+	       #include <sys/stat.h>
+	       int chmod(const char *pathname, mode_t mode);
+	       int fchmod(int fd, mode_t mode);
+	       int fchmodat(int fd, const char *pathname, mode_t mode, int flag);
+	       
+函数 chown , fchown, fchownat lchown:
+
+	       #include <unistd.h>
+	       int chown(const char *pahtname, uid_t owner, gid_t group);
+	       int fchown(int fd, uid_t owner, gid_t group);
+	       int lchown(const char *pathname, uid_t owner, gid_t group);
+	       int fchownat(int fd, const char *pathname, uid_t owner, gid_t group, int flag);
+	       
+	       说明： 
+			 1） 只有超级用户才可以更改文件的用户 ID
+			 2） 如果进程拥有此文件， owner = -1 或用户ID， 则group 可以指定为 进程的有效组 ID 或附属组ID 之一
+			 
+文件截断：
+
+	       #include <unistd.h>
+	       int truncate(const char *pathname, off_t length);
+	       int ftruncate(int fd, off_t length);
+	       // 如果文件以前长度小于length, 则文件长度将增加
+	       
+函数 link, linkat, unlink , unlinkat remove
+
+	       #include <unistd.h>
+	       int link(const char *existingpath, const char *newpath);
+	       int linkat(int fd, const char *existingpath, int nfd, const char *newpath, int flag);
+	       
+	       说明：
+			 1） 如果 newpath 已经存在， 则出错返回
+			 2） 只创建newpath 中的最后一个分量， 路径中的其他部分应存在（目录）
+
+		#include <unistd.h>
+		int unlink(const char *pathname);
+		int unlinkat(int fd, const char *pathname, int flag);
+		
+		// 调用 creat 后立即调用unlink, 当程序终止时， 此文件才会被真正 unlink
+		
+		#include <stdio.h>
+		int remove(const char *pathname);
+
+函数 rename, renameat
+	       
+	       #include <stdio.h>
+	       int rename(const char *oldname, const char *newname);
+	       int renameat(int oldfd, const char *oldname, int newfd, const char *newname);
+	       
+	       说明：
+			 1） 首先进程应对要操作的目录具有写和执行的权限（修改目录项）
+			 2） 如果oldname 指定的是一个普通文件， 如果 newname 已经存在， 如果newname 为目录，则出错返回， 否则， 如果newname
+			       不是目录 ， 则应先删除newname, 而后将 oldname 重命名为 newname;
+			 3)   如果oldname 指定的是一个目录， 如果newname 已经存在 如果newname 为一个空目录， 则删除后执行 rename ,否则出错返回
+			 4） 不能对. 和 .. 进行重命名
+			 
+创建和读取符号连接
+
+		    #include <unistd.h>
+		    int symlink(const char *acrualpath, const char *sympath);
+		    int symlinkat(const char *actualpath, int fd, const char *sympath);
+		    
+		    说明：
+			      函数创建一个指向 acrualpath 的新目录项 sympath 在创建此符号链接时， 并不要求 acrualpath 已经存在
+			      
+		    #include <unistd.h>
+		    ssize_t	readlink(const char *restrict pathname, char *restrict buf, size_t bufsize);
+		    ssize_t  readlinkat(int fd, const char *restrict pathname, char *restrict buf, size_t bufsize);
+		    
+函数 futimens, utimensat, utimes:
+
+		    #include <sys/stat.h>
+		    int futimens(int fd, const struct timespec times[2]);
+		    int utimensat(int fd, const char *path, const struct timespec times[2], int flag);
+		    
+		    说明：
+			      1） 如果 times == NULL , 则访问时间和修改时间设为当前值
+			      2） 如果 times->tv_nsec == UTIME_NOW , 则相应字段设为当前值
+			      3） 如果 times->tv_nsec == UTIME_OMIT,  则相应字段数值不变
+			      
+		    #include <sys/times.h>
+		    int utimes(const char *pathname, const struct timeval times[2]);
+		    
+		    说明：
+			 struct timeval{
+			 time_t 	tv_sec;
+			 long 	tv_usec;
+			 }
+函数 mkdir, mkdirat, rmdir
+     
+		    #include <sys/stat.h>
+		    int mkdir(const char *pathname, mode_t mode);
+		    int mkdirat(int fd, const char *pathname, mode_t mode);
+		    
+		    #include <unistd.h>
+		    int rmdir(const char *pathname);
+		    
+目录操作：
+		    #include <dirent.h>
+		    DIR *opendir(const char *pathname);
+		    DIR *fdopendir(int fd);
+		    struct dirent *readdir(DIR *dp);
+		    void rewinddir(DIR * dp);
+		    int closedir(DIR *dp);
+		    void seekdir(DIR *dp, long loc);
+		    
+		    struct dirent{
+			 long 				d_ino; 				// 索引节点号 
+			 off_t 			d_off; 				//在目录文件中的偏移 
+			 unsigned short 		d_reclen; 				//文件名长 
+			 unsigned char 		d_type; 				//文件类型 
+			 char 				d_name [NAME_MAX+1]; 	//文件名，最长256字符 
+		    }
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+				   

@@ -1,0 +1,158 @@
+线程属性 :
+
+	  // 初始化
+	  int pthread_attr_init(pthread_attr_t *attr);
+	  int pthread_attr_destroy(pthread_attr_t *attr);
+	  
+	  1> detachstate: 线程的分离状态属性
+	       int pthread_attr_getdetachstate(const pthread_attr_t *restrict attr, int *detachstate); 	// 获取分离状态属性
+	       int pthread_attr_setdetachstate(pthread_attr_t *attr, int *detachstate);			// 设置分离状态属性
+	       
+	       detachstate : 
+				   1) PTHREAD_CREATE_DETACHED // 分离状态
+				   2) PTHREAD_CREATE_JOINABLE   // 正常启动线程
+	       注意：
+			 如果pthread_attr_destroy 失败 将难以清理
+
+	2> stackaddr : 线程栈的最低地址
+	       int pthread_attr_getstact(const pthread_attr_t *restrict attr, void **restrict stackaddr, size_t restrict* stacksize); 
+						  // 获取线程的栈的最低地址 与线程栈的大小
+		int pthread_attr_setstack(pthread_attr_t *restrict attr, void *stackaddr, size_t stacksize); 
+						  // 设置线程栈的大小
+	
+	3> stacksize : 线程栈的最小长度
+	       int pthread_attr_getstacksize(const pthread_attr_t *restrict attr, size_t *restrict stacksize);    // 获取线程栈的大小
+	       int pthread_attr_setstacksize(const pthread_attr_t *restrict attr, size_t stacksize);		// 设置线程栈的大小
+	       
+	4> guardsize : 线程栈的溢出属性
+	       int pthread_attr_getguardsize(const pthread_attr_t *attr, size_t guardsize);  // 获取栈的溢出属性
+	       int pthread_attr_setguardsize(pthread_attr_t *attr, size_t guardsize);
+	       
+	       guardsize : 避免栈溢出的扩展内存的大小
+	      
+互斥量属性 ：
+
+	       // 初始化 
+	       int pthread_mutexattr_init(pthread_mutexattr_t *attr);		// 初始化
+	       int pthread_mutexattr_destroy(pthread_mutexattr_t *attr);		// 释放
+	       
+	       1> shared : 进程共享属性    
+		int pthread_mutexattr_getshared(const pthread_mutexattr_t *attr, int *restrict pshared); // 获得线程的共享属性
+		int pthread_mutexattr_setshared(pthread_mutexattr_t *attr, int pshared);			   // 设置线程的共享属性
+		
+		pshared : 
+			 1)	 PTHREAD_PROCESS_PRIVATE : 允许 多个线程共享
+			 2）	 PTHREAD_PROCESS_SHARED : 允许 多个进程共享
+	
+	       2> robust: 互斥量的健壮属性
+		    int pthread_mutexattr_getrobust(const pthread_mutexattr_t *restrict attr, int *restrict attr);
+		    int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr, int robust);
+		    
+		    robust : 
+			      1) PTHREAD_MUTEX_STALLED: 终止时不需要采取特别的动作
+			      2) PTHREAD_MUTEX_ROBUST:   
+			   
+		3> type: 互斥量类型属性
+		    int pthread_mutexattr_gettypr(const pthread_mutexattr_t *attr, int *type);
+		    int pthread_mutexattr_settype(pthread_attr_t *attr, int type);
+		    
+		    type: 
+			      1）PTHREAD_MUTEX_NOMAL : 标准互斥量属性
+			      2)  PTHREAD_MUTEX_ERRORCHECK: 错误检查
+			      3）PTHREAD_MUTEX_RECURSIVE:     递归锁
+			      
+读写互斥锁 ：
+	       
+	       int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
+	       int pthread_rwlockattr_destroy(pthread_rwlockattr_t *attr);
+	       
+	       共享属性：
+		    int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t *attr, int *pshared);
+		    int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr, int pshared);
+		    
+条件变量属性：
+
+	  // 初始化
+	  int pthread_condattr_init(pthread_condattr_t *attr);
+	  int pthread_condattr_destroy(pthread_condattr_t *attr);
+	  
+	  // 进程共享属性
+	  int pthread_condattr_getpshared(pthread_condattr_t *attr, int pshared);
+	  int pthread_condattr_setpshared(pthread_condattr_t *attr, int pshared);
+	  // 时钟属性控制
+	  int pthread_condattr_getclock(const pthread_condattr_t *attr, clockid_t *clockid);
+	  int pthread_condattr_setclock(pthread_condattr_t *attr, clockid_t clockid);
+	  
+屏障属性：
+
+	  // 初始化
+	  int pthread_barrierattr_init(pthread_barrierattr_t *attr);
+	  int pthread_barrierattr_destroy(pthread_barrierattr_t *attr);
+	  
+	  //进程的共享属性
+	  int pthread_barrierattr_getpshared(const pthread_barrierattr_t *attr, int *pshared);
+	  int pthread_barrierattr_setpshared(pthread_barrierattr_t *attr, int pshared);
+	  
+重入：
+
+	  说明： POSIX.1 还提供了以线程安全的方式管理FILE 对象， 这个锁是递归锁， 所以可以再次获取这个锁
+	  #include <stdio.h>
+	  int ftrylockfile(FILE *fp);
+	  void flockfile(FILE *fp);
+	  void funlockfile(FILE *fp);
+	  
+	  // 基于字符的标准IO例程
+	  int getchar_unlock(void);
+	  int getc_unlock(FILE *fp);
+	  int putchar_unlock(int c);
+	  int putc_unlock(FILE *fp, int c);
+	  
+	  注意：
+		    此调用要在被 flockfile 和funlockfile 的环境下调用
+		    
+线程特定数据：
+	  创建键， 使用这个键用于获取对线程特定数据的访问
+	  int pthread_key_create(pthread_key_t *pkey, void (*destructor)(void *));
+	  // destructor 是与该键关联的析构函数， 一般用于释放于此关联的线程特定数据区
+	  
+	  int pthread_key_delete(pthread_key_t key);
+	  // 解除键与特定数据的关联-------------------------不会调用析构函数
+	  
+	  // 使一个键与特定的数据的关联
+	  void *pthread_getspecific(pthread_key_t key);
+	  int  pthread_setspecific(pthread_key_t, voibd *uf);
+	  // 确保键只被调用一次
+	  pthread_once_t initflag = PTHREAD_ONCE_INIT;
+	  int pthread_once(pthread_once_t *initflag, void(*initfn)(void)）;
+	  
+取消选项：
+
+	  修改取消状态：
+	  int pthread_setcancelstate(int state, int *oldstate);
+	  	
+	  说明：
+		    PTHREAD_CANCEL_ENABLE	： 调用 pthread_cancel 可以取消其线程
+		    PTHREAD_CANCEL_DISABLE    ： 调用 pthread_cancel 不可以不能取消其线程， 该线程挂起
+	  void pthread_testcancel(void);
+	  说明：
+		    调用 该函数时， 如果由某个取消请求正处于挂起状态， 而且取消并没有置为无效， 则该线程取消
+	 修改取消类型：
+	 int pthread_setcanceltype(int type, int *oldtype);
+	 PTHREAD_CANCEL_DEFERRED	： 只有在取消点取消
+	 PTHREAD_CANCEL_ASYNCHRONOUS ： 可以在任何时刻取消
+	 
+线程和信号：
+
+	  说明：
+		    每个线程都有自己的信号屏蔽字，但是信号的处理是进程中所有的线程都共享的
+	  
+	  线程中的信号屏蔽：
+					int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldsigset);
+	  等待一个或多个信号的出现：
+					int sigwait(const sigset_t *set, int *signop);
+					说明：
+						  set 中的信号集为等待的信号 ， signop 为返回等待到的信号数， 如果支持信号排队， 则只取走一个该实例 
+	将信号发送到指定的线程：
+					int pthread_kill(pthread_t thread, int signo);
+					
+	注意 ： 闹钟定时器是进程资源， 所有的线程共享相同的闹钟

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Array</title>
+        <script type="text/javascript" charset="utf-8">
+            /*
+            *   Array 类型 : 
+            *       1> 属于 object  但是可以使用 instanceof 来区分
+            *       2> 方法属性:
+            *               length           // 返回 数组的长度
+            *               toString();      // 将数组中的值用逗号分开的 字符串 形式
+            *               join(fs);        // 用指定的字符作为分隔， 将 数组转成字符串
+            *               valueOf();       //  每一项调用toString的值
+            *               数组的插入与取出: 
+            *                          -> push() | pop()        // 从队尾处插入与取出
+            *                          -> shift() | unshift()   // 从队首除插入与取出
+            *               数组的索引:
+            *                           -> indexOf();
+            *                           -> lastIndexOf();
+            *               数组的操作:
+            *                           -> concat() // 将数组拼接原数组末尾
+            *                           -> slice()  // 从原数组中取出新的数组 | slice 是[)
+            *               迭代方法:
+            *                           -> every()      // 每一项都为 true 则为 true 
+            *                           -> some()       // 有一项为 true 则为 true
+            *                           -> forEach()    // 只迭代， 无返回值
+            *                           -> filter()     // 返回一个由每一项为 ture 构成的新数组
+            *                           -> map()        // 返回由每一项 return 构成的新数组
+            *                                function(item, index, array){
+            *                                   // item  指代 当前索引的位置的元素
+            *                                   // index 指代 当前的索引位置
+            *                                   // array 指代 当前的带入索引的数组
+            *                                   }
+            *                      
+            *       
+            */
+            
+            
+            var arr = new Array();
+            alert(typeof arr);
+            alert(arr instanceof Array);
+            for(var i = 0; i<10; i++)
+                arr.push(i);
+            arr.push("string");
+            alert(arr.length);
+            alert(arr.valueOf());
+            alert(arr.slice(2,3));
+            
+            arr.forEach(function(item, index, array){
+                alert(item + " : " + index + " : " + array);
+                
+            });
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

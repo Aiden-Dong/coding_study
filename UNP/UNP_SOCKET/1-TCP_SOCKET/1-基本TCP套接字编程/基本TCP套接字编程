@@ -1,0 +1,143 @@
+
+套接字地址结构:
+	-> 通用套接字地址结构: #include <sys/socket.h>
+		struct sockaddr{
+			sa_family_t			sa_family;
+			char				sa_data[14];
+		}
+	-> ipv4 套接字地址结构 
+		#include <netinet_in.h>
+		struct sockaddr_in{
+			sa_family_t 		sin_family;
+			in_port_t			sin_port;
+			struct in_addr		sin_addr;
+			char				sin_zero[8];	
+		}
+
+		struct in_addr{
+			uint32_t 		s_addr;
+		}
+	-> ipv6 套接字地址结构
+		#include <netinet/in.h>
+		struct sockaddr_in6{
+			sa_family_t			sin6_family;
+			in_port_t 			sin6_port;
+			uint32_t			sin6_flowinfo;
+			struct in6_addr		sin6_addr;
+			uint32_t			sin6_scope_id;	
+		}
+
+		struct in6_addr{
+			uint8_t	s6_addr[16];
+		}
+
+	=> 协议地址长度:
+		INET_ADDRSTRLEN		// 16
+		INET6_ADDRSTRLEN	// 46
+
+	=> 字节排序函数: 
+		#include <netinet/in.h>
+		uint16_t	htons(uint16_t host16value);
+		uint16_t 	ntohs(uint16_t net16value);
+		uint32_t	htonl(uint32_t host32value);
+		uint32_t	ntohl(uint32_t net32value);
+		#include <arpa/inet.h>
+		int   inet_pton(int family, const char *prt, void *addr);				// 本地地址转网络地址
+		char *inet_ntop(int family, const void *addr, char *prt, size_t len);	// 网络地址转本地地址
+
+
+socket:	
+		#include <sys/socket.h>
+		int socket(int family, int type, int protocol);
+
+			family:
+				AF_INET:			IPV4 协议
+				AF_INET6:			IPV6 协议
+				AF_LOCAL:			UNIX域套接字协议
+				AF_ROUTE:			路由套接字
+				AF_KEY	:			密钥套接字
+			type:
+				SOCK_STREAM:		字节流套接字
+				SOCK_DGRAM:			数据报套接字
+				SOCK_SEQPACKET:		有序分组套接字
+				SOCK_RAW:			原始套接字
+			protocol:
+				IPPROTO_TCP			TCP 传输协议
+				TPPROTO_UDP			UDP 传输协议
+				IPPROTO_SCTP		SCTP传输协议
+connect:
+		#include <sys/socket.h>
+		int connect(int sockfd, const struct sockaddr* servaddr, socklen_t addrlen);
+
+		1> 当ARP表中没有目的主机的MAC地址的时候: 首先发送ARP请求协议再发送SYN分节
+		2> 当ARP表中有原目的主机的MAC地址，现在已经失效的时候, 首先发送三次 SYN分节,在这之内没有收到ACK|SYN，就清除ARP的相关表项，
+		   之后在重新发送 ARP
+
+		->TCP链接失败的原因:
+		
+			1> 没有收到响应时， 发送 ETIMEOUT 错误--等待时间一般为75秒，但不确定
+			2> 若服务器上没有在请求端口上有监听程序， 则对SYN的请求返回RST, 客户端返回ECONNREFUSED错误
+				//若是UDP数据包则服务器会产生 端口不可达的ICMP错误（3，3） 
+			3> 客户端发送的SYN分节在某个路由器上引发了 目的不可达的 ICMP 错误，一般有两种
+				-> 主机不可达： ICMP(3 1) // EHOSTUNREACH
+				-> 网路不可达： ICMP(3 0) // ENETUNREACH
+		-> connect 成功案例:
+		// 第一次握手协议
+		14:33:56.868365 IP (tos 0x0, ttl 64, id 15339, offset 0, flags [DF], proto TCP (6), length 60)
+		    saligia.linux.55895 > 192.168.1.79.saligia-service: 
+			Flags [S], cksum 0x8fe6 (correct), seq 1019698398, win 14600, 
+			options [mss 1460,sackOK,TS val 7104309 ecr 0,nop,wscale 6], length 0
+		// 第二次握手协议
+		14:33:56.871411 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+			192.168.1.79.saligia-service > saligia.linux.55895: 
+			Flags [S.], cksum 0x1175 (correct), seq 193439328, ack 1019698399, win 14480, 
+			options [mss 1460,sackOK,TS val 5754009 ecr 7104309,nop,wscale 6], length 0
+		// 第三次握手协议
+		14:33:56.871496 IP (tos 0x0, ttl 64, id 15340, offset 0, flags [DF], proto TCP (6), length 52)
+			saligia.linux.55895 > 192.168.1.79.saligia-service:
+			Flags [.], cksum 0x77e8 (correct), seq 1, ack 1, win 229, 
+			options [nop,nop,TS val 7104312 ecr 5754009], length 0
+
+bind:
+		#include <sys/socket.h>
+		int bind(int sockfd, const struct sockaddr* servaddr, socklen_t addrlen);
+
+		-> 如果TCP服务器没有把IP绑定到他的套接字上(ip设置为0)，内核就把客户端的目的IP作为他的源IP地址
+			-> servaddr->sin_addr.s_addr = htonl(INADDR_ANY);
+		-> 如果端口号为0， 内核就选择一个临时端口号分配给他
+
+		-> 常见错误是 EADDRINUSE
+			-> 解决办法 ： setsockopt(sockfd, SO_REUSEADDR, ..);
+
+
+
+listen:
+		-> 将一个主动套接字转成被动套接字
+
+		#include <sys/socket.h>
+		int listen(int blocklog);
+
+		-> 队列中包含已经完成三次握手和未完成三次握手的链接
+accept:
+		-> 从已经完成三次握手的队列中取下一个链接进行交互
+		
+		#include <sys/socket.h>
+		int accept(int sockfd, struct sockaddr *clienaddr, socklen_t * addrlen);
+
+关闭链接：
+		
+		-> close: 关闭套接字
+				#include <unistd.h>
+				int close(int sockfd);
+
+
+获取链接信息:
+		#include <sys/socket.h>
+		
+		-> getsockname: // 返回本地协议地址
+			int getsockname(int fd, struct sockaddr *addr, socklen_t *addrlen);
+		-> getpeername：// 获取交互对端地址
+			int getpeername(int fd, struct sockaddr *addr, socklen_t *addrlen);
+
+
+

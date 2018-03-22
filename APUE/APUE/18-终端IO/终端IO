@@ -1,0 +1,65 @@
+综述：
+
+	  终端I/O有两种不同的工作模式：
+			 1） 规范模式输入处理， 在这种模式中， 对终端输入以行为单位进行处理。对于每个读请求， 终端驱动程序最多返回一行
+			 2） 非规范模式输入处理， 输入字符不装配成行
+			 
+			 注意：
+				   1> 如果不做特殊处理， 则默认模式是规范模式
+				   2> 输入队列的长度 MAX_INPUT
+	
+	终端属性：
+			      struct termios{
+			      tcflag_t		c_iflag;			// 输入属性
+			      tcflag_t		c_oflag;			// 输出属性
+			      tcflag_t		c_cflag;			// 控制属性
+			      tcflag_t		c_lflag;			// 本地属性
+			      cc_t			c_cc[NCCS];		// 特殊字符
+			      }
+			      
+获得和设置终端属性：
+
+		    #include <termios.h>
+		    int tcgetattr(int fd, struct termios *termptr);
+		    int tcsetattr(int fd, int opt, const struct termios *termptr);
+		    
+		    说明：
+			      1） fd 只能是终端设备
+			      2）  opt ： TCSANOW  ------ TCSADRAIN ------------- TCSAFLUSH
+stty 命令：
+		    stty -a
+		    检查和更改终端设备属性
+		    
+行控制函数：
+
+		    #include <termios.h>
+		    int tcdrain(int fd);				// 等待所有输出都被传递
+		    int tcflow(int fd, int action);		// 对输入和输出流控制进行控制
+		    int tcflush(int fd, int queue);		// 冲洗缓冲区
+		    int tcsendbreak(int fd, int duration);	// 传送 0 值位流
+		    
+		    说明：
+			 action : |   TCOOFF 输出被挂起  |   TCOON  重启。。 |   TCIOFF  输入被挂起   | TCION   输入被重新启用   |
+			 quequ : |	TCIFLUSH	冲洗输入队列   |  TCOFLUSH  冲洗输出队列 |  TCIOFLUSH 冲洗输入和输出队列   |
+
+终端标志：
+
+		    #include <stdio.h>
+		    char *ctermid(char *prt);		// 获取终端设备的名字
+		    
+		    #include <unistd.h>
+		    int isatty(int fd);			// 确定引用的文件描述符是不是一个终端
+		    char *ttyname(int fd);		// 返回终端设备的路径名
+		    
+终端窗口大小：
+
+			 struct winsize{
+			 unsigned short ws_row;		// 行
+			 unsigned short ws_col;		// 列
+			 unsigned short ws_xpixel;		// 水平大小		像素
+			 unsigned short ws_ypixel;		// 垂直大小		像素
+			 }
+			 
+	       说明：
+			 1） 用ioctl 的 TIOCGWINSZ 命令可以取得此结构的当前值
+			 2） 用ioctl 的 TIOCSWINSZ 命令可以设置此结构的当前值

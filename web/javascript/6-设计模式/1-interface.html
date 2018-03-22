@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>javascript接口</title>
+    <script type="text/javascript"  charset="utf-8">
+      /*
+      *     方式一 ： 注解描述的方式
+      */
+      // interface Composite(){
+      //   function add();
+      //   function remove();
+      //   function update();
+      // }
+      var obj = new Composite(){
+
+      }
+      Composite.prototype.add(){}
+      Composite.prototype.remove(){}
+      Composite.prototype.update(){};
+      /*
+      *     方式二 ： 属性检测的方式
+      */
+      // interface Composite(){
+      //   function add();
+      //   function remove();
+      //   function update();
+      // }
+      var obj = new Composite(){
+        this.interfaceCompore = ["Composite", "FormItem"];    // 实现的接口
+      }
+      Composite.prototype.add(){}
+      Composite.prototype.remove(){}
+      Composite.prototype.update(){};
+
+      function CheckCompositionImpl(interface){
+          //判断当前对象是否实现了所有接口
+          if(!IsIemements(interface, "Composite", "FormItem")){
+            throw new Error("Object doesn't implement a required interface");
+          }
+      }
+      function IsIemements(object){
+        // 接收所实现的每一个接口的名字
+        for(var i = 1; i < arguments.length; i++){
+          var interface = arguments[i];
+          // 判断此方法是否成功
+          var interfaceFound = false;
+          for(var j = 0; j < object.interfaceCompore.length; j++){
+            if(object.interfaceCompore[j]== interface){
+              interfaceFound = true;
+              break;
+            }
+          }
+          if(!interfaceFound)
+            return false;
+        }
+        return true;
+      }
+      /*
+      *     方式三 ： 鸭式辨形的方式
+      */
+      
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>暗茫雪羽学习网</title>
+    <link rel="stylesheet" href="css/index.css" charset="utf-8">
+  </head>
+  <body id="bodystyle">
+    <div id="headstyle">
+      <img src="image/title.png" alt="" />
+    </div>
+
+    <div id="hgroupstyle">
+      <p>
+        <a href="#">首页</a>
+        <a href="#">学习计划</a>
+        <a href="#">学习内容</a>
+        <a href="#">文件资料</a>
+        <a href="#">学习心得</a>
+      </p>
+    </div>
+
+    <div id="navstyle">
+      <img src="image/nav.jpg" alt="" />
+    </div>
+    <div id="navtext">
+      <a href="#">计算机基础</a>
+      <a href="#">Linux</a>
+      <a href="#">Java web</a>
+    </div>
+    <div id="sectionstyle">
+      <h3>作品展示</h3>
+      <hr>
+      <div id="Linux">
+        <img src="image/show1.png" id="show1" alt="" />
+        <h2 id="linuxhead">Linux 网络编程-文件管理</h2>
+        <p id="text1">
+          简介: <br>
+          &nbsp;&nbsp; 通过使用多进程与多线程技术， 启用一个守护进程来接受服务器的消息并记录日志；<br>
+          &nbsp;&nbsp; 主进程主要负责新用户的接入。通过 epoll 机制来处理用户信息， 并处理简单的如用户登陆，注册，登出等简单事件；
+          &nbsp;&nbsp; 如果接受到用户的请求是传输文件等需要耗时较多的进程时，便将任务交给线程池来管理。 线程池由一个单独的线程来管理， 当接受到新任务时
+          ，首先检测空闲线程的剩余量，当有空闲线程时才接收任务， 否则向主线程返回繁忙，拒绝任务；<br>
+          &nbsp;&nbsp; 用户连接信息用链表来维护。 节点中记录用于管理用户所需的 ip 地址，用户验证的文件位置， 用于通话的socket 等信息；<br>
+          &nbsp;&nbsp; 用户功能主要有：文件的上传与下载，新建与删除文件或文件夹， 重命名等。
+        </p>
+      </div>
+      <div id="Java">
+        <img src="image/show2.png" id="show2" alt="" />
+        <h2 id="linuxhead">Java编程-编译器</h2>
+        <p id="text1">
+          简介:<br>
+          &nbsp;&nbsp; 练习之余开发, 使用继承与重写等技术, 调用外部编译工具 gcc 完成.
+        </p>
+      </div>
+    </div>
+    <footer>
+      <div id="copyright">
+        暗茫雪羽 版权所有 © 2016-05-12
+      </div>
+    </footer>
+  </body>
+</html>

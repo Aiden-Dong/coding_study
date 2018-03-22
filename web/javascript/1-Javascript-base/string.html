@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>String 类型</title>
+        <script type="text/javascript" charset="utf-8">
+        	// String 类型
+                /*
+                *       编程习惯， 第一个字符的索引位置是 0 
+                *		String 类型的方法： 
+                *				length            : 返回字符串长度
+                *				charAt()          : 根据位置， 返回制定位置的字符
+                *               charCodeAt()      : 根据位置， 返回制定位置的字符的 ASCII 码
+                *               indexOf()         : 索引字符
+                *               lastIndexOf()     : 从后向前索引
+                *               concat()          : 拼接字符串 
+                *               localeCompare()   : 比较字符串的大小
+                *               fromCharCode()    : 将 ASCII 码转字符串  
+                */
+            // 提取子字符串  ： slice() | substr() | substring()
+                /*  
+                *       接受一两个字符 ， 第一个字符指定子字符串的开始位置，
+                *       如果没有第二个字符，则直接到字符串末尾。
+                *       slice(), substring() 的第二个字符指定的是子字符串后一个字符的位置[)
+                *       substr() 第二个字符制定的是字符个数；
+                */
+        	// 转换方式：
+                /*
+                *       toLowerCase();  // 转换成小写形式
+                *       toUpperCase();  // 转换成大写形式
+                */
+            // 正则表达式：
+                /*
+                *       match()         // 字符串与正则表达式相匹配 
+                *       search();       // 不返回匹配的内容， 只查找是否存在匹配
+                *       replace();      // 将匹配到的模式进行替换
+                */
+        	var one = "hello world";
+        	alert(typeof one);
+        	alert(one.length + " : " + one.charAt(0) + " : " + one.charCodeAt(0));   
+            alert(one.concat("\nhello code"));
+            alert(one.indexOf('H'));            // 如果索引不到制定的字符， 则返回 -1     
+            alert(one.slice(0, 5));
+            alert(one.substring(0, 5));
+            alert(one.substr(0, 5));
+            alert(one.localeCompare("index"));      // -1 
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>                                                                                     

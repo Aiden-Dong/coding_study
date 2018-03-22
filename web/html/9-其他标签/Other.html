@@ -1,0 +1,39 @@
+<!---------------------------------------------------------------------
+自动展示网页内容：
+      <meta http-equiv ="refresh" content="time;URL">
+      http-equiv="refresh" // 表示网页要重新下载显示
+      time                 // 要经过的秒数
+      URL                  // 网页要显示的内容
+如何让别人找到你的网页:
+      meta 属性：
+            属性名称      属性值         说明
+            name        author        描述作者资料
+                        description   描述网页的内容
+                        keywords      关键字， 多个可用逗号隔开
+                        generator     描述网页是通过哪种软件产生
+                        revised       描述网页的版本
+                        others        可设置其他网页的信息
+            content     字符串          配合name http-equive 设置
+活动文字：
+          <marquee>...<marquee>
+
+在网页中插入脚本程序：
+      <script type="text/javascript">
+      </script>
+----------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="saligia">
+    <meta name="description" content="my test">
+    <meta name="revised" content="1.0">
+    <title>其他</title>
+    <script type="text/javascript">
+      alert("hello world");
+    </script>
+  </head>
+  <body>
+    <marquee behavior="alternate"> saligia </marquee>
+  </body>
+</html>

@@ -1,0 +1,69 @@
+<!------------------------------------------------------------------------------
+  定位的使用：
+        属性名称                    属性值                 说明
+        position                  relative              设置区块基准点为左上角
+                                  absolute              设置网页的基准点为左上角
+                                  static                无设置
+        left                      auto                  以基准点定义在左边
+                                  像素/百分点             定位在左边
+        right                     auto
+                                  像素/百分点
+        top                       auto
+                                  像素/百分点
+        bottom                    auto
+                                  像素/百分点
+        z-index                   auto                  自动调整高度
+                                  数字                   数字越大越往上层
+-------------------------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>定位</title>
+    <style type="text/css">
+      img{
+        position: relative;
+        left: 50px;
+        top:50px;
+        width:350px;
+        height: 250px;
+        border-style: double;
+        border-width: 10px;
+      }
+      .div1{
+        position:absolute;
+        top:100px;
+        left: 600px;
+        z-index: 1;
+        text-align: center;
+        font-size: 30px;
+        font-style: italic;
+        color:blue;
+      }
+      .div2{
+        position:absolute;
+        top:102px;
+        left: 600px;
+        z-index: 2;
+        text-align: center;
+        font-size: 30px;
+        font-style: italic;
+        color:green;
+      }
+      body{
+        background: #615385;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="7.jpg" alt="" />
+
+    <div class="div1">
+      Hello world
+    </div>
+    <div class="div2">
+      Hello world
+    </div>
+  </body>
+</html>

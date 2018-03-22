@@ -1,0 +1,32 @@
+<!--------------------------------------------------
+<map> : 地图索引
+    <map name = "图像名称" id = "图像名称">
+      <area shape = "选取区块的形状" coords = "坐标" href = "URL" alt = "文字说明">
+    </map>
+    <img src="URL" USEMAP = "#图像名称 />
+
+    <map> 声明整张图使用地图连接方式进行连接
+    name id 指明此图的名称
+    area 表示我们选取链接其中的一块区域
+    coords 表示地图的坐标位置
+
+    切片 使用 table 工具
+
+为站点添加图标
+  <link rel="stylesheet" href="/css/master.css" media="screen" title="no title" charset="utf-8">
+-------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>地图索引</title>
+    <link rel="7.icon" href="7.ico" type="image/x-icon">
+  </head>
+  <body>
+    <img src="17.jpg" alt="www.baidu.com" width="750"height="450" usemap="#Map"/>
+    <map name="Map">
+      <area shape="rect" coords="100, 50, 300, 100" href="http://www.baidu.com"/>
+    </map>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+#include <sys/socket.h>
+int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen);
+int setsockopt(int sockfd, int level, int optname, void *optval, socklen_t optlen);
+
+SOL_SOCKET:
+        SO_BROADCAST：       // 允许发送广播
+        SO_KEEPALIVE:        // 周期性测试连接是否存活
+                -> 三种情况相应
+                 1> 对端响应一个 ACK ， 表示正常， 重置保活计时器
+                 2> 对方响应一个 RST ， 表示对方崩溃后重起， 则套接字错误处理为 ECONNRESET， 套接字被关闭
+                 3> 表示线路断开：
+                            a> 如果对方无响应，则尝试连续发送 8 个探测分结， 等待11分15秒后断开连接, 返回错误 ETIMEOUT
+                            b> ICMP 主机不可达，
+                            c> 网络不可达
+
+        SO_LINGER：          // 若有数据则延迟发送
+                struct linger{
+                  int   l_onoff;
+                  int   l_linger; // 拖延一段时间， 直到接受到 ACK，或者 设置时间到
+                }
+                -> 如果 l_onoff 为 0, 则默认关闭本选项： 执行 TCP 的默认行为， close 将立即生效， 如果缓冲区中有数据， 则尝试发送给对端
+                -> 如果 l_onoff 不为 0：
+                    1> 如果 l_linger 为 0 : 则立即返回， 并且以 RST 结束， 没有四次握手
+                    2> 如果 l_linger 不为0： 则要查看close的返回状态， 如果close为0 则表示对端正常读取数据并返回 ack,
+                                                                   如果 没有受到ack就退出， 则close 返回 EWOULDBLOCK错误， 返回 RST
+
+        SO_RCVBUF:           // 接受缓冲区大小           -- 默认 16M
+        SO_SNDBUF:           // 发送缓冲区大小           -- 默认 85M
+        SO_RCVLOWAT:         // 接受缓冲区低水位标志      -- 默认为 1
+        SO_SNDLOWAT:         // 发送缓冲区低水位标志      -- 默认为 1
+        SO_RCVTIMEO:         // 接受超时                -- 默认禁用
+        SO_SNDTIMEO:         // 发送超时                -- 默认禁用
+        SO_REUSEADDR:        // 允许重用本地地址
+        SO_REUSEPORT:        // 允许重用本地端口
+        SO_TYPE:             // 套接字类型
+
+IPPROTO_IP:
+        IP_HDRINCL            // 随数据报包含的IP首部
+        IP_RECVORIGDSTADDR    // 获取数据报的目的地址

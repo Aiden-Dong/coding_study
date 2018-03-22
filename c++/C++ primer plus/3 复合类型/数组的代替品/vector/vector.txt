@@ -1,0 +1,7 @@
+格式 :
+ 
+     vector <typename> vt (n_len);
+    
+     1)  使用 new 和 delete 来管理内存；即使用堆的方式来管理；
+     2） n_len 可以为变量 常量；
+     3） vector 在插入数据时自动调整大小 ， 所以初始长度为 0；

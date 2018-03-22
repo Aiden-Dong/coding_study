@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>文本节点</title>
+    <style type="text/css" charset="utf-8">
+      span#text{
+        color:green;
+        background-color: black;
+        font-size:60px;
+        font-weight:bold;
+      }
+    </style>
+    <script type="text/javascript" charset="utf-8">
+        /*
+        *       TextNode 类型:
+        *              方法 :
+        *               -> appendData(text)                 // 在结点末尾插入文本
+        *               -> deleteData(offset, count);       // 删除指定位置的文本
+        *               -> insertData(offset, text);        // 在指定位置插入文本
+        *               -> replaceData(offset,count,text);  // 在指定位置替换文本
+        *               -> splitText(offset);               // 在指定位置将文本分成两部分
+        *               -> substringData(offset, count);    // 提取制定的文本字符串 
+        */
+    </script>
+  </head>
+  <body>
+    <span id="text"></span>
+    <script type="text/javascript">
+      var text = "Hello world";
+      var i = text.length;
+      var node = document.getElementById("text");
+      textNode = document.createTextNode("");             // 创建一个文本节点
+      node.appendChild(textNode);                         // 将文本节点放在指定位置
+
+      function insetText(){
+        
+        if(--i >= 0){
+            textNode.insertData(0, text[i]);
+            window.setTimeout(insetText, 200);
+        }
+          else{
+                var inter_flag = setInterval(function(){
+                //alert(textNode.nodeValue + " : " + textNode.nodeValue.length);
+                if(textNode.nodeValue.length > 0)
+                    textNode.deleteData(0,1);
+                else
+                    clearInterval(inter_flag);
+                }, 100);
+          }
+        
+      }
+      window.setTimeout(insetText, 200);
+    
+        
+    </script>
+  </body>
+</html>

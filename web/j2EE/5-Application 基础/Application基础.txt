@@ -1,0 +1,7 @@
+﻿Application:
+		-> 用于保存整个 WebApplication 的声明周期内都可以访问的数据；
+		-> 在 API 中表现为 ServletContext
+		-> 通过 HttpServlet 的 getServletContext方法可以拿到
+		-> 通过 ServletContext 的 getAttribute / setAttribute 方法可以访问和设置属性
+		
+		

@@ -1,0 +1,52 @@
+在类模版中出现的三种友元声明：
+
+	1> 模版类的非模版友元
+		
+		将友元函数授予明确指定的类或函数 ；
+
+		例如：
+
+			template <typename T>
+			class One
+			{
+			   frined void fun () ;
+			}
+		
+		此例中 ， fun 可以访问 One 任意类实例中的私有和保护成员 ；
+
+	
+	2> 非约束模板友元：
+
+		授予对友元所有实例的访问权 ；
+		
+		例如
+			template <typename T>
+			class One
+			{
+				template <typename N>
+				friend void fun (N u)    // 可以访问 One 中的 任意数据类型 如 int double 等 
+			}
+
+		开放式：
+			
+			template <typename T>
+			class One
+			{
+				template <typename N>
+				friend void fun (One<N> & u)  //可以访问其他的 One 类 
+
+			｝
+
+		
+
+	3> 约束模板友元 :
+
+		只授予对类模版或函数模板特定实例的访问权的友元声明 ；
+
+		template <typename T>
+			class One
+			{
+
+				friend void fun (One<T> & u)  //只可以访问本类
+
+			｝ 

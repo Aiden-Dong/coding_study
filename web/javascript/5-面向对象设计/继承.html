@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>继承</title>
+    <script type="text/javascript"  charset="utf-8">
+    /*
+    *   继承的三种方式:
+    *           1- 原型继承方式 ： 
+    *                   // 让其成为公共方法
+    *                   // 即继承父类的模版，又继承父类的原型对象
+    *           2- 借用构造函数的继承:
+    *                   // 只继承模版， 不继承原型：
+    *                   方法 :
+    *                          在子类中使用 父类的 call方法， 使用 this 绑定添加环境
+    *           3> 混合继承， 先使用构造函数后使用 原型继承
+    *                   思想 : 使用原型链实现对原型属性和方法的使用，又能够保证每个实例都有它自己的属性
+    *                   -> 可以向基类对象传参
+    *                   -> 有原型方法又有实例方法时，先调用实例方法。
+    */
+
+    // javascript 使用 原型链的概念来实现继承
+    // 构造函数 原型函数 实例对象
+
+    /*
+    * 让原型对象等于另一个类型的实例
+    */
+
+    // 父类的构造函数
+    function Sup(name){
+      this.name = name;
+    }
+    // 父类的原型对象
+    Sup.prototype = {
+      constructor : Sup,
+      sayName:function(){
+        alert(this.name);
+      }
+    }
+    // 子类的构造函数:
+    function Sub(age){
+      this.age = age;
+    }
+    Sub.prototype = new Sup("张三");      // 子类的继承过程
+        
+    // 1. 原型对象将指向一个新类
+    // 2. 原型对象中包含父类的信息
+    // 3. 及继承了父类的模版， 又继承了父类的原型对象
+    // Sub.protocol.constructor = Sup   
+    alert(Sub.prototype.constructor);
+        
+    var obj = new Sub(23);
+    obj.sayName();
+
+        
+    /*
+    *   类继承 -------- 只继承模版， 不继承原型
+    *   (借用构造函数的继承)
+    */
+    // 父类
+    function Person(name, age){
+      this.name = name;
+      this.age = age;
+    }
+    Person.prototype = {
+        id:10
+    }
+    // 子类
+    function Boy(name, age, sex){
+      Person.call(this, name, age);       // 类继承的方式
+      this.sex = sex;
+    }
+
+    var b = new Boy("saligia", 20, "男");
+    alert(b.name);
+    alert(b.age);
+    alert(b.sex);
+    // alert(b.id);        // undefined ------ 只继承模版， 不继承原型对象
+
+    /*
+    * 混合继承 ---------- 原型继承 + 借用构造函数继承（类继承）
+    */
+           
+    // 基类
+    function Sub(name, sex){
+       this.name = name;
+       this.sex = sex;
+   }
+    Sub.prototype = {
+        constructor : Sub,
+        show:function(){
+            alert(this.name + " : " + this.sex);
+        }
+    }
+    // 子类
+    function Person(name,sex,grade){
+        Sub.call(this,name, sex);  // 继承父类
+        this.grade = grade;
+    }
+    Person.prototype = new Sub();
+    Person.prototype.message = function(){
+        alert(this.name + " : " + this.sex + " : " + this.grade);
+    }
+
+    var obj = new Sub("saligia", "sex");
+    obj.show();
+    var obj2 = new Person("saligia", "男", 20);
+    obj2.show();
+    obj2.message();
+
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

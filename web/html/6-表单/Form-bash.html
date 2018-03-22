@@ -1,0 +1,98 @@
+<!----------------------------------------------------------------------
+form:
+    表单主题:
+    <form class="" action="index.html" method="post">
+      // name   : 表单名
+      // method : 表单的传输方式
+      // action : 传输的目标
+    </form>
+
+表单加上外框和标题：
+              外边框 :  <fieldset>.....</fieldset>
+              标题  :   <legend>.......</legend>
+input
+  文本栏,密码栏,隐藏栏：
+        文本栏：      <input type="text"  name="栏位名称" value="栏内定值" size ="栏位显示宽度" maxlength="最大宽度" readonly="readonly">
+        密码栏：      <input type="password" name="栏位名称" value="栏内定值" size ="栏位显示宽度" maxlength="最大宽度" readonly="readonly">
+        隐藏性栏位：   <input type="hidden" name="栏位名称" value="栏位值">
+  复选框， 单选框：
+        多重勾选栏：   <input type="checkbox" name="栏位名称" value="内定值" checked="checked" disabled="disabled">
+        单选栏位：    <input type="radio" name="栏位名称" value="内定值" checked="checked" disabled="disabled">
+  按钮：
+        <input type="submit" name="name" value="按钮中显示的文字">
+        <input type="reset" name="name" value="按钮中显示的文字">
+        <button type="button" name="button"></button>       // 自定义按钮
+        <input type="image" src="URL" alt="文本">           // 图像按钮
+  上传文件：
+          <input type="file" name="name" value="">
+
+select :
+  下拉菜单
+        <select class="" name="" size="">       // size 用于多选个数
+        <option value ="选项" selected="selected">
+        </select>
+        // 分组：
+                  <optgroup label="Group 1">
+                  </optgroup>
+textarea:
+      文字区块
+        <textarea name="TextName" rows="rowsNum" cols="ColsNum"></textarea>
+
+----------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>表单</title>
+  </head>
+  <body>
+    <form class="" method="post">
+      <fieldset >
+        <legend>Frame</legend>
+
+      Name   : <input type="text" name="InputText" value="please input:" size="20" maxlength="10">         <!-------- 文本栏 --------->
+
+      <br>
+      Passwd : <input type="password" name="Passwd" value="please input passwd :" size="20" maxlength="15"> <!------ 密码栏 ------->
+
+      <br>
+      shadow : <input type="hidden" name="Hide" value="">                                                     <!--------- 隐藏栏 ------>
+
+      <br>
+      <input type="checkbox" name="CheckBox" value="体育" checked="checked" disabled="disabled"> 体育           <!--------- 多选栏 ------->
+      <input type="checkbox" name="CheckBox" value="音乐"> 音乐
+      <input type="checkbox" name="CheckBox" value="美术"> 美术
+
+      <br>
+      <input type="radio" name="Radio" value="男"> 男                                                            <!------ 单选栏 ----------->
+      <input type="radio" name="Radio" value="女" checked="checked"> 女
+
+      <br>
+        地址:
+        <select class="" name="Address">
+          <optgroup label="山东">
+            <option value="青岛"> 青岛
+            <option value="威海"> 威海
+            <option value="潍坊"> 潍坊
+          </optgroup>
+          <optgroup label="江苏">
+            <option value="杭州"> 杭州
+            <option value="苏州"> 苏州
+          </optgroup>
+
+        </select>
+      <br>
+      请留下宝贵的意见：<br>
+      <textarea name="TextName" rows="8" cols="40"></textarea>
+
+      <br>
+      <input type="submit" name="Submit" value="提交">
+      <input type="reset" name="Reset" value="重写">
+      <input type="button" name="name" value="上传">
+      <button type="button" name="button"><img src="/home/saligia/source/jpg/1.jpg" alt="" width="70" height="35"/></button>
+      <input type="image" name="name" value="" src="/home/saligia/source/jpg/2.jpg" alt="" width="70" height="35">
+      </fieldset>
+    </form>
+
+  </body>
+</html>

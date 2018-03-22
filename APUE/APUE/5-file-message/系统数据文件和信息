@@ -1,0 +1,110 @@
+口令文件：
+
+	  struct passwd{
+	  char *	pw_name;		// 用户名
+	  char *	pw_passwd;	// 口令
+	  uid_t	pw_uid;		//用户ID
+	  gid_t	pw_gid;		// 用户组ID
+	  char *	pw_gecos;		// 注释
+	  char *	pw_dir;		// 初始目录
+	  char *	pw_shell;		// 初始shell
+	  }
+	  
+	  #include <pwd.h>
+	  // 获取单个用户口令信息
+	  struct passwd * getpwnam(const char *name);
+	  struct passwd * getpwuid(uid_t uid);
+	  // 获取所有的用户口令信息
+	  struct passwd *getpwent(void);
+	  void setpwent(void);
+	  void endpwent(void);
+	  
+	  注意：  调用 getpwent 后 必须调用 endpwent;
+	  
+阴影口令：
+
+	  struct spwd{
+	       char * 	sp_namp;			// 用户名
+	       char *		sp_pwdp;			// 加密口令
+	       int		sp_lstchg;			// 上次更改口令后经过的时间
+	       int 		sp_min;			// 经多少天后更改
+	       int 		sp_max;			// 要求更改尚余天数
+	       int		sp_warn;			// 超期警告时间
+	       int		sp_inact;			// 账户不活动之前尚余的天数
+	       int		sp_expire;			// 账户超期天数
+	  }
+	  
+	  #include <shadow.h>
+	  // 获取单个用户的阴影口令
+	  struct spwd *getspnam(const char *name);
+	  // 获取所有用户的阴影口令
+	  struct spwd *getspent(void);
+	  void setspent(void);
+	  void endspent(void);
+组文件：
+
+	  struct group{
+	       char *		gr_name;			// 组名
+	       char *		gr_passwd;			// 加密口令
+	       int		gr_gid;			// 数组 ID
+	       char **	gr_mem;			// 用户名
+	  }
+	  
+	  #include <grp.h>
+	  // 获取单用户组ID
+	  struct group * getgrgid(gid_t gid);
+	  struct group * getgrnam(const char *name);
+	  
+	  // 获取所有用户组的文件
+	  struct group * getgrent(void);
+	  void setgrent(void);
+	  void endgrent(void);
+	  
+附属组ID：
+
+	  #include <grp.h>
+	  #include <unistd.h>
+	  int getgroups(int gidsetsize, gid_t grouplist[]);		// 获取附属组
+	  int setgroups(int ngroups, const gid_t grouplist[]);		// 设置附属组
+	  
+系统标志：
+
+	  struct utsname{
+	       char  		sysname[];				// 系统名
+	       char  		nodename[];			// 主机名
+	       char		release[];				// 内核	
+	       char		version[];				// 版本
+	       char		machine;				// 硬件类型
+	  }
+	  
+	  #include <sys/utsname.h>
+	  int uname(struct utsname *name);
+	  
+	  #include <unistd.h>
+	  int gethostname(char *name, int namelen);
+	 
+时间和日期历程：
+
+	  #include <time.h>
+	  time_t time(time_t *calptr);		// 获取当前日历时间
+	  
+	  #include <sys/time.h>
+	  int clock_gettime(clockid_t clock_id, struct timespec *tsp);
+	  int clock_settime(clockid_t clock_id, struct timespec tsp);
+	  
+	  说明：
+			  CLOCK_REALTIME 				实时系统时间
+			  CLOCK_MONOTONIC				不带负跳数的实时系统时间
+			  CLOCK_PROCESS_CPUTIME_IO		调用进程的cpu时间
+			  CLOCK_THREAD_CPUTIME_IO		调用线程的cpu时间
+			  
+	  #include <time.h>
+	  struct tm *gmtime(const time_t *calptr);		// 时间转换 协调统一时间
+	  struct tm* localtime(const time_t *calptr);		// 时间转换 本地时间
+	  time_t mktime(struct tm * tmptr);			// 将本地时间转换成日历时间
+	  
+	  
+	  
+	  
+	  
+	  

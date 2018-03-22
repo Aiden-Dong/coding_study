@@ -1,0 +1,33 @@
+<!------------------------------------------------------------
+  CSS的排版样式：
+    行内排版样式： <标记名称 style="attr1:value;attr2:value2;...."></标记名称>
+    排版专用标记： <dir> 与 <span>
+    内嵌式排版样本：
+                  内嵌式排版中所有的样式定义都必须在 <style>....</style>之间， 而 <style>...</style>又必须在<head>...</head>之间
+                  与其功能又分为三种：
+                                    1> 标记定义型
+                                    2> class 定义型
+                                    3> id 定义型
+                  优先级: 标记定义型-> class和id定义型 -> 行内
+    外部排版样式定义：
+              在head之间使用 link
+-------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSS入门基础</title>
+    <style type="text/css">
+      word{
+        color:green;
+        font-size:40px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <!--======= CSS 风格 ==============-->
+    <p style="font-size:20pt;color:red;text-align:center">PHP100.com---saligia</p>
+    <word>hello one</word>
+  </body>
+</html>

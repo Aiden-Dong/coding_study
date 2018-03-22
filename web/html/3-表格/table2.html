@@ -1,0 +1,90 @@
+<!-----------------------------------------------------------------------
+  边框属性：
+            frame(在边框不为 0  时设置)
+                  void         不要显示表格边线
+                  above        只显示上边线
+                  below        只显示下边线
+                  hsides       只显示上下边线
+                  vsides       只显示左右边线
+                  lhs         只显示左边线
+                  rhs         只显示右边线
+                  border/box  显示所有边线
+            rules:
+                  rows        只显示横行的格线
+                  cols        只显示列线
+                  groups      只显示列组合水平部分
+                  all         显示全部格线
+                  none        不显示任何格线
+   tr/td 属性：
+            width             行宽属性 (td)
+            height            行高属性
+            bgcolor           背景颜色
+            align             水平布局属性 (left center right)
+            valign            垂直布局属性 (top middle bottom)
+
+  td 属性：
+            colspan           合并列单元格
+            rowspan           合并单元格 行
+结构化格式：
+            <thead>....</thead> ------表头区
+            <tfoot> ....</tfoot> ---- 表体区
+            <tbody> .....</tbody> ----- 表体区
+表格的直列化
+        <colgroup>..........</colgroup>
+        <col></col>            个别直列
+            属性
+                  span          直列数目
+                  bgcolor       背景
+                  align          布局横向
+                  valign         布局纵向
+                  width         宽度
+----------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> 列表 </title>
+  </head>
+  <body>
+    <table border="2" width = "400" rules = "all" cellspacing = "3" height = "200" align = "center" bgcolor = "orange">
+      <colgroup span="1" bgcolor = "red"></colgroup>
+      <thead>
+        <tr height = 50 bgcolor = "green">
+          <th> </th>
+          <th> 语文 </th>
+          <th> 数学 </th>
+          <th> 英语 </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr align = "center">
+          <td><b>张三</b></td>
+          <td>65</td>
+          <td rowspan="2">70</td>       <!----- 合并单元格--->
+          <td>75</td>
+        </tr>
+        <tr align = "center">
+          <td><b>李四</b></td>
+          <td>62</td>
+          <td>67</td>
+        </tr>
+        <tr align = "center">
+          <td><b>王五</b></td>
+          <td>78</td>
+          <td>90</td>
+          <td>86</td>
+        </tr>
+        <tr align = "center">
+          <td><b>赵六</b></td>
+          <td colspan = "2">87</td>       <!--- 合并单元格----->
+          <td>71</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" align = "center" bgcolor = "blue"> 成绩单 </td>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>

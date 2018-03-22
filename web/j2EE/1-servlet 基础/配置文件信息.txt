@@ -1,0 +1,15 @@
+
+Web Application:
+	
+	1> Web Application Name:
+			-> WEB-INF
+						web.xml 		// wep app 的配置文件
+						lib					// web app 用到的库文件
+						classess		// 存放好编译好的 servlet 
+			-> META-INF
+						存放该 web app 的上下文信息， 复合j2ee 标准
+	2> Web Application 可以直接放在 webapp 下面
+	3> 也可通过配置文件指定到其他目录
+	 		<Context path="虚拟路径名" docBase="目录位置" debug="0" reloadable="true"/>
+	 		
+	

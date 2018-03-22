@@ -1,0 +1,20 @@
+﻿Servlet 的声明周期：
+
+-> 声明全过程：
+		类加载
+		实例化: new 对象
+		初始化: init(ServletConfig)
+		处理请求: service doGet doPost
+		退出服务: destroy;
+		
+-> API 中的过程：
+		init() // 整个过程只被调用一次
+		public void init(servletConfig config) throws ServletException
+		
+		service()
+		public void service(ServletRequest reg, ServletResponse res) throws ServletException, IOException
+		
+		destroy()// 在 tomcat shutdown 的时候， 被调用
+		public void destroy();
+		// 只生成一个对象， 后面访问的都通过这一个对象进行访问， 索引访问多次的时候只出现一次 init 方法
+		

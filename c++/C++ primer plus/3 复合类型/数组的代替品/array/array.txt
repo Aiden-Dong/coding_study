@@ -1,0 +1,7 @@
+格式 :
+
+      array <typename , elem> arr;
+
+     1)  elem 不能为变量， 只能为常量型
+     2） array 对象长度为固定的 ；
+     3） array 是使用的栈型分配的内存；

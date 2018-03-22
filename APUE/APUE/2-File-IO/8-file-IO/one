@@ -1,0 +1,26 @@
+{
+	char buf[10];
+	int n;
+
+	while(1)
+	{
+		memset(buf, 0, sizeof(buf));
+		if((n = read(STDIN_FILENO, buf, sizeof(buf))) < 0)
+			err_sys("read error");
+		
+		// read 无缓冲区 在读到 终止符 换行符 读满缓冲区 后就返回 
+
+		if(write(STDOUT_FILENO, buf, n) != n)
+			err_sys("write error");
+		printf("-------- %d\n",n);				
+	}
+
+	// fread 属于全缓冲, 在读取满缓冲区前不返回
+	while(fread(buf, sizeof(buf), 1, stdin))
+	{
+		printf("%s\n", buf);
+	}
+
+
+	return 0;
+}

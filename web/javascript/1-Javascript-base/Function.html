@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Fucntion 类型</title>
+        <script type="text/javascript" charset="utf-8">
+            /*
+            *   Function 类型
+            *      定义函数的三种类型 :
+            *           var func = function(){}         // 函数增量模式 -- 顺序解析
+            *           function func (){}              // 预解析模式
+            *           var func = new Function()       // 通过Function 构造函数定义函数 -- 使用顺序解析
+            *           
+            *       -> 没有重载概念 (深入理解其概念)
+            *       -> 内部属性和方法:
+            *               this         // this 对象时在运行时期基于执行环境所绑定的
+            *                            // this 对象指向调用者
+            *               arguments    // 包含传入函数的所有参数 -> 是一个数组
+            *                       -> callee()     // 指代拥有arguments 的这个函数;
+            *               将函数绑定到特定的环境中 :
+            *                           // call
+            *                           // apply
+            */
+            
+            
+            // 递归调用
+            var res = new String();
+            var ta = new Array();
+            for(var i = 0; i < 4; i++)
+                ta.push(0);
+            
+            var show = function(arr, t, n){
+                var x;
+                for(var i = 0; i <= n; i++){
+                    arr[t] = i;
+                    if(t == n){
+                        res = res.concat(arr.toString() + '\n');
+                    }else{
+                        arguments.callee(arr, t+1, n);  // arguments.callee()       // 函数自身调用的稳妥方式
+                    }
+                    
+                }
+            }
+            
+            show(ta, 0, 3);
+            alert(res);  
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

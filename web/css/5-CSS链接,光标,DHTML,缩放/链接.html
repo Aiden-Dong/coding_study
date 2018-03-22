@@ -1,0 +1,40 @@
+<!-----------------------------------------------------------------------------
+  链接的使用:
+        a:link          表示该超链接文字尚未被点选过
+        a:visited       表示该超链接文字已被点选过
+        a:active        表示该超链接文字正被点选, 但尚未放开
+        a:hover         表示鼠标正放在文字上
+
+------------------------------------------------------------------------------>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>链接的使用</title>
+    <style type="text/css">
+      body{
+        background-color: #8A8A8A;
+      }
+      a{
+        font-size:30px;
+        text-decoration:none;
+      }
+      a:visited{
+        color:green;
+      }
+      a:link{
+        color:yellow;
+      }
+      a:active{
+        color:blue;
+      }
+      a:hover{
+        color:red;
+        text-decoration:underline;
+      }
+    </style>
+  </head>
+  <body>
+      <a href="http://www.baidu.com">百度一下</a>
+  </body>
+</html>

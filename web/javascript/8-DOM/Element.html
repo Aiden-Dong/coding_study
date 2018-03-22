@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Element 类型</title>
+    <link rel="stylesheet" href="Document.css" media="screen" title="no title" charset="utf-8">
+      
+    <script type="text/javascript" charset="utf-8">
+      /*
+      *     Element 类型:  
+      *         -> 属性： 
+      *                 1> id | class | ....
+      *                 2> attributes       // 返回所有的属性  | NamedDodeMap 对象
+      *
+      *         -> 方法：
+      *                     getAttribute(attr_name);                // 获取属性
+      *                     setAttribute(attr_name, attr_value);    // 设置属性
+      *         -> 
+      */
+        
+    </script>
+  </head>
+  <body class="body">
+        <p id="pid" align="center">
+          Hellow world
+        </p>
+
+        <script type="text/javascript" charset="utf-8">
+          var one = document.getElementById("pid");
+          function SetCSS(){
+              if(one.id == "pid"){
+                one.id = "pid2";
+              }else if(one.id == "pid2")
+              {
+                one.id = "pid";
+              }
+          };
+
+        setInterval(SetCSS, 200);
+
+        for(var i = 0 ; i < one.attributes.length; i++){
+          alert(one.attributes[i].name + " : " + one.attributes[i].value);
+        }
+
+        /*
+        *     Element.attributes 中保存有一个  NamedNodeMap --- 动态集合
+        *     attributes 中保存这个元素的所有的特性
+        *     NamedNodeMap 中的的每一个节点是一个 Attr
+        *           Attr 属性为 ：
+        *                   name  特性名
+        *                   value 特性值
+        *                   specified 特性是否是默认值
+        */
+            
+        </script>
+
+  </body>
+</html>

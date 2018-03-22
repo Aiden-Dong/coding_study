@@ -1,0 +1,5 @@
+from:root@cat.super.com
+to:cat@cat.super.com
+subject:shell script
+This is bash shell script
+

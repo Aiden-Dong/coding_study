@@ -1,0 +1,200 @@
+进程标志：
+	       ID---0 ：调度进程 
+	       ID---1 ： init 进程
+	 
+	 进程的标志操作：
+		    #include <unistd.h>
+			 pid_t getpid(void); // 调用进程的 ID
+			 pid_t getppid(void);	// 获取父进程的ID
+			 uid_t getuid(void);	// 调用进程的实际用户ID
+			 uid_t geteuid(void);	// 调用进程有效用户ID
+			 gid_t getgid(void);	// 调用进程的用户组ID
+			 gid_t getegit(void);	// 调用进程的有效用户组 
+函数	fork
+     
+	       #include  <unistd>
+	       pid_t fork(void);		// 子进程返回0， 父进程返回子进程的ID
+	      
+	       说明：
+		    1) 子进程和父进程继续执行 fork 调用之后的指令。 子进程是父进程的副本， 子进程获得父进程的数据空间，
+			 堆和栈的副本（父进程和子进程并不共享这些存储空间部分， 父进程和子进程共享正文段）	    
+		    2) 父进程如果没有受到子进程的退出状态而子进程退出时， 此子进程为 僵尸进程
+		    3) 父进程和子进程共享一个文件偏移量
+			 
+	       子进程继承父进程:
+		
+			 实际用户ID， 实际组ID， 有效用户ID 。。。
+			 控制终端
+			 工作目录
+			 根目录
+			 环境
+			 连接的共享存储段
+			 存储映像  （即父进程原创建的变量在子进程中的地址是不变的）
+			 资源限制
+			 
+		父进程与子进程之间的区别：
+			 子进程不继承父进程的ID 锁
+			 子进程的未处理闹钟被清除
+			 子进程的未处理信号集设置为空集
+		
+		fork 的用法：
+				   1） 一个父进程希望复制自己， 使父进程和子进程同时请求执行不同的代码段，这在网络服务进程是常见的：
+					 父进程等待客户的请求， 当请求到达时候，父进程调用子进程处理此请求，父进程则继续等待下一个服务请求
+				   2）一个进程要执行不同的程序，这对 shell 是常见的情况，在这种情况下，子进程从 fork 返回后立刻调用 exec 
+				   
+函数 exit:
+	  
+	  对于任意一种终止情况， 我们都希望终止进程能够通知其父进程它是如何终止的：
+
+		1) 正常： 将其退出状态作为参数传递给函数
+		2) 异常 :  内核产生一个只是异常终止原因的终止状态
+	
+	说明：
+	       1） 对于父进程已经终止的所有进程， 他们的父进程都改编为 init 进程（ID = 1） ,  其大致的操作过程为： 在一个进程终止时，
+		     内核会逐个检查所有的活动进程，以判断它是否是正要终止进程的子进程， 如果是， 他们的父进程ID 都更改为 1(init）
+	       2） 内核为每个终止子进程保存了一定量的信息， 所以当终止进程的父进程调用 wait 或 waitpid 时， 可以得到这些信息， 这些信息至少
+		     包括进程 ID ， 该进程的终止状态， 以及该进程使用的CPU的时间总量。
+	       3)   一个已经终止，但其父进程尚未对其进行妥善处理（获取终止子进程的有关信息，释放它所占有的资源）的进程被成为 僵死进程
+	       
+函数 wait 和 waitpid:
+
+	       当一个进程值正常或者异常终止时， 内核就向其父进程发送 SIGCHLD 信号。 因为子进程终止是异步事件， 所以这种信号也是内核
+	       向父进程发的异步通知；
+	       
+			      #include <sys/wait.h>
+			      pid_t wait(int *statloc);			                         // statloc 为返回终止状态， 如果不需要则为 0；
+			      pid_t waitpid(pid_t pid,  int *statloc,  int option);	// 等待指定的子进程终结 
+	  说明：
+	       1）	如果进程已经终止，并且是一个僵死进程， 则 wait 立即返回并取得该进程的状态， 否则wait 使其调用者阻塞，直到有一个进程终止
+	       2）	对于 waitpid ：
+					     option 选项 ： WCONTINUED | WNOHANG | WUNTRACED
+					     pid == -1 :  等待任意一个子进程
+					     pid == 0 ： 进程组ID 等于调用进程组ID 的任一子进程
+					     pid  >  0  :  等待确定某一进程 
+	       3）	检测返回状态： 	 
+			      WIFEXITED(statloc);		// 正常终止子进程返回的状态， 对于这种情况 调用 WEXITSTATUS(statlc) 获取传递给exit 参数的低8位
+			      WIFSIGNALED(statlc);		// 异常终止子进程的状态，对于这种情况调用 WTERMSIG(statloc) 获取子进程终止的信号编号
+			      WIFSTAOPED(statloc);		// 暂停子进程返回的状态，对于这种情况调用WSTOPSIG(statloc), 获取使子进程暂停的信号编号
+			      WIFCONTINUED(statloc);	// 若在作业控制暂停后已经继续的子进程返回了状态（仅用于waitpid）
+			      
+函数 wait3 和 wait4 :
+			 
+			 
+				   #include <sys/types.h>
+				   #include <sys/wait.h>
+				   #include <sys/times.h>
+				   #include <sys/resource.h>
+				   pid_t wait3(int *statloc,  int options,  struct resage * rusage);
+				   pid_t wait4(pid_t pid,  int *statloc,  int options,  struct rusage *rusage);
+函数 exec :
+     
+				   #include <unistd.h>
+				   int execl (const char *pathname,  const char *arg0,  ...../* (char *)0 */);
+				   int execv(const char *pathname,  char *argv[]); 							       // 环境变量继承调用进程
+				   int execle(const char *pathname,  const char *arg0, ..../*(char *)0, const  char *envp[]); // 环境变量并不继承 ， 只接受设置
+				   int execve(const char *)pathname,  const char *argv[],  const char *envp[]);
+				   int execlp(const char *filename,  const char *arg0, ...../* (char *)0 */);
+				   int execvp(const char *filename,  const char *argv[]);
+				   int fexecve(int fd,  char *const argv[],  char *const envp[]);
+
+				   说明-----新程序从调用进程继承了下列属性：
+					     1） 实际用户 ID 和父进程 ID		实际用户ID 和 实际组 ID
+					     2）资源限制		nice 的值
+					     3）附属组ID   会话ID  控制终端
+					     4）闹钟尚余留的时间
+					     5）当前工作目录	根目录
+					     6）文件模式创建屏蔽字		文件锁		进程信号屏蔽		未处理的信号
+					     
+					     1） 对打开文件的处理与每个描述符执行时关闭标志值有关，进程中每个打开描述符都有一个执行时关闭标志，若
+						   设置了此标志， 则在执行 exec 时关闭该描述数； 否则该描述符仍打开
+					     2） exec 前后的有效ID 是否改变则取决于所执行程序文件的设置ID 为和设置组ID位是否设置
+					     
+更改进程 ID 和更改组ID ：				
+     
+				   #include <unistd.h>
+				   int setuid(uid_t uid);	// 设置有效用户 ID和实际用户 ID
+			 	   int setgid(gid_t gid); // 设置有效用户组ID和实际用户组ID
+				   
+			说明(_POSIX_SAVED_IDS为真的情况）：
+			      1)  如果进程具有超级用户的特权， 则setuid函数将实际用户ID ， 有效用户ID ， 以及保存的设置用户 ID 设置为 uid_t
+			      2)  如果用户没有超级用户的特权，但是uid 等于实际用户ID 或保存的设置用户ID， 则setuid 只将有效用户ID 设置为uid,
+				   不更改实际用户 ID和保存的设置用户 ID
+			     3) 如果两个条件都不满足， 则 errno 设置为 EPERM ， 并返回 -1
+			     
+			注意： 
+			      1） 只有超级用户进程可以更改实际用户ID；
+			      2） 仅当对程序文件设置了设置用户ID 位时， exec 函数才设置有效用户ID， 如果设置用户ID 位没有设置，exec 函数不
+				    会该改变有效用户ID， 而是维持其现有值
+			      3） 保存的设置用户 ID 是有exec 复制有效用户ID 而得到的。 如果设置了文件的设置用户ID 位， 则exec根据文件的用户
+			            ID设置了进程的有效用户ID 以后，这个副本就被保存起来了 
+			          
+			          #include <unistd.h>
+			          int setreuid(uid_t ruid, uid_t euid);	// 交换实际用户 ID 和有效用户 ID
+			          int setregid(uid_t rgid, gid_t egid);	// 交换有效用户组ID 和 实际用户组 ID
+				   
+			 说明：
+			     1) 一个非特权用户总能交换实际用户 ID 和 有效用户 ID 
+			     2） 允许一个非特权用户将其有效用户ID 设置为保存的设置用户ID
+			     
+				   #include <unistd.h>
+				   int seteuid(uid_t uid);	// 更改有效用户 ID
+				   int setegid(gid_t gid);	// 更改有效组 ID
+				   
+解释器文件：
+		    
+		    #！ pathname [optional - algument]
+	      
+	      说明：
+			 1） pathname 通常是绝对路径名 ， 对这种文件的识别通常是由内核作为 exec 系统调用的一部分来完成
+			 2） 内核使调用exec 函数的 进程实际执行的并不是该解释器文件， 而是由该解释器文件第一行中的pathname 所指定的文件
+			 3)   argv[0]  是该解释器的pathname , argv[1] 是解释器参数的可选参数， 
+			 4） 内核取execl 调用中的pathname 而非第一个参数
+			 
+函数	system
+	  
+		    #include <stdlib.h>
+		    int system (const char * cmdstring);
+		    
+	  说明：
+		    1）system 在其实现中调用了fork , exec 和waitpid 
+		    2) 	如果fork 失败或者waitpid 返回了除 EINTR 之外的出错， 则system 返回 -1 ， 并且设置errno 以指示错误的类型
+		    3) 	如果 exec 失败， 则其返回值如同shell 执行了exit(127)一样；
+		    4  否则所有3个函数(fork , exec , 和 waitpid) 都成功， 则 system 的返回值是 shell 的终止状态， 其格式已在waitpid 中说明
+		    
+进程会计:
+	  
+	  说明：
+	  
+	       1）超级用户执行一条带路经名参数的 accton 命令启用会计处理。 会计记录写到指定文件中， /var/accton/pacct
+	       2）会计记录所需的各个数据都由内核保存在进程表中， 并在一个新进程被创建时候初始化，进程终止时写一个会计记录。
+
+进程标志：
+	       
+		    #include <unistd.h>
+		    char * getlogin(void);   // 得到运行该程序的用户名
+		    
+进程调度:
+	       
+		    #include <unistd.h>
+		    int nice(int incr);				// 设置进程的 nice 的值（0 ~ 2*NZERO-1）
+		  
+	说明：
+		    1)  nice 范围0～(2*NZERO)-1;			// NZERO = sysconf(_SC_NZERO); 获取
+		    2） 因为 -1 也是 nice 的有效值， 所以有必要检查 errno 的值
+		    
+		    #include <sys/resource.h>
+		    int getpriority(int which, id_t who);		// 获取进程的 nice 的值
+		 
+	 说明：
+		    1 which : PRIO_PROCESS 表示进程 		PRIO_PGRP 表示进程组		PRIO_USER 表示用户 ID
+		    
+		    #include <sys/resource.h>
+		    int setpriority(int which, id_t who, int value);
+		    
+进程时间
+		    #include <sys/times.h>
+		    clock_t times(struct tms *buf);
+		    
+		    说明：
+			 1） 要使用其相对值
+			 2） 所有由此函数返回的 clock_t 值都用 _SC_CLK_TCK 转换成秒数（real/(double)sysconf(_SC_CLK_TCK)）

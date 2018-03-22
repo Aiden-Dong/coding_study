@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>执行环境和作用域链</title>
+    <script type="text/javascript"  charset="utf-8">
+    /*
+    *   执行环境 与 作用域链:
+    *       -> 执行环境是javascript中最为重要的一个概念。执行环境定义了变量或函数有权访问的其他数据， 决定了他们各自的行为
+    *       -> 每一个环境都有一个与之相关联的变量对象， 环境中定义的所有变量和函数都保存在这个对象中。
+    *       -> 全局执行环境是最外围的执行环境。实现所在的宿主环境不同，表示执行环境的对象也不同
+    *       -> 每一个函数都有自己的执行环境
+    *       -> 当代码在一个环境中执行时， 会创建变量对象的一个作用域链。
+    *       -> 作用域链的用途是保证对执行环境有权访问的所有变量和函数的有序访问。
+    */
+
+    // 执行环境 ----- window对象， 顶级执行环境
+    var color1 = "blue";
+    function changeColor(){   // 作用域
+      var color2 = "red";
+      function swapColor(){   // 作用域
+        var color3 = color2;
+        color2 = color1;
+        color1 = color3;
+      }
+      swapColor();
+      // 不能访问 color3
+    }
+    changeColor();
+    // 环境变量可以一层一层的向上进行追庶
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

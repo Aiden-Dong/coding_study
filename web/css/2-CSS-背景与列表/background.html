@@ -1,0 +1,54 @@
+<!----------------------------------------------------------
+css 背景属性：
+    属性名称                属性值                        说明
+    background-color       十六进制                       背景颜色
+                           三原色
+                           颜色名称
+                           transparent(透明)--默认
+   background-image        ulr                           背景图片
+                           none
+   background-attachment   scroll                         设置背景图像会随视窗滚动条的移动而移动
+                            fixed                         设置背景图片不会随视窗滚动条的移动而移动
+   background-position      top left                      设置出现的位置
+                            top center
+                            top right
+                            center left
+                            center center
+                            center right
+                            bottom right
+                            bottom left
+                            bottom center
+   background-repeat        repeat
+                            repeat-x
+                            repeat-y
+                            no-repeat
+
+
+------------------------------------------------------------>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSS背景属性</title>
+    <style type="text/css">
+      body{
+        background-color:#585F68;
+        background-image: url(background.jpg);
+        background-repeat:no-repeat;
+      }
+      p{
+        font-weight:bold;
+        font-size:20px;
+        background-color:#7B4AC0;
+        color:white;
+        text-align: center;
+        text-decoration: underline;
+      }
+      
+    </style>
+  </head>
+  <body>
+      <p>Hello world</p>
+  </body>
+</html>

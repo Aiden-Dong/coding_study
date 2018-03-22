@@ -1,0 +1,153 @@
+线程概念：
+
+     每个县城都包含有表示执行环境所必需的信息， 其中包括进程中标志线程ID, 一组寄存器值， 栈，调度优先级和策略， errno 变量，以及线程的私有
+     数据，一个进程的所有信息对该进程的所有线程都是共享的， 包括可执行程序的代码，程序的全局内存和堆内存，栈以及文件描述符
+     
+线程标志：
+
+	       #include <pthread.h>
+	       int pthread_equal(pthread_t tidl, pthread_t tid2);
+	       // 表叫两个线程ID 是否相等
+	       
+	       pthread_t pthread_self(void);
+	       // 返回自身的线程 ID
+
+线程创建：
+
+	  #include <pthread.h>
+	  int pthread_create(pthread_t *restrict tidp, const pthread_attr_t * attr, void * (*strt_rtn)(void *), void *restrict arg);
+	  // 创建线程
+	  // 成功返回 0， 失败返回 错误编码
+	  说明 :
+		    1） 新创建的线程可以访问进程的地址空间， 并且继承调用线程的浮点环境和屏蔽信号字， 但是该线程的挂起信号集被清楚
+		    2） 主线程退出时， 整个进程便终止
+		    
+线程的终止：
+	  
+	  单线程终止的三种退出方式：
+		    1） 线程可以简单的从启动历程中返回， 返回值时线程的退出码
+		    2） 线程可以被同一进程的其他线程取消
+		    3） 线程调用 pthread_exit;
+		    
+		    #include <pthread.h>
+		    void pthread_exit(void * rval_ptr);
+		    void pthread_join(pthread_t thread, void * *ravl_ptr);
+		    
+		    说明 pthread_join :
+				   1） 调用进程将一直阻塞， 直到指定的线程调用pthread_exit, 从启动例程中返回， 或是被其他线程取消
+				   2） 如果线程简单的从它的启动例程中返回, ravl_ptr就包含返回码， 如果线程被取消， 由rval_ptr指定的内存就设置为
+					  PTHREAD_CANCELED
+				   3)   如果线程处于分离状态， pthread_join 调用就会失败， 返回 EINVAL 
+				   
+		int pthread_cancel(pthread_t tid);
+		// 取消同一进程中的其他线程
+		// 如同	pthread_exit(PTHREAD_CANCELD);
+		// 线程可以选择忽略取消或者控制如何被取消
+		
+		void pthread_cleanup_push(void (*rtn)(void *), void *arg);
+		void pthread_cleanup_pop(int execute);
+		
+		pthread_cleanup_push()压栈的“清理函数”会被调用的三种情况：
+		   1） 线程调用 pthread_exit() 函数
+		   2） 响应取消请求时（其他函数调用 pthread_cancel() 函数）
+		   3)   本线程调用 pthread_cleanup_pop 函数 并且其参数非0
+		   
+		   void pthread_detach(pthread_t tid);
+		   
+		   说明：
+			 创建一个线程默认的状态是joinable, 如果一个线程结束运行但没有被join,则它的状态类似于进程中的Zombie Process,即还有一部分资源
+			 没有被回收（退出状态码），所以创建线程者应该pthread_join来等待线程运行结束，并可得到线程的退出代码，回收其资源（类似于wait,
+			 waitpid)但是调用pthread_join(pthread_id)后，如果该线程没有运行结束，调用者会被阻塞，在有些情况下我们并不希望如此，比如在Web
+			 服务器中当主线程为每个新来的链接创建一个子线程进行处理的时候，主线程并不希望因为调用pthread_join而阻塞（因为还要继续处理之
+			 后到来的链接），这时可以在子线程中加入代码pthread_detach(pthread_self())
+			 或者父线程调用
+			 pthread_detach(thread_id)（非阻塞，可立即返回）
+			 这将该子线程的状态设置为detached,则该线程运行结束后会自动释放所有资源。
+		   
+线程同步：
+
+     1> 互斥量：
+			 #include <pthread.h>
+			 int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr);
+			 int pthread_mutex_destroy(pthread_mutex_t *mutex);
+			 // 变量的初始化
+			 // 对于静态变量可以设置为 常量 PTHREAD_MUTEX_INITIALLIZER(只实用与静态变量)
+			 // 如果动态分配的互斥量， 在释放内存前叙调用 pthread_mutex_destroy
+			 
+			 int pthread_mutex_lock(pthread_mutex_t *mutex);		// 阻塞式
+			 int pthread_mutex_trylock(pthread_mutex_t *mutex);	// 尝试加锁非阻塞
+			 int pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+     2> 函数 pthread_mutex_timedlock:
+     
+			 #include <pthread.h>
+			 int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex, const struct timespc *restrict tsptr);
+			 // 超时指定愿意等待的绝对时间
+			 
+     3> 读写锁
+     
+			 #include <pthread.h>
+			 int pthread_rwlock_init(pthread_rwlock *restrict rwlock, const pthread_rwlockattr_t *restrict attr);
+			 int pthread_rwlock_destroy(pthread_rwlock *rwlock);
+			 
+			 说明：
+				   1） 读写锁有三种状态 : 读模式下加锁状态， 写模式下加锁状态， 不加锁状态
+				   2） 当写加锁状态时， 在这个锁被解锁之前，所有试图对这个锁加锁的线程都会被阻塞；
+					 当读加锁状态时， 所有试图以读模式对他进行加锁的线程都可以得到访问权，但是任何希望以写模式对此锁进行加锁的
+					 线程都会阻塞
+				   3） 当读模式锁住状态时， 当由一个进程试图以写模式获取锁时， 读写锁通常会阻塞随后的读模式请求，这样可以避免读模式锁
+					 长期占用
+					 
+			int pthread_rwlock_rdlock(pthread_rwlock_t *rwlock);
+			int pthread_rwlock_wrlock(pthread_rwlock_t *rwlock);
+			int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
+			
+			// 读写锁的原语条件
+			int pthread_rwlock_tryrdlock(pthread_rwlock_t *rwlock);
+			int pthread_rwlock_trywrlock(pthread_rwlock_t *rwlock);
+			
+			 // 带有超时的读写锁:
+			 int pthread_rwlock_timedrdlock(pthread_rwlock_t *restrict rwlock, const struct timespc *restrict tsptr);
+			 int pthread_rwlock_timedwrlock(pthread_rwlock_t *restrict rwlock, const struct timespc *restrict tsptr);
+			 
+     4> 条件变量 :
+	       
+			 // 初始化 
+			 #include <pthread.h>
+			 int pthread_cond_init(pthread_cond_t *cond, pthread_condattr_t *attr);
+			 int pthread_cond_destroy(pthread_cond_t *cond);
+			 
+			 // 使用 
+			 int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t * mutex);
+			 int pthread_cond_timewait(pthread_cond_t *cond, pthread_mutex_t)
+			  
+			 说明 ： 
+			      1）调用者把锁住的互斥量传给函数 函数然后把调用线程放在等待条件的线程列表上
+				   对互斥量解锁
+			// 解锁
+			int pthread_cond_signal(pthread_cond_t *cond);
+			int pthread_cond_broadcast(pthread_cond_t *cond);
+			
+     5> 自旋锁 ：
+     
+		    // 初始化
+		    #include <pthread.h>
+		    int pthread_spin_init(pthread_spinlock_t *lock, int pshared);
+		    int pthread_spin_destroy(pthread_spinlock_t *lock);
+		    
+		    //加锁
+		    int pthread_spin_lock(pthread_spinlock_t *lock);
+		    int pthread_spin_trylock(pthread_spinlock_t *lock);
+		    int pthread_spin_unlock(pthread_spinlock_t *lock);
+		    
+     6> 屏障:
+     
+		    // 初始化 
+		    #include <pthread.h>
+		    int pthread_barrier_init(pthread_barrier_t * barrier, pthread_barrierarrier_t *attr, unsigned int count);
+		    int pthread_barrier_destroy(pthread_barrierattr_t *barrier);
+		    
+		    // 使用
+		    int pthread_barrier_wait(pthread_barrier_t *barrier);
+	       
+	  

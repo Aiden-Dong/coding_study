@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>事件处理</title>
+        <link rel="stylesheet" href="event.css" charset="utf-8">
+        <script type="text/javascript" charset="utf-8">
+           
+            /*
+            *   1>事件流：
+            *               -> 事件冒泡 : 具体元素逐级向上到不具体的节点
+            *               -> 事件捕获 : 由非具体节点逐级向下到具体节点
+            *               -> DOC事件流：
+            *                           > 事件捕获阶段
+            *                           > 处于目标阶段
+            *                           > 事件冒泡阶段
+            *   2> 事件处理程序：
+            *               -> DOM0 级事件处理程序：
+            *                       1> 使用DOM0级方法指定的事件处理程序被认为是元素的方法，因此，这时候的事件处理程序实在元素的
+            *                          作用域中运行；换句话说程序中的this 引用的是当前元素
+            *                       2> 删除DOM0级方法 element_name.event_name.null;
+            *               -> DOM2 级事件处理程序: 
+            *                       -> addEventListener(event_name, funciton);      // 添加事件处理程序
+            *                       -> removeEventListener(event_name, funciton);   // 删除事件处理程序
+            *                       说明:
+            *                           1> 移除时传入的参数与添加处理程序时使用的参数相同。
+            *                           2> 通过addEventListener 添加的匿名函数将无法移除。
+            *               -> IE 事件处理程序；
+            *                        -> attachEvent(event_name, function);          // 添加事件处理程序；
+            *                        -> detachEvent(event_name, funciton);          // 删除事件处理程序；
+            *           
+            *
+            *                       
+            *
+             */
+            
+        </script>
+    </head>
+    <body id="body_id">
+        <form class="form_class" id="form_id">
+            <fieldset>
+            <legend id="legend_id">事件表单</legend>
+            <div id="div_form">
+                <div id="table_div">
+                <table id="login_id">
+                    <tr>
+                        <td class="cell_class">用户名:</td>
+                        <td class="cell_class">
+                            <input class = "text_input" id = "text_id" type="text" name="login_name"  maxlength=20>
+                        </td>   
+                    </tr>
+                    <tr>
+                        <td class="cell_class">密码:</td>
+                        <td class="cell_class">
+                            <input class= "text_input" id="passwd_id" type="password" name="login_passwd" max_length=20>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                </br>
+                <div id="button_div">
+                    <table>
+                        <tr>
+                            <td class="button_id">
+                                <input type="button" id = "cancel_button" class="button_input" name="Cancel" value="cancel">
+                            </td>
+                            <td class="button_id">
+                                <input type="button" id="submit_button" class="button_input" name="Submit" value="submit">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            </fieldset>
+        </form>
+    <script tyep="text/javascript" charset="utf-8">
+        /*
+        *           DOM0 级事件处理方法
+        */
+        
+        var cancel = document.getElementById("cancel_button");
+        var submit = document.getElementById("submit_button");
+        var text = document.getElementById("text_id");
+        var passwd = document.getElementById("passwd_id");
+        
+        alert(cancel.nodeName + ":" + cancel.name + ":" + cancel.value);
+        submit.onclick = function(){
+            alert(text.nodeName + ":" + text.name + ":" + text.value + "\n"+
+                 passwd.nodeName + ":" + passwd.name + ":" + passwd.value);
+        }
+        
+        /*
+        *   DOM2 级事件处理方法
+        */
+        if(typeof cancel.addEventListener != "undefined"){
+            cancel.addEventListener("click", function(){
+                text.value = "";
+                passwd.value = "";
+            })  
+        }else{
+            cancel.attachEvent("onclick", function(){
+                text.value = "";
+                passwd.value = "";
+            })
+        }
+            
+        
+    </script>
+    </body>
+</html>

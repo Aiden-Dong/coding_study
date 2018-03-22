@@ -1,0 +1,41 @@
+<!------------------------------------------------------------------------
+应用类：
+      类可以无限次的使用， 因此他是应用CSS的非常灵活的方法
+-------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Class</title>
+    <style type="text/css">
+      /*
+          class用法 一：能在任意元素中使用
+      */
+      .one{
+        color: green;
+        text-align: center;
+        font-size: 30px;
+        font-style: italic;
+      }
+      /*
+      *     class 用法二： 只能在指定元素中使用
+      */
+      li.stl{
+        color: red;
+        font-size: 30px;
+      }
+
+      p#one{
+        font-weight:bold;;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="one">Hello world</h1>
+    <p class="one"  id="one">Hello world</p>
+    <ul>
+      <li class="stl">hello world</li>
+      <li class="stl">hello world</li>
+    </ul>
+  </body>
+</html>

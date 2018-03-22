@@ -1,0 +1,88 @@
+﻿	GennericServlet 是所有 Servlet 的鼻祖
+	用于 HTTP 的 Servlet 编程都通过继承 javax.servlet.http.HttpServlet 实现
+	请求方法：（分别对应 http 协议的 7 中请求）
+	doGet 	// 响应Get请求，常用
+	doPost	// 响应Post 请求， 常用
+	doPut		// 用于http1.1协议
+	doDelete			// 用于http1.1协议
+	doHead				// 仅响应Get请求
+	doOptions			// 用于 http1.1协议
+	doTrace				// 用于http1.1协议
+	
+->HTTP1.1 请求报头
+	Accept						: 浏览器或其他客户程序能够处理的MIME类型
+	Accept-Charset		: 浏览器可以使用的字符集
+	Accept-Encoding 	: 浏览器可以处理的编码类型
+	Accept-Language		: 客户程序可以处理的语言
+	Connection				: 浏览器是否能够处理持续的HTTP链接
+	Content-Length		: Post请求， 给定Post 的数据大小
+	Cookie						: 返回客户端的Cookie
+	Host							: 主机名+端口
+	if-Modified-Since	: 页面在指定的日期之内发生更改的情况下，客户程序才能获取这个页面
+	Referer						: 客户前一个页面的URL
+	User-Agent				: 这个报头指明客户端或其他客户程序
+	------------------------------------------------------------------------------------------
+	host : 127.0.0.1:8080
+	user-agent : Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0
+	accept : text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+	accept-language : zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+	accept-encoding : gzip, deflate
+	connection : keep-alive						
+	cache-control : max-age=0
+	------------------------------------------------------------------------------------------
+
+-> HTTP状态代码：
+			100-199	： 信息性代码， 标志客户应该采取的其他动作
+					-> 100[SC_CONTINUE] 			: 告诉浏览器继续 
+			200-299 : 表示请求成功
+					-> 200[SC_OK] 						：表示一切正常
+					-> 202[SC_ACCEPTED] 			: 已接受
+					-> 204[SC_NO_CONTENT]			: 没有新文档
+					-> 205[SC_RESET_CONTENT]	: 重置内容
+			300-399 : 用于那些已经移走的文件， 常常包括Location 报头， 指出新的地址
+					-> 301[SC_MOVED_PERMANENTLY] : 被永久移动
+					-> 302[SC_FOUND]						 : 找到文件
+					-> 304[SC_MODIFIED]					 : 文档未发生更改
+					 
+			400-499 : 表明由客户引发的错误
+				 -> 400[SC_BAD_REQUEST]				: 错误请求
+				 -> 401[SC_UNAUTHORIZED]			: 未授权
+				 -> 403[SC_FORBIDDEN]					: 资源不可用
+				 -> 404[SC_NOT_FOUND]					: 未找到
+				 -> 405[SC_METHOD_NOT_ALLOWED]: 方法不允许
+				 -> 415[SC_UNSUPPORTED]				: 不支持的媒体类型
+	
+			500-599 : 由服务器引发的错误 
+				-> 500[SC_INTERNAL_SERVER_ERROR]:	服务器内部错误
+				-> 501[SC_NOT_IMPLEMENTED]			: 未实现
+				-> 503[SC_SERVICE_UNAVAILABLE]:服务不可用		
+	// 获取客户端信息
+	
+				request.getMethod();			// 获取客户端的请求方法
+				request.getRequestURI();	// 获取客户端的请求URI
+				request.getQueryString();	// 返回表单数据
+				request.getProtocol();		// 获取客户端的请求协议
+				----------------------
+				Method :GET
+				URI:/test/Clientmsg
+				Query :null
+				Protocol : HTTP/1.1
+				---------------------
+	protect void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+	}
+	
+	protect void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+	}
+	req 代表客户端的访问信息
+			
+			-> Sting 				getParameterNames();			// 获取请求信息的所有name属性
+			-> Enumeration 	getParameter(Str);				// 根据name 属性返回value属性
+			-> String[] 		getParameterValues(str)	  // 根据name 属性返回所有的value属性
+
+		// 获取客户端请求的报头信息:
+				Enumeration request.getHeaderNames();		
+				String			request.getHeader();
+
+	resp 代表服务器给客户端的回馈信息
+			-> PrintWriter	getWriter();							// 获取写入流
+	

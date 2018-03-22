@@ -1,0 +1,10 @@
+模板具体化 ：
+
+	隐式实例化 ：
+		在程序运行时，通过函数模板自动生成的实例成为隐式实例；
+
+	显式实例化 ：
+		例如 ： template void swap <int> (int a , int b) ;
+	显示具体化 ：
+		例如 ： template<>void swap <int>(int a , int b) { } 
+			template<>void swap (int a , int b) { }

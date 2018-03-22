@@ -1,0 +1,31 @@
+<!---------------------------------------------------------------------------
+frameset：         // 用来设置多框架结构的声明
+  格式：
+          <frameset>
+              <frame>
+              <frame>
+          </frameset>
+  <frameset> 下的属性：
+            cols                // 设置直排的多窗框环境
+            rows                // 设置横排的多窗框环境
+            border              // 设置边框的宽度
+            frameborder        // 页面与页面的边距
+  <frame 属性>
+          src:          // 链接的页面
+          noresize      // 不允许自动改变框架大小
+          scrolling     // 滚动条 -- yes | no | auto
+          marginheight  // 垂直方向， 窗体内容与边界的距离
+          marginwidth   // 水平方向， 窗体内容与边界的距离
+          frameborder   // 是否出现窗体边
+----------------------------------------------------------------------------->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>框架</title>
+  </head>
+  <frameset rows="30%,70%" border="0">
+    <frame src="../3-表格/table.html">
+    <frame src="../3-表格/viptable.html" marginheight="50">
+  </frameset>
+</html>

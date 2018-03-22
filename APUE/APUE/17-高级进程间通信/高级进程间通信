@@ -1,0 +1,52 @@
+UNIX 域套接字：
+
+	  // 创建一对无命名的相互连接的UNIX套接字
+	  #include <sys/socket.h>
+	  int socketpair(int domain, int type, int protocol, int sockfd[2]);
+	  
+	  说明：
+		    1)  UNIX 域套接字仅仅复制数据， 它们并不执行协议处理， 不需要添加或删除网络报头，无需计算校验和，不要产生顺序号
+		    2）UNIX 域套接字提供流和数据包两种接口， UNIX 域数据报服务是可靠的， 即不会丢失报文也不会传递出错
+		    3）对相互连接的UNIX 域套接字可以起到全双工管道的作用， 两端对读和写开放
+		    
+命名UNIX 域套接字：
+
+	  UNIX 域套接字的地址 由 sockaddr_un 结构表示
+										struct sockaddr_un{
+										sa_family_t	sun_family;
+										char			sun_path[108];
+										}
+	说明：
+		    1）如果我们试图绑定一个已经被绑定过的文件时， 那么 bind 请求会失败。 当关闭套接字时， 并不自动删除该文件， 所以必须确保在
+			 应用程序退出前，对该文件执行接触链接操作 
+		    2）确定绑定地址长度的方法是， 先计算sun_path 成员在 sockaddr_un 结构中的偏移量 ， 然后将结果与路径长度向加
+
+传送文件描述符
+
+	  说明：
+		    1) 为了传送文件描述符， 调用 sendmsg 和 recvmsg 函数
+			      struct msghdr{
+			      void 			*msg_name;
+			      socklen_t		msg_namelen;
+			      struct iovec		*msg_iov;
+			      int 			msg_iovlen;
+			      void			*msg_control;
+			      socklen_t		msg_controllen;
+			      int			msg_flags;
+			      }
+	  
+			2) msg_control 指向 cmsg_hdr 结构
+									   struct cmshdr{
+									   socklen_t		cmsg_len;		// cmsghdr 结构加上一个整形长度
+									   int 				cmsg_level;	// SOL_SOCKET
+									   int 				cmsg_type;		// SCM_RIGHTS
+									   }
+									   
+			3) 访问权仅仅能通过UNIX 域套接字传送， 描述符紧随cmsg_type 字段之后存储
+			
+			#include <sys/socket.h>
+			unsigned char *CMSG_DATA (struct cmsghdr *cp); 			//指向与cmsghdr结构相关联的数据
+			struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *mp); 		// 指向与msghdr 结构相关联的第一个cmsghdr结构
+			struct cmsghdr *CMSG_NXTHDR(struct msghdr *mp, struct cmsghdr *cp);	指向msghdr 结构相关联的下一个cmsghdr 结构
+			unsigned int CMSG_LEN(unsigned int nbytes);			// 返回为nbytes 长度数据对象分配的长度
+			

@@ -1,0 +1,18 @@
+table{
+  height: 200px;
+  width: 200px;
+  background: #8AA5B7;
+}
+
+td{
+  margin:0px;
+}
+
+th{
+  margin: 0px;
+  background: #9A65B7;
+}
+
+td#two{
+  background: #6789B7;
+}

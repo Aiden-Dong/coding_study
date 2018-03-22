@@ -1,0 +1,76 @@
+*{
+
+}
+body#body_id{
+    background-color:#47484b;
+    padding: 50px;
+}
+div#div_form{
+    text-align: center;
+}
+div#div_login_window{
+    width:600px;
+    padding: 20px;
+    display: inline-block;
+    background-color:darkgray;
+    clear: both;
+}
+div#table_div{
+    margin-top:20px;
+    display: inline-block;
+    background-color:darkgreen;
+    clear:both;
+}
+table#login_id{
+    border-style: none;
+    color:chocolate;
+    font-size:25px;
+    font-weight: bold;
+}
+td.cell_class{
+    margin: 10px;
+    padding: 20px;
+}
+input.text_input{
+    height: 25px;
+    width:300px;
+    font-size: 20px;
+    font-weight: bold;
+    color:burlywood;    
+}
+legend#legend_id{
+    color:blueviolet;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+div#show_text{
+    width: 400px;
+    height:60px;
+    text-align: left;
+    font-size: 20px;
+    font-weight: bold;
+    color:darkolivegreen;
+    background-color: cadetblue;
+    display: inline-block;
+    overflow: scroll;
+    margin:5px;
+}
+div#button_div{
+    display:inline-block;
+    padding: 5px;
+    border: 2px dashed blue;
+}
+td.button_id{
+    padding-left: 20px;
+    padding-right: 20px;
+    clear: both;
+}
+input.button_input{
+    width:80px;
+    height: 35px;
+    background-color: cadetblue;
+    font-size: 20px;
+    color:chocolate;
+    font-weight: bold;
+}

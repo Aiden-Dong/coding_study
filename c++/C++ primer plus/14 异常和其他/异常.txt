@@ -1,0 +1,156 @@
+异常：
+
+	调用 abort () ； 
+
+	
+	异常机制：
+
+		处理分三部分组成 ：
+			
+				引发异常 ；             //  throw  
+				使用处理程序捕获异常 ；  //  catch
+				使用 try 块; 
+
+		栈解退 ：
+
+			当函数出现异常而终止时 ， 则程序也将释放栈中的内存 ， 一直释放 ， 直到找到一个位于try 块中的
+			返回地址 ；  随后控制权转到块尾的异常处理程序 ， 而不是调用后面的第一条语句 ； 这个过程叫栈解
+			退；
+
+	exception 类：
+
+		exception 头文件 ：
+
+			c++ 把 excepion（例外） 类用作其他异常类的基类 ； 
+
+			内部包含了一个 waht ( )的虚拟成员 ， 他返回一个字符串 （）随现实而异 ； 
+
+		stdexcept异常类：
+			
+			logic_error 类：
+
+					domain_error 类：
+						
+						超出定义域引发 domain_error 异常 ；
+					
+					invalid_argument:
+					
+						当传递给了函数意料之外的值时 引发 invalid_argument 异常
+					
+					length_error:
+		
+						当没有足够的空间来执行所需的操作时将引发 length_error 异常
+
+					out_of_bounds ：
+
+						通常用于引索错误时，引发 out_of_bounds 异常 ；
+
+			runtime_error类：  
+
+					range_error 类：
+						
+						当计算结果不再函数允许范围内 ；
+
+					overflow_error 类：
+
+						上溢 ；
+
+					underflow_error 类：
+
+						下溢 ；
+
+		bad_alloc 异常 和 new 
+
+			当无法分配所需内存时 ， 将引发 bad_alloc 异常
+
+			空指针 和 new:
+
+				如：  int * pi = new (std::nothow)int （请求失败时将返回空指针）
+
+	
+	异常何时会迷失方向：
+
+		未捕获异常 ： 没有在 try块 或者 没有匹配的 catch 块  称为未捕获异常
+
+			后果：程序将调用函数 terminate () . 
+
+			      默认情况下 terminate () 调用abort () 函数 ， 但可以调用 set_terminate () 来指定
+			      terminate ()  应调用的函数  ； 
+
+
+				使用方法 ： set_terminate() 将没有返回值不带任何参数的函数作为参数， 如果设置多个 
+				            terminate() 将调用最后一次设置 ；
+
+
+			如：  Myquit （）｛。。。。。。。。。。。。。。。｝；
+			      ste_terminate(Myquit) ;
+
+		意外异常	: 如果它在异常规范中引发的其没有匹配将引发意外异常 ; 
+
+
+	RTTI :
+
+		dynamic_cast 运算符 ： 	
+		
+			例如 ：
+
+			Superb * pm = dynamic_case<Superb *>(pm) ; 
+	
+			指针 pg 能否安全转换为 Superb 指针 如果可以则返回对象地址 否则 返回空指针 ；
+
+		typeid 运算符 和 type_info 类 ：
+
+			typeid (Magnificent) == typeid (* pd)  // 比较两对象是否为同一对象 ；（ture/fulse）
+
+			如果 pd 为空指针将引发 bad_typeid 异常 ； （头文件 typeinfo）
+
+
+	类型转换运算符 ：
+
+		dynamic_cast :
+				dynamic_cast <type-name>(expression) ;
+
+				功能 ： 允许类层次结构进行向上转换， 而不允许其他转换 ；
+
+		const_cast:
+
+			 	const_cast <type-name> (experssion) ; 
+				
+				功能： 可以修改 const.volatile
+		
+				注意 ：  如果是一个const 指针指向 const 常量 则修改后 无法改变值 ；
+
+		static_cast :
+
+				static_cast <type-name>(experssion)
+
+				仅当 type-name 可以隐式转换为 experssion 或experssion 可以隐式转换为 type-name时方可
+				转换
+、
+		reinterpert_cast:
+				
+				见书中详解 ； 
+
+
+	
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			

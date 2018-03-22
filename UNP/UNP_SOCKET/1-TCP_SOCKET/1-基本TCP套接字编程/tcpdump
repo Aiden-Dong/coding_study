@@ -1,0 +1,39 @@
+// 三次握手
+22:22:46.510758 IP (tos 0x0, ttl 64, id 29789, offset 0, flags [DF], proto TCP (6), length 60)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [S], cksum 0x8425 (incorrect -> 0xdf97), seq 4036226398, win 29200, options [mss 1460,sackOK,TS val 10656003 ecr 0,nop,wscale 7], length 0
+22:22:46.511781 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 60)
+    192.168.1.80.8068 > 192.168.1.86.56132: Flags [S.], cksum 0x1ac4 (correct), seq 519747379, ack 4036226399, win 14480, options [mss 1460,sackOK,TS val 3745757 ecr 10656003,nop,wscale 6], length 0
+22:22:46.511843 IP (tos 0x0, ttl 64, id 29790, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [.], cksum 0x841d (incorrect -> 0x8139), seq 1, ack 1, win 229, options [nop,nop,TS val 10656004 ecr 3745757], length 0
+// 数据交互报
+22:23:15.428891 IP (tos 0x0, ttl 64, id 29791, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0x7e57), seq 1:13, ack 1, win 229, options [nop,nop,TS val 10684921 ecr 3745757], length 12
+22:23:15.430415 IP (tos 0x0, ttl 64, id 37098, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.1.80.8068 > 192.168.1.86.56132: Flags [.], cksum 0x9f43 (correct), seq 1, ack 13, win 227, options [nop,nop,TS val 3774675 ecr 10684921], length 0
+22:23:22.888129 IP (tos 0x0, ttl 64, id 37099, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.80.8068 > 192.168.1.86.56132: Flags [P.], cksum 0xf034 (correct), seq 1:13, ack 13, win 227, options [nop,nop,TS val 3782133 ecr 10684921], length 12
+22:23:22.888246 IP (tos 0x0, ttl 64, id 29792, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [.], cksum 0x841d (incorrect -> 0x64ef), seq 13, ack 13, win 229, options [nop,nop,TS val 10692381 ecr 3782133], length 0
+// 线路短缺 -- 重传数据包
+22:24:15.404879 IP (tos 0x0, ttl 64, id 29793, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0x05de), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10744897 ecr 3782133], length 12
+22:24:15.606196 IP (tos 0x0, ttl 64, id 29794, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0x0514), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10745099 ecr 3782133], length 12
+22:24:15.808192 IP (tos 0x0, ttl 64, id 29795, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0x044a), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10745301 ecr 3782133], length 12
+22:24:16.213205 IP (tos 0x0, ttl 64, id 29796, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0x02b5), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10745706 ecr 3782133], length 12
+22:24:17.023229 IP (tos 0x0, ttl 64, id 29797, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0xff8a), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10746516 ecr 3782133], length 12
+22:24:18.643146 IP (tos 0x0, ttl 64, id 29798, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0xf936), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10748136 ecr 3782133], length 12
+22:24:21.883213 IP (tos 0x0, ttl 64, id 29799, offset 0, flags [DF], proto TCP (6), length 64)
+    192.168.1.86.56132 > 192.168.1.80.8068: Flags [P.], cksum 0x8429 (incorrect -> 0xec8e), seq 13:25, ack 13, win 229, options [nop,nop,TS val 10751376 ecr 3782133], length 12
+// 断开线路后重新测量
+22:50:33.899904 ARP, Ethernet (len 6), IPv4 (len 4), Reply 192.168.1.80 is-at 08:00:27:35:3b:d3 (oui Unknown), length 46
+22:50:29.268707 IP (tos 0x0, ttl 64, id 58246, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.1.80.8068 > 192.168.1.86.56137: Flags [F.], cksum 0x454d (correct), seq 1, ack 1, win 227, options [nop,nop,TS val 5408482 ecr 12185106], length 0
+22:50:29.268918 IP (tos 0x0, ttl 64, id 44825, offset 0, flags [DF], proto TCP (6), length 52)
+    192.168.1.86.56137 > 192.168.1.80.8068: Flags [F.], cksum 0x841d (incorrect -> 0x3b2a), seq 8, ack 2, win 229, options [nop,nop,TS val 12318761 ecr 5408482], length 0
+22:50:29.269903 IP (tos 0x0, ttl 64, id 0, offset 0, flags [DF], proto TCP (6), length 40)
+    192.168.1.80.8068 > 192.168.1.86.56137: Flags [R], cksum 0xc201 (correct), seq 3479674802, win 0, length 0

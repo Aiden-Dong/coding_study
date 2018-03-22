@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>闭包</title>
+    <script type="text/javascript"  charset="utf-8">
+      /*
+      * 闭包：
+      *     -> 词法表示包括不必计算的变量的函数。 也就是说， 该函数能够使用函数外定义的变量
+      */
+      // 形式一
+      var name = "one";
+      var obj ={
+        name: "two",
+        getName:function() {
+          return function(){
+            return this.name;
+          }
+        }
+      };
+      alert(obj.getName()());
+      // 形式二
+      var name = "one";
+      var obj ={
+        name: "two",
+        getName:function() {
+          var th = this;        // 此处是 th 调用了 this ； this 指向了 th
+          return function(){
+            return th.name;
+          }
+        }
+      };
+      alert(obj.getName()());
+
+      // 闭包 : 一个函数 可以访问另一个函数作用域中的变量
+      // 封闭性: private 有保护变量的作用
+       function f(x){
+         var temp = x;
+         return function(x){
+           temp += x;
+           alert(temp);
+         }
+       }
+       f(50)(5);
+
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

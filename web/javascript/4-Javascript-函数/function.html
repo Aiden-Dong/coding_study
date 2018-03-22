@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>函数</title>
+    <script type="text/javascript"  charset="utf-8">
+      /*
+      * 说明：
+      *       -> 无返回值类型；
+      *       -> 函数可以遣套， 使用时要注意作用域
+      *       -> 静态区在程序执行之前会首先分配内存， 而动态区则顺序执行
+      *       -> 作用域问题:
+      *                     -> function语句形式 跟 函数直接增量形式 使用局部变量优先
+      *                     -> 构造函数形式具有顶级作用域
+      */
+
+      /*
+      * 函数定义的三种方式
+      */
+      // function 语句形式   -- 使用预解析模式
+      function test1(str){
+        alert(str);
+        return "hello world";
+      }
+      alert(test1("hello spring"));
+
+      // 函数直接增量模式     -- 使用顺序解析模式
+      var test2 = function(str){
+        alert(str);
+        return "hello world2";
+      }
+      alert(test2("the one"));
+
+      // 通过Function 构造函数定义函数 -- 使用顺序解析
+      var test3 = new Function("str", "alert(str);return \"hello world\";");
+      alert(test3("the zero"));
+
+      /*
+      *   函数的参数
+      */
+      // 形参与实参个数可以不相等
+      function fun1(th1, th2){
+        alert(fun1.length);   // 获取形参长度 法一
+        //alert(fun1[1]); --- error
+
+        // 标准形式
+        alert(arguments.length);          // 获取实参个数
+        // arguments.callee   代表此函数本身
+        alert(arguments.callee.length);   // 获取形参个数 -- 法二
+        alert(th1+" : " + th2);
+      }
+      fun1("saligia");            // saligia : undefined
+
+      /*
+      * this 对象
+      */
+
+      // this 对象时在运行时期基于执行环境所绑定的
+      // this 对象指向调用者
+
+      var k = 10;
+      function set1(){
+        this.k = 20;      // 谁调用了本函数, this 就指向谁;
+      }
+      set1();
+      alert(k);
+
+      /*
+      *  将一个函数绑定到 特定的作用域中 -- 扩充函数的作用域
+      */
+
+      function summer(var1, var2){
+        return var1+var2;
+      }
+      // call 方法： // 赋给函数一个作用域， 一般将其作为调用函数的作用域
+      function callfunc(var1, var2){
+        return summer.call(this, var1, var2);
+      }
+      // apply 方法：
+      function applyfunc(var1, var2){
+        return summer.apply(this,[var1, var2]);
+      }
+      alert(callfunc(15, 20));
+      alert(applyfunc(15, 20));
+      // 扩充作用域
+      color = "green";
+      function test4() {
+        alert(this.color);
+      }
+      var obj={
+        color:"red",
+        name:"saligia"
+      };
+      test4();
+      test4.call(obj);                      // 指定其作用域
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

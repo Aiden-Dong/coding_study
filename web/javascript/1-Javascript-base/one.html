@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta  charset="utf-8">
+	<title>Javascript one</title>
+</head>
+<body>
+	<!-------- defer 延迟执行 ---->
+	<!------- 当页面都加载完毕在加载 -->
+	<script type="text/javascript"	defer="defer"	charset="utf-8">
+		// 弹出警告框 窗口对象
+		window.alert("hello world window");
+
+		// html 文档对象
+		document.write("hello world html");
+
+		// 控制台对象
+		console.info("hello world console");
+	</script>
+	<!--------- 外部引入 javascript --->
+	<script type="text/javascript"	src="one.js"	charset="utf-8">
+	</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+getch ( )
+	1.getch ( )包含着头文件 conio.h 内
+        2.getch ( )接受并打印字符（单个）；

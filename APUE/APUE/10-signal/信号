@@ -1,0 +1,216 @@
+产生信号的条件：
+	  
+	  1） 当用户按下某个终端键
+	  2）	硬件异常产生的信号
+	  3）	用户可调用 kill(1) 命令将信号发送给其他进程
+	  4）	用户可调用 kill(2) 函数将任意信号发送给另一个进程或进程组
+	  5）	当检测到某种软件条件已经发生， 并应将其通知有关进程时也产生信号
+	  
+信号的处理方式：
+
+	  1）	忽略此信号 	// 有两个信号不能被忽略 SIGKILL	SIGSTOP
+	  2）	捕捉到信号		// 不能捕捉两个信号	SIGKILL 	SIGSTOP
+	  3） 执行系统默认动作
+	  
+函数 signal :
+
+	  #include <signal.h>
+	  void(*signal(int signo, void (*func)(int))) (int);
+	  // 若成功， 返回以前的信号处理配置； 若失败， 返回SIG_ERR
+	  // func 的取值 ：
+				   SIG_IGN : 	 忽略此消息
+				   SIG_DFL :	 接受到此信号后的动作是系统默认动作
+				   指定函数地址：则在信号发生时， 调用该函数（捕捉该信号）
+	说明：
+	       1） 不改变信号的处理方式就不能确定信号的当前处理方式
+	       2） 当一个进程调用 fork 时，其子进程继承父进程的信号处理方式。因为子进程在开始时复制了父进程的内存映像，所以信号捕捉函数
+		     的地址在子进程中是有意义的
+
+不可靠的信号
+	  
+	       说明 ： 
+			 1）不可靠的信号这里指的是： 信号可能会丢失； 一个信号发生了，但进程可能一直都不知道这一点
+			 2）进程每次接受到信号对其进行处理时， 随即将该信号的动作重值为默认值
+			 3） 进程不希望某个信号发生时， 他不能关闭该信号，他能做的以前就是忽略该信号
+			 
+中断的系统调用：
+
+	       系统调用分为两类：
+			 低速的系统调用：
+				   可能会使进程永远阻塞的一类系统调用
+			 其他系统调用：
+	       
+	       自动重启的系统调用：
+			 loctl, read, read, readv, write, writev, wait , waitpid 
+			 // POSIX.1 要求只有中断信号的 SA_RESTART 标志有效时， 实现才充气系统调用； sigaction 函数使用这个标志允许应用程序请求重
+			 // 启动被中断的系统调用
+可重入函数：
+		
+		不可重入函数的原因:
+			 1）	他们使用静态数据结构
+			 2）	他们调用malloc 和free
+			 3)	他们时标准 I/O 函数
+			 
+	       注意：
+			 如果在信号处理程序中涉及全局变量例如 errno 的变量值时， 应该先保存其原变量值， 而后调用操作， 退出时注意恢复其原变量值
+		
+		说明： 对不可重入函数的处理：。。。。。。。。。。。。。。。。。
+
+SIGCLD 语义 ：
+
+	  处理方式:
+		    1）如果进程明确的将信号的配置设置为 SIG_IGN,  则调用进程的子进程将不产生僵死进程
+		    2）如果将SIGCLD 信号不好， 则内核立即检查是否有子进程准备好被等待， 如果是这样， 则调用 SIGCLD 处理程序
+		    
+可靠的信号术语和语义：
+
+函数kill 和 raise:
+
+			 #include <signal.h>
+			 int kill(pid_t pid, int signo); 		// pid 的处理方式类似与waitpid
+			 int raise(int signo);
+	       
+	       说明：
+			 1） 进程将信号发送其他进程需要权限， 超级用户可以将信号发送给任意进程，对于非超级用户，其基本规则是发送者的实际用户ID
+				或有效用户ID 必须等于接受者的实际用户ID 或有效用户ID （如果POSIX_SAVED_IDS有效， 则检查 设置用户ID）
+			 2)	如果被发送的信号是SIGCONT， 则进程可将它发送给属于同一会话的任意其他进程
+			 3）	如果向一个并不存在的进程发送信号， 则 kill 发送 -1 ， errno 被置为 ESRCH
+		    
+函数alarm 和pause:
+
+	       #include <unistd.h>
+	       unsigned int alarm(unsigned int seconds); 	// 0 或 之前设置的闹钟时间的余留秒数
+	       int pause();		// 使进程挂起直至捕捉到一个信号
+	       说明：
+		    1）每个进程只能设置一个闹钟时间， 如果在调用alarm 时，之前已经为该进程注册的闹钟时间还没有超时， 则闹钟时间的余值作为本次
+			 alarm 函数调用的值返回， 以前被设置的闹钟时间则被新值代替
+		    2） 如果 seconds 设置为 0 ， 则表示放弃设置闹钟
+		    3） 默认操作为终止该信号
+		    
+信号集 :
+
+	       #include <signal.h>
+	       int sigemptyset(sigset_t *set);				// 初始化信号集（清空）
+	       int sigfillset(sigset_t *set); 					// 初始化信号集（填满） 
+	       int sigaddset(sigset_t *set, int signo);			// 增加一个信号
+	       int sigdelset(sigset_t *set);					// 删除指定信号
+		    // 成功返回 0 ， 失败返回 -1
+	       int sigismember(const sigset_t *set, int signo);	 // 测试某个信号是否在信号集中 
+		    // 存在返回 1 ， 不存在返回 0
+		    
+函数 sigprocmask:
+
+	       #include <signal.h>
+	       int sigprocmask(int how, const sigset_t * restrict set, sigset_t *restrict oset);
+	      
+	      功能： 设置信号屏蔽字
+	      
+	      how :
+			 SIG_BLOCK     : 进程的屏蔽字为 当前信号屏蔽字和 set 指向的信号集的并集 
+			 SIG_UNBLOCK : 进程的屏蔽字为 当前信号屏蔽字和 set 的补集           
+			 SIG_SETMASK : 进程的屏蔽字为 set 指向的信号集
+			 
+	       说明 ：
+			 1） 如果set 为空 则不改变该进程的信号屏蔽字
+			 2）在调用 sigprocmask 后如果有任何为决的， 不再阻塞的信号， 则在sigprocmask 返回之前至少将其中之一递送给该进程
+			 3)   oset 返回之前的信号屏蔽状态
+			 
+函数 sigpending  :
+
+	       #include <signal.h>
+	       int sigpending(sigset_t *set);
+	       // 返回当前进程阻塞的不能递送的信号集 
+	       // 再调用 sigismember(const sigset_t , int ); 查看进程的阻塞信号值
+	       
+函数 sigaction ：
+	  
+	       #include <signal.h>
+	       int sigaction(int signo, const struct sigaction * restrict act, struct sigaction *restrict oact );
+	       
+	       说明：
+		    struct sigaction {
+			      void (*sa_handler)(int);						// 包含一个信号捕捉函数的地址
+			      sigset_t sa_mask;							// 设置当调用信号捕捉函数时设置的信号屏蔽字
+			      int sa_flags;								// 指示对信号进行的各项处理
+			      void (*sa_sigaction)(int , siginfo_t , void *);		// 代替的信号处理程序 （当 sa_flags 设置为 SA_SIGINFO 时调用）
+					     }
+					     
+		 1） sa_mask :
+				   1> 在调用该信号捕捉函数之前， 这一信号集要加到进程的信号屏蔽字中， 当从信号捕捉函数返回时，在将进程的信号屏蔽字
+					恢复为原值
+				   2> 在信号处理程序被调用时， 操作系统建立的信号屏蔽字包括被递送的信号
+				   3>	阻塞队列中， 相同信号只会被调用一次
+		2)  sa_flags:
+				   SA_INTERRUPT : 由此信号中断的系统调用不自动重新启动(interrupt: 中断)
+				   SA_RESTART ：  由此信号中断的系统调用自动重新启动
+				   SA_NOCLDSTOP： 对于 SIGCHLD 信号 ， 停止不产生信号， 重置产生仍产生信号
+				   SA_NOCLDWAIT  :  对于 SIGCHLD 信号， 子进程重置不产生 僵死进程 不需要调用wait 回收
+				   SA_SIGINFO : 		对信号处理程序提供了附加信息
+				   
+		标准的 signal 方式：
+				   sigfunc * signal (int signo, sigfunc * func)
+				   {
+					struct sigaction act, oact;
+					act.sa_handler = func;
+					sigemptyset(&act.sa_mask);
+					if(signo == SIGALRM)
+					     act.sa_flags |= SA_INTERUPT;
+					else
+					     act.sa_flags |= SA_RESTART; // 去或运算
+					 if(sigaction(signo, &act, &oact) == -1)
+					     return  (SIG_ERR);
+					     
+					return  func;
+				   }
+				   
+函数 sigsetjmp 和 siglongjmp:
+
+			 #include <setjmp.h>
+			 int sigsetjmp(sigjmp_buf env, int savemask);
+			 int siglongjmp(sigjmp_buf env, int val);
+			 
+		说明 ：
+			 1） savemask ： ！= 0 表示在env 中保存进程的当前信号屏蔽字
+			 2） 调用 setjmp / longjmp 会终端正在处理的嵌套信号， 而调用 sigsetjmp / siglongjmp 不会中断这种信号嵌套
+			 
+函数 sigsuspend ：
+
+	       #include <signal.h>
+	       int sigsuspen(const sigset_t *sigmask);
+	       
+	       说明：
+			 设置一个信号的屏蔽集在捕捉到一个信号或发生了一个会终止该进程的信号之前， 该进程被挂起， 如果捕捉到一个信号而且从该信号
+			 处理程序中返回， 则sigsuspend 返回， 并且该进程的信号屏蔽子设置为调用 sigsuspend 之前的值
+		
+函数 abort 
+		    #include <stdlib.h>
+		    void abort(void);
+		    
+		    说明：
+			      1） 调用 abort 向主机环境递送一个未成功终止的通知， 其方法是调用 raise(SIGABRT) 函数
+			      2） 若捕捉到此信号而且相应信号处理程序返回， abort 仍不会返回其调用者，；
+			      3） 如果捕捉到此信号， 则信号不能返回的唯一方法是它调用 exit , _exit, _Exit , longjmp 或 siglongjmp
+			      4） POSIX 也说明 abort 并不理会进程对此信号的阻塞和忽略
+			      5） 让进程捕捉 SIGABRT 的意图是：在进程终止之前由其执行所需的清理操作， 如果进程并不在信号处理中终止自己， 则当信号处理
+				    程序返回时， abort 终止该进程， 并对所有打开的流调用 fclose 操作
+				    
+函数 sleep ， nanosleep 和 clock_nanosleep ：
+
+			 #include <unistd.h>
+			 unsigned int sleep(unsigned int seconds);
+			 
+			 说明：
+				   1）此函数使调用进程被挂起直至满足下面两个条件之一
+						  1> 已经过了 seconds 所指定的墙上时钟时间
+						  2> 调用进程捕捉到一个信号并从信号处理程序中返回
+				   2） sleep 是使用 nanosleep 函数实现的使 sleep 具体实现与信号和闹钟定时器相互独立
+				   
+		    #include <time.h>
+		    int nanosleep(const struct timespec *reqtp, struct timespec *remtp);
+		    int clock_nanosleep(clockid_t clock_id, int flags, const struct timespec *reqtp, struct timespec *remtp);
+		    
+		    说明：
+			      1） 此函数挂起调用进程， 直到要求的时间已经超过或者某个信号中断了该函数
+			      2） 如果某个信号中断了休眠间隔， 进程并没有终止， remtp 就会被设置为未休眠完的时间长度
+		    
+信号名 			extern char *sys_siglist[];

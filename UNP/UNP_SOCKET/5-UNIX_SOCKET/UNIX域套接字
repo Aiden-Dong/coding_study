@@ -1,0 +1,25 @@
+UNIX域套接字：
+
+->使用Unix域套接字的特点：
+    1> Unix域套接字通常比通信两端位于同一主机的TCP套接字快出一倍。
+    2> Unix域套接字可用于同一个主机上的不同进程之间传递描述符。
+    3> Unix域套接字可把客户的凭证提供给服务器
+
+-> Unix域套接字地址结构：
+    #include <sys/un.h>
+    struct sockaddr_un{
+      sa_family_t   sun_family;       // AF_LOCAL
+      char          sun_path[104]
+    }
+-> Unix socket 接口
+  #include <sys/socket.h>
+  int socket(int family, int type, int protocol);
+  int socketpair(int family, int type, int protocol, int sockfd[2]);
+  -> 由bind创建的路径名默认访问权限应为0777,并按照当前umask进行修正。
+  -> path 关联的路径名应该是一个绝对路径名,而不是一个相对路径名。
+  -> connect 调用中指定的路径名必须是一个当前绑定在某个打开的Unix域套接字的路径名，而他们的套接字类型也必须一致。
+  -> 调用 connect 连接一个Unix域套接字设计的权限测试等同于 open 以只写的方式访问相应的路径名
+  -> Unix域字节流套接字类似于TCP套接字
+  -> Unix域数据报套接字类似于UDP套接字
+  -> 如果对于某个Unix域字节流套接字的connect调用发现这个监听套接字的队列以满，调用就立即返回 ECONNREFUSED 错误。
+  -> 在一个未绑定的Unix域套接字上发送数据报不会自动给这个套接字捆绑一个路径名。

@@ -1,0 +1,105 @@
+友元：
+
+	友元类：
+
+		1. 友元类的所有方法都可以访问原始类的私有成员部分和保护成员 ；
+		2. 友元声明可以位于共有、私有或保护部分，其所在位置无关紧要 ；
+
+	友元成员函数：
+
+		1. 在类中可以选择仅让特定的类成员成为另一个类的友元 ；
+
+		例如：
+			class TV 
+			{
+				friend void Remote :: set_change (TV & t , int c) ;
+			};
+
+		2. 要注意前向声明 ， 要让 Tv 知道Remote是个类 ， 如：
+
+		class Remote ;
+		class Tv 
+		{}
+		class Remote 
+		｛｝
+		
+		注意 ：
+			不在前面使用定义是因为在类 Remote 有 Tv 的成员定义 ； 
+
+
+	互为友元 ：
+
+		如：
+
+			class Tv 
+			{
+			    friend class Remote ;
+			    public :
+				 void buzz (Remote & t) ;  // 在后面定义 ； 
+				....
+			}
+			class Remote 
+			{
+			   friend class Tv ;
+			 public:
+				void BOOl voiup (Tv & t) {t.voiup () ;}  // 可定义
+			}
+
+
+	共同友元 ：
+		如 ：
+			class Analyzer
+			class Probe
+			{
+			  friend void sync (Analyzer & a , const prober & p );
+			 }；
+			class Analyzer
+			{
+			  friend void sync (Analyzer & a , const prober & p );
+			 }；
+		    
+			inline void sync (Analyzer & a , const prober & p )
+			｛｝
+
+嵌套类 ：
+
+	嵌套类与包含类的区别 ：
+
+			包含类：
+				将类对象用作另一个类的成员 ； 
+			嵌套类：
+				在类中定义另一个类	
+		
+	嵌套类与作用域问题：
+			
+			私有部分 ：
+				 只有才本类中才有使用嵌套类的权利 ；
+			保护部分：
+				 只有在本类以及派生类中才有权访问嵌套类 ；
+			共有部分：
+				可以在本类、派生类以及外部使用嵌套类、但在外部使用要有作用域解析运算符 ；
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

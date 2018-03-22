@@ -1,0 +1,44 @@
+<!-------------------------------------------------------------
+ 浮动的使用：
+          属性名称          属性值               说明
+          float           none                正常
+                          left                左浮动
+                          right               右浮动
+         clear            none                允许两边浮动
+                          left                不允许左浮动
+                          right               不允许右浮动
+                          both                不允许两边浮动
+--------------------------------------------------------------->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>浮动</title>
+    <style type="text/css">
+      .div1{
+        width: 200px;
+        height: 200px;
+        background:red;
+        float: left;
+      }
+      .div2{
+        width: 200px;
+        height: 200px;
+        background: green;
+        float: left;
+      }
+      .div3{
+        width: 200px;
+        height: 200px;
+        background: blue;
+        clear:left;;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="div1"></div>
+    <div class="div2"></div>
+    <div class="div3"></div>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+﻿在 Servlet 中使用 Bean 和在通常程序中使用Bean类似;
+
+		-> 属性名称第一个字母必须小写， 比如 : private productId
+		-> 一般具有 getters and setters
+但 Bean 不应具有GUI表现
+一般是用来实现某一业务逻辑或取得特定结果

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Variable</title>
+        <script type="text/javascript" charset="utf-8">
+            /*
+            *       基本类型 : undefined, number , null, string, boolean, object, function 
+            */
+            // number 类型
+            var one = isNaN("blue");    // NAN 本来要返回数值的操作为返回数值的情况
+            alert(one);
+            var two = 10/0;             // Infinity 表示无穷大
+            alert(two);
+                // number 中的数值转换 ： 
+                 /*
+                    转换规则:
+                        -> boolean 值
+                        -> null 值
+                        -> undefined 转 NaN
+                        -> 字符串：
+                            1> 只包含数字则直接转换
+                            2> 包含有效的十六进制格式 : "0xff";
+                            3> 字符串为空 转 0
+                            4> 字符串中包含其他的字符形式 ： NaN
+                */            
+                alert(Number("1025.5"));
+                                                         
+            // boolean 类型
+                // boolean 的转换问题
+                    alert(Boolean("hello world"));
+            var three = true;
+            alert(typeof three);
+                
+            // null 类型
+            
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

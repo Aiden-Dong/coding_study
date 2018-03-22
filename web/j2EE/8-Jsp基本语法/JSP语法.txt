@@ -1,0 +1,133 @@
+JSP 传统语法：
+	
+		-> Declaration			// 声明
+				基本语法:
+					<%! %>
+							说明： 在此声明的变量，方法都会被保留成唯一的一份， 直到JSP程序停止运行
+					<% %>		// 局部变量声明
+					<%! %>	// 全局变量声明
+					<%= %>  // 输出	
+					
+		-> Scriptlet				// 小程序段
+				基本语法：
+							<%程序代码区%>	// 可以放入任何java 代码
+				注释格式:
+							<%-- .... --%>
+							<%// .....%>
+							<%/* ..... */%>
+				
+				
+		-> Expression			// 注释
+		-> Comment					// 
+		-> Directive				// 编译指令 -- 程序还未运行
+				格式 ： <%@Directive 属性="属性值"%>
+					常见的 Directive:
+										page | include | taglib
+							
+							-> page : 指明与 JSP-page 的沟通方式
+								格式：
+										<%@page 
+												language='java' 
+												import='importList' 
+												errorPage='errorPage' 
+												isErrorPage='true| false' 
+												contentType='contentType'
+												charset="charSet"
+												pageEncoding='charSet'
+										%>
+							-> include : 将指定的jsp 程序或者HTML文件包含进来
+							格式:
+									<%@include file = "fileURL"%>
+									-> JSP Engin 会在JSP程序的转换时期先把file属性设定的文件包含进来， 然后开始执行转换和编译的工作
+									-> 限制， 不能在URL中传递参数
+		-> Action动作指令
+				在运行期间的命令：
+				常见:
+							jsp:useBean
+									-> jsp:setProperty
+									-> jsp:getProperty
+									
+									-> 通过 jsp:useBean, 可以在JSP中使用定义好的Bean
+									-> Bean 的基本要素:
+											-> 必须要有一个不带参数的构造器， 在jsp元素创建Bean时会调用空构造器
+											-> Bean 类应该没有任何公共实例变量， 也就是说，不允许直接访问实例变量，
+												 变量名称首字母必须小写。
+											-> 通过getter/setter 方法来读/写变量的值， 并且将对应的变量首字母改成大写
+									-> 基本用法:
+											<jsp:useBean id="beanName" scope="page|request|session|application" class="package BeanClass" type="typeName"/>
+												<jsp:setProperty name="beanName" property="method" value="propertyValue"/>
+												<jsp:setProperty name="beanName" property="method" param="RequestParam"/>
+												<jsp:getProperty name="beanName" property="method"/>
+											</jsp:useBean>
+												-> jsp:useBean 各项参数的含义:
+														1> id 	    : 对象实例名称
+														2> scope	  : bean 的作用范围
+														3> beanName : bean 的名称
+														4> type 		: bean 实例类型， 可以是本类， 可以是父类， 或实现的接口， 默认是本类
+												-> Scope 各项参数的意义
+														1> page 			: 仅涵盖使用 javaBean的页面
+														2> request		：有效范围仅限于使用 JavaBean的请求 -- 在forward请求中显示
+														3> session 		: 有效范围在用于整个链接过程中
+														4> application:	有效范围涵盖整个应用程序 
+									-> jsp中使用Bean 要求使用包，不要直接使用裸体类
+							jsp:include:/jsp:param 
+									-> 用于动态包含jsp程序或HTML文件等
+									-> 除非这个指令会被执行到，否则他是不会被Tomcat 等JSP Engine 编译
+									-> 格式：
+												<jsp:include page="URLSpec" flush="true"/>
+												<jsp:include page="URLSpec" flush="true">
+															<jsp:param name="ParamName" value="ParamValue"/>
+												</jsp:include>
+									-> jsp:param 用来设定include 文件时的参数和对应的值
+									
+										
+							jsp:forward/jsp:param  // 页面转换
+									-> 用于将一个 jsp的内容传送到 page所指定的jsp程序或者servlet中处理
+									-> 格式:
+											<jsp:forward page="urlSpec" flush="true"/>
+											<jsp:forward page="urlSpec">
+															<jsp:param name="paramName" value="paramValue"/>
+											</jsp:forward>
+											
+									-> 于此对应的是 response.sendRedirect(url);
+									-> 区别：
+											1>  jsp:forward 跟 response.sendRedirect(url) 	都可以传参
+								
+											
+							jsp:plugin
+							
+		内置对象 -- 常用的内置对象以及常用的内置方法
+						
+						-> out：
+											-> println():			// 向客户端输出各种类型数据
+											-> newLine():			// 输出一个换行符
+											-> close():				// 关闭输出流
+											-> flush()				// 输出缓冲区里的数据
+											-> cleanBuffer()	// 清除缓冲区里的数据， 同时把数据输出到客户端
+											-> clean():				// 清除缓冲区里的数据， 但不把数据输出到客户端
+											-> getBufferSize()// 返回缓冲区的大小
+						-> request
+											-> getMethod()												// 返回客户端向服务器传送数据的方法
+											-> getParameter(String paramName)			// 返回客户端向服务器传送的值
+											-> getParameterNames()								// 获取客户端向服务器传送的所有参数名
+											-> getParameterValues(String Name)		// 获取客户端向服务器提交的参数的所有属性值
+											-> getRequestURI()										// 获取客户端的地址
+											-> getRemoteAddr()										// 获取客户端的ip地址
+											-> getRemoteHost()										// 获取客户端的机器名称
+											-> getServerName()										// 获取服务器名称
+											-> getServletName()										// 获取客户端所请求脚本文件的路径
+											-> getServerPort()										// 获取服务器端的端口
+						-> response
+											-> addCookie(Cookie cookie)						// 添加一个Cookie对象，用于在客户端保存对象
+											-> addHeader(String name, String value)// 添加Http头信息
+											-> containsHeader
+						-> pageContext
+						-> session
+										-> void setAttribute(String name, Object value)	
+										-> Object getAttribute(String name)
+										-> boolean isNew()
+						-> application
+										
+						-> confige
+						-> exception
+						-> page 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>MyJavaScript</title>
+    <script type="text/javascript" charset="utf-8">
+      /*
+      * 数据的基本类型：undefined string number null boolean object 类型
+      *						number 类型的值 ：整形，　浮点型，　NAN, Indefined   || Number() . ParseInt() . ParseFloat()   . toString() 
+      *						null 空指针类型：
+      *						boolean 类型： true or false;  || Boolean() 
+      *						
+      */
+      
+      function sumNum(num){
+        if(!(typeof num == "number")){
+          alert("请输入数据");
+          return;
+        }
+
+        if(num == 1){
+          alert(arguments.callee.caller);
+          return num;
+        }
+        else {
+          return num + arguments.callee(num-1);
+        }
+      }
+      function the(){
+        return sumNum(1);
+      }
+      alert(sumNum.length);
+      alert(the());kj
+
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

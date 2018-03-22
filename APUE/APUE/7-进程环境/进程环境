@@ -1,0 +1,79 @@
+进程终止：
+
+     正常终止方式：
+		    1）从main 中返回;
+		    2）调用exit ;
+		    3）调用 _exit或 _Exit
+		    4）最后一个线程从其启动历程中返回
+		    5）从最后一个线程调用 pthread_exit 
+	异常终止：
+		    1）调用 abort
+		    2）接受到一个信号
+		    3）最后一个线程对取消请求作出相应
+		    
+	退出函数：
+			 #include <stdio.h>
+			 void exit(int status);
+			 void _Exit(int status);
+			 #include <unistd.h>
+			 void _exit(int status);
+			      
+			 说明：
+				   1）这三个函数可以正常终止程序， _exit 和_Exit 立即进入内核， exit 则先执行一些处理， 然后返回内核
+				   2）exit 函数总是执行一个标准I/O库的清理关闭操作： 对于所有打开流调用fclose 函数
+	终止清理程序：
+			 #include <stdlib.h>
+			 int atexit(void (*func) (void));	
+			 说明：
+				   一个进程最多可以等级 32 个函数， 这些函数将由 exit 自动调用
+				   
+环境表：
+	       
+	       extern char ** environ;			// 全局变量指针（环境字符串）
+	       
+存储空间的分配：
+
+	       #include <stdlib.h>
+	       void *malloc(size_t size);						// 分配 size 大小的动态存储区
+	       void *calloc(size_t nobj , size_t size);   				// nobj * size;
+	       void *realloc(void *ptr, size_t newsize);				// 调整动态存储区的大小
+	       void *free(void *ptr);							// 释放动态分配的内存
+	     
+环境变量：
+	  
+	       #include <stdlib.h>
+	       char *getenv(const char *name);						// 根据变量名（name） 返回变量的值
+	       int putenv(char *ptr);								// 取形式为 name = value 的字符串， 将其放到环境表中
+	       int setenv(const char *name, const char *value, int rewrite);	// 将name 的值设置为value ， name 存在时的操作与 rewirite 参数有关
+													// rewrite == 0   : 不删除其现有定义
+													// rewrite == 1  ：删除其现有定义
+	       int unsetenv(const char *name);						// 删除 name 的定义
+	       
+	       说明：
+			 1）如果要修改一个现有的name ：
+					     如果现有的 name 项小于或等于原name 长度， 则直接在原地址上进行操作， 如果现有name 的长度大于原 name 相
+					     的长度， 则调用 malloc 在堆区分配一个字符串所需空间，然后使环境变量表中针对 name 的指针指向 新的分配区
+			2）如果要增加一个 name :
+					     如果是第一次增加， 则将原环境变量区的数据复制到堆区，并将新的name = value 的变量添加到原变量的最后
+					     如果不是第一次增加， 则直接分配在堆区， 后添加到环境变量的尾部
+
+函数 setjmp 和 longjmp :
+
+			 #include <setjmp.h>
+			 int setjmp(jmp_buf env);
+			 void longjmp(jmp_buf env, int val);
+			 
+			 说明：
+			      在具有 setjmp 和 longjmp 的程序中：
+					要使变量不具有会滚功能， 需使用 ： 全局变量， 静态变量（static）， 易失变量（volatile）
+					而使用 ： 动态变量， 寄存器变量（register） 其值可能会产生回滚
+		
+函数 getrlimit 和 setrlimit:
+			 #include <sys/resource.h>
+			 int getrlimit(int resource, struct rlimit *rptr);		// 获取环境变量的限制值
+			 int setrlimit(int resource, struct rlimit *rptr);		// 设置环境变量的限定值
+			 
+			 说明：
+				   1） 任何一个进程都可将一个软限制值更改为小于或等于其硬限制值，
+				   2） 任何一个进程都可降低其硬限制值， 但必须大于等于其软限制值
+				   3） 只有超级用户才能提高硬限制值

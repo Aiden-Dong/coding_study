@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>变量转换</title>
+    <script type="text/javascript"  charset="utf-8">
+      var a1 = 10;
+      var a2 = 10.0;
+
+      if(a1 == a2)
+        alert("两个不同变量类型的值相等");
+      else {
+        alert("两个值并不相等");
+      }
+
+      var fl = 0.1;
+      if(fl == 0.1)
+        alert("两个浮点数相同");
+      // 表示可以经过自动转换后比较数值
+      // 表示线比较数值， 后比较类型
+      var one = true;
+      var the = 1;
+
+      if(one === the)
+        alert("两个类型相等");
+      else {
+        alert("两种类型并不相等");
+      }
+      
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

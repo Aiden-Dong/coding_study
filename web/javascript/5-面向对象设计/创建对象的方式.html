@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>对象的创建</title>
+        <script type="text/javascript" charset="utf-8">
+            /*
+            *   创建对象的方法 : 
+            *       -> 使用工厂模式:      // 函数调用形式
+            *           function funcname(){
+                            var obj = new Object();
+                              //--------------
+                              //
+                              return obj;
+                        }
+            *       -> 使用构造函数模式:
+                        function Funcname(){
+                            this.property = ...
+                        }        
+                        // 要创建实例必须使用 new 关键字 ；
+                        var obj = new Funcname();
+                            1> 创建一个新对象
+                            2> 将构造函数的作用域赋给新对象
+                            3> 执行构造函数中的代码
+                            4> 返回新对象
+                            
+            *       -> 原型模式:
+                        prototype 就是通过调用构造函数而创建的那个对象实例的原型对象，使用原型对象的好处是可以让所有对象实例共享它所包含的属性和方法
+                        function Funcname(){}
+                        Funcname.prototype.property = {
+                            contructor : Funcname;
+                            .....
+                        }
+                        // 获取原型对象的构造函数 : Funcname.prototype.constructor 
+            *       
+            *           // 构造函数 + 原型模式
+            */
+            var name = "one";
+            function Obj(){
+                this.name = "saligia";
+            }
+            Obj.prototype.show = function(){}
+            //var th = Obj();         // 不存在 th.name
+            var th = new Obj();
+            alert(th.name + ":" + window.name);
+            
+            alert(Obj.prototype.constructor);
+        </script>
+    </head>
+    <body>
+    </body>
+</html>

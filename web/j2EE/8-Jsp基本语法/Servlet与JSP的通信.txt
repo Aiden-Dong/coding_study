@@ -1,0 +1,9 @@
+﻿-> 从JSP调用Servlet可调用<jsp.forward>
+	-> 或者 通过 sendRedirect()
+
+-> 从servlet链接jsp的方法:
+		案例 :
+				resp.setContentType("text/html; charset="utf-8"");
+				req.setAttribute("servletName", "servletToJSP");
+				this.getServletConfig().getServletContext().getRequestDispatcher("/servlet_jsp/servletUSE.jsp").forward(req.resp);
+				

@@ -1,0 +1,11 @@
+body{
+  counter-reset: one;
+}
+
+h3:before{
+  content: " index : " counter(one) " ： ";
+}
+
+h3{
+  counter-increment: one;
+}

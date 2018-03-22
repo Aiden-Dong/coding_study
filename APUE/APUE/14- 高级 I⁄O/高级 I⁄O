@@ -1,0 +1,259 @@
+非阻塞 I/O
+
+	  说明：
+		    1） 如果调用 open 获得描述符， 则可指定 O_NONBLOCK
+		    2)   对于已经打开的一个描述符， 则可调用fcntl, 由该函数 打开 O_NONBLOCK 文件状态标志
+		    
+记录锁：
+
+	fcntl 记录锁：
+	#include <fcntl.h>
+	int fcntl(int fd, int cmd, .../* struct flock *flockptr */);
+	cmd : F_GETLK(尝试创建锁）, F_SETLK （创建锁), F_SETLKW(创建等待锁)
+	// flock 结构
+	struct flock {
+	short l_tye; // F_RDLCK(共享读锁), F_WRLCK(独占性写锁), F_UNLCK(解锁一个区域)
+	short l_whence;
+	off_t l_start;
+	off_t l_len;
+	pid_t l_pid;
+	};
+
+	  说明：
+		     1： 锁与进程跟文件都有关联， 进程关闭时对此文件的所有文件锁都被释放，
+								 文件描述符关闭时此进程在此文件的文件锁都被释放
+		    2： 由fork 产成的子进程不仅继承父进程的文件锁（深刻体会第一条）
+		    3： 执行exec 函数后新进程可以继承原执行程序的锁机制
+
+     建议性锁和强制性锁：
+     
+	       说明：
+			 对一个特定文件打开其设置组 ID 位， 关闭其组执行位便开启了对该文件的强制性锁机制
+I/O多路转接
+
+	  函数select 和 pselect :
+	  
+		    #include <sys/select.h>
+		    int select (int maxfdpll, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict execeptfds, struct timeval *restrict tvptr);
+		     
+		    说明：
+			 1) tvptr 愿意等待的时间长度
+			 2) readfds, writefds, execeptfds 是指向描述符集的指数
+			 3） 对 fd_set 数据类型的处理：
+				   #include <sys/select.h>
+				   int FD_ISSET(int fd, fd_set *fdset); 	// 测试某一给定位是否处于打开状态
+				   void FD_CLR(int fd, fd_set *fdset);	// 清空某一位
+				   void FD_ZERO(fd_set *fdset);		// 清空所有位
+				   void FD_SET(int fd, fd_set *fdset);	// 开启某一位
+				   
+			4） 返回值 :
+			      -1 表示出错： 在锁指定的描述符一个都没有准备好时捕捉到一个信号
+			       0 表示没有描述符准备好
+			     >0 表示已经准备好的描述符之和 
+			5)  如果在一个描述符上碰到了文件尾端， 则 select 会认为该描述符可读， 然后调用 read, 它返回 0
+			
+			#include <sys/select.h>
+			int pselect(in maxfdp1, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict execeptsfds, 
+					const struct timespec *restrict tsptr, 
+					const sigset_t *restrict sigmask);
+	       
+	函数 poll 
+	       
+		    include <poll.h>
+		    int poll (struct pollfd dfarray[], nfds_t nfds, int timeout);
+		    struct pollfd{
+		    int fd; 			//关注的文件描述符
+		    short events;		// 关注的事件
+		    short revents;		// 返回的事件
+		    }
+	  epoll:
+		    说明：
+			      epoll是Linux内核为处理大批量文件描述符而作了改进的poll，是Linux下多路复用IO接口select/poll的增强版本，
+			      它能显著提高程序在大量并发连接中只有少量活跃的情况下的系统CPU利用率。另一点原因就是获取事件的时候，
+			      它无须遍历整个被侦听的描述符集，只要遍历那些被内核IO事件异步唤醒而加入Ready队列的描述符集合就行了。
+			      epoll除了提供select/poll那种IO事件的水平触发（Level Triggered）外，还提供了边缘触发（Edge Triggered），
+			      这就使得用户空间程序有可能缓存IO状态，减少epoll_wait/epoll_pwait的调用，提高应用程序效率。
+			      
+			      水平触发与边缘触发的区别：
+
+				   水平触发: 如果文件描述符已经就绪可以非阻塞的执行IO操作了,此时会触发通知.允许在任意时刻重复检测IO的状态,
+						  没有必要每次描述符就绪后尽可能多的执行IO.select,poll就属于水平触发.
+				  边缘触发: 如果文件描述符自上次状态改变后有新的IO活动到来,此时会触发通知.在收到一个IO事件通知后要尽可能多
+						 的执行IO操作,因为如果在一次通知中没有执行完IO那么就需要等到下一次新的IO活动到来才能获取到就绪
+						 的描述符.信号驱动式IO就属于边缘触发.
+
+				   epoll既可以采用水平触发,也可以采用边缘触发.
+
+				   我们可以举例说明:
+				   一个管道收到了1kb的数据,epoll会立即返回,此时读了512字节数据,然后再次调用epoll.这时如果是水平触发的,epoll会立即返回,
+				   因为有数据准备好了.如果是边缘触发的不会立即返回,因为此时虽然有数据可读但是已经触发了一次通知,在这次通知到现在还没
+				   有新的数据到来,直到有新的数据到来epoll才会返回,此时老的数据和新的数据都可以读取到(当然是需要这次你尽可能的多读取).
+				   
+		#include <sys/epoll.h>
+		int epoll_create(int size);								// 创建epoll 的句柄
+		说明：
+			 当创建好 epoll 句柄后， 它就是会占用一个 fd 值，所以在使用完epoll 后， 必须调用 close() 关闭， 否则可能导致 fd 被耗尽
+
+		int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);		// 事件注册函数	 
+		说明：
+			      1.  epfd 为 epoll_create 的返回值
+			      2.  op：
+					     EPOLL_CTL_ADD: 注册新的 fd 到 epfd 中；
+					     EPOLL_CTL_MOD: 修改已经注册的fd 监听事件；
+					     EPOLL_CTL_DEL：从 epfd 中删除一个 fd;
+			      3. fd 为要监听的描述符
+			      4. event 为告诉内核要监听的事件
+			      5. struct epoll_event{
+					_uint32_t events;	// epoll 监听的事件
+					epoll_data_t data;	// 使用者数据变量
+				  }
+				  typedef union epoll_data{
+				   void *ptr;
+				   int fd;
+				   __uint32_t u32;
+				   __uint64_t u64;
+				  }epoll_data_t;
+				  
+				  events:
+					     EPOLLIN    	  	 : 表示对应的文件描述符可以读
+					     EPOLLOUT		：表示对应的文件描述符可以写
+					     EPOLLPRI 		：表示对应的文件描述符有紧急数据可读
+					     EPOLLERR		： 表示对应的文件描述符发生错误
+					     EPOLLHUP		： 表示对应的文件描述符被挂断
+					     EPOLLET  		： 将EPOLL 设为边缘触发模式
+					     EPOLLLT  		： 将EPOLL 设为水平触发模式
+					     EPOLLONESHOT	： 只监听一次事件， 监听完这次事件后如果还需要继续监听这个描述符的话需要再次把这个 socket 
+									    加入到EPOLL 队列中
+									    
+		int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
+		说明：
+			 收集在epoll 监控的事件中已经发送的事件，函数返回总共的事件socket 数目， epoll将把发生事件的事件赋值到 events 数组中， events
+			 不可以是空指针， 内核不负责分配内存， maxevents 为events 数组的大小不能大与 epoll_create 中的 size;
+			      
+POSIX 异步I/O：
+
+	  struct aiocb{
+	  int 			aio_fildes; 		// 被打开用来读或写的描绘符
+	  int 			aio_offset;		// 文件偏移量
+	  volatile void 	*aio_buf;		// 中间转让内存块
+	  size_t 		aio_nbytes;		// 内存的有效字节块
+	  int 			aio_reqprio;	// 对异步I/O请求提示顺序
+	  struct sigevent  aio_sigevent;	// 控制在时间完成后，如何告知应用程序
+	  int 			 aio_lio_opcode;	// 读 写事件
+	  }
+	  
+	  struct sigevent{
+	  int 		sige_notify;				//控制通知类型
+	  int 		sige_signo;				// 完成时发送的信号
+	  union 	sigval;					
+	  void (*sigev_notify_function)(union sigval);	// 完成时调用的函数
+	  pthread_attr_t *sigev_notify_attributes;	// 指定运行的线程
+	  }
+	  
+	  初始化 AIO 块
+	  
+	  #include <aio.h>
+	  int aio_read(struct aiocb *aiocb);
+	  int aio_write(struct aiocb *aiocb);
+	  int aio_fsync(int op, struct aiocb *aiocb);
+	  
+	  说明 ：
+		    op :
+			 1> O_SYNC ---------------fsync
+			 2> O_DSYNC  -----------datasync
+			 
+	//获取  完成状态
+	int aio_error(const struct aiocb *aiocb); 
+	
+	   返回值：
+			0			异步操作成功完成，需要调用aio_return 获取返回值
+			-1 		   	对 aio_error 调用失败
+			EINPROGRESS	异步读，写或同步操作在等待
+	
+	  //异步操作成功完成：  
+	  ssize_t aio_return(const struct aiocb *aiocb);
+	  
+	  注意：
+		    直到异步操作完成之前, 都需要小心不要调用 aio_return 函数操作完成之前的结果时位定义的 
+		    还需要小心对每个异步操作只调用一次aio_return
+		    一旦调用了该函数， 操作系统就释放掉包含了 I/O 操作返回值的记录
+		    
+	  //等待异步操作完成
+	  int aio_suspend(const struct aiocb*const list[], int nent, const struct timespec *timeout);
+	  说明 :
+		    1)  如果我们的一个信号被中断， 它将返回 -1 , 并将errno 设置位 EINTR
+		    2）如果在没有任何 I/O 操作完成的情况下， 阻塞的时间超过了函数中可选的timeout, 那么就返回 -1 并置 errno = EAGAIN
+			 如果不想设置时间限制的话， 可以把空指针传给 timeout 参数
+		    3) 如果由任何 I/O 操作完成 ， aio_suspend 将返回 0
+		    
+	// 取消 不想在完成的等待中的I/O操作
+	int aio_cancel(int fd, struct aiocb *aiocb);
+	返回值 ：
+		    1） AIO_ALLDONE : 所有操作在尝试取消取消他们之前已经完成
+		    2） AIO_CANCELED: 所要求的操作已被取消
+		    3） AIO_NOTCANCELED : 至少有一个操作没有被取消
+		    
+	int lio_listio(int mode, struct aiocb*restrict const list[restrict], int nent, struct sigevent *restrict sigev);
+	说明：
+		    1） mode :
+				   LIO_WNOWAIT : 	异步
+				   LIO_WAIT:		同步
+		    2） aiocb 中的  aio_lio_opcode :
+				   指定了该操作是一个 读操作（LIO_READ）, 写操作(LIO_WRITE), 还是被忽略的空操作 (LIO_NOP)
+		    3) sigev :
+				   进程将在所有I/O操作完成后， 按照 sigev 参数指定的， 被异步的通知, 如果不想被通知， 可以把 sigev 参数设定为 NULL， 注意，
+				   每个AIO控制块本身也可能启动了在各自操作完成时的异步通知， 被 sigev 参数指定的异步通知时在此之外令加的， 并且只会在所有的
+				   I/O操作完成后发送
+
+函数 readv 和 writev
+
+			 // 在一次函数中读， 写多个非连续缓冲区
+			 #include <sys/uio.h>
+			 ssize_t readv(int fd, const struct iovec*iov, int iovcnt);
+			 ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
+			 
+		说明：
+			1)
+			      struct iovec{
+			      void *iov_base;	// 缓冲区
+			      size_t iov_len;	// 读写长度
+			      }
+			 2) readv 总是先填满一个缓冲区后， 在填写下一个， readv 返回读到的字节总数
+			 3) 如果遇到文件尾端， 以无数据可读， 则返回 0
+			 
+存储 I/O
+
+	  // 存储映射 I/O 能将一个磁盘文件映射到存储空间中的一个缓冲区上， 于是， 当从缓冲区中取数据时， 就相当于读最新超牛B的WIFI 无线密码破解软件 真正的无需跑包 无需PIN 秒破解路由器密码   文件中的响应字节
+	  
+		    #include <sys/mman.h>
+		    void *mmap(void *addr, size_t len, int prot, int flag, int fd, off_t off);
+		    
+		    说明:
+			 1)   addr 用于指定存储区的起始地址。 通常将其设置为 0 ， 这表示由系统选择该映射区的起始地址， 
+			 2） fd 指定要被映射文件的描述符， 在文件映射之前必须先打开
+			 3） len 为映射的字节数
+			 4)   prot 
+					PROT_READ 映射区可读
+					PROT_WRITE 映射区可写
+					PROT_EXE	   映射区可执行
+			 映射区的保护不能超过open 模式的权限
+			 5)  flag 属性
+				   MAP_FIXED		 返回值必须等于 addr ， 不利于可移植
+				   MAP_SHARED 	指定存储操作修改映射文件
+				   MAP_PRIVATE		指定存储操作创建该映射文件的一个私有副本
+			 6）fd 打开的文件描述符
+			 7）off  文件偏移量
+		    注意：
+			 off 与 addr 必须为系统虚拟存储页长度的倍数
+
+		// 指定修改存储区的保护模式
+		int mprotect(void *addr, size_t len, int prot);
+		
+		// 将该也冲洗到被映射的文件中
+		int msync(viod *addr, size_t len, int flags);
+		flags :
+			 MS_ASYNC   MS_SYNC
+			
+		// 解除映射区
+		int munmap(void *addr, size_t len);
+		

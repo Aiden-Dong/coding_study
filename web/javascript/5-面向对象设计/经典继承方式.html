@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>经典继承方式</title>
+    <script type="text/javascript"  charset="utf-8">
+      // 继承方法
+      function extend(sub, sup){
+        //只继承父类的原型对象
+        var F = new Function();     // 创建一个空函数完成中转
+        F.prototype = sup.prototype;
+        sub.prototype = new F();
+        sub.prototype.constructor = sub;   // 重新设置constructor 对象
+        sub.superClass = sup.prototype;    // 保留其父类的原型对象
+      }
+      function Person(name, age){
+        this.name = name;
+        this.age = age;
+      }
+      Person.prototype={
+        constructor:Person,
+        sayName:function(){
+            return "name : " + this.name + "\n"+ "age  : " + this.age ;
+        }
+      }
+      function Boy(name, age, job){
+        Boy.superClass.constructor.call(this, name, age);
+        this.job = job;
+      }
+      extend(Boy, Person);
+      Boy.prototype.sayName = function(){
+        return Boy.superClass.sayName.call(this) + "\n" + "job : " + this.job;      // 实现多态机制
+      }
+      var one = new Boy("saligia", 20, "student");
+      alert(one.sayName());
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
