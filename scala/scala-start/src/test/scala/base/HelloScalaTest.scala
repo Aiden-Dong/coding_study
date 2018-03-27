@@ -1,7 +1,7 @@
+package base
+
 import org.junit.Test
-import page.GetPageXinlang
-import test.HelloStart
-import test.base.{HelloScala, MyMatcher}
+import test.base.MyMatcher
 
 /**
   * Created by saligia on 17-9-6.

@@ -31,10 +31,12 @@ object SparkSessionTest {
 
     val sc =sparkSession.sparkContext;
 
+
     val combineTextInputFormat = new CombineTextInputFormat
 
 
     val rdd = sc.newAPIHadoopFile[LongWritable, Text, CombineTextInputFormat]("s3://mob-emr-test/dongtao/mobvista/ods_adn_trackingnew/2017/02/*/23")
+
 
     // 获取数据
     val testSql = sparkSession.sparkContext

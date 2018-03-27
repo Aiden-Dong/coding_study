@@ -4,14 +4,14 @@ import org.apache.spark.sql.SparkSession
 
 /**
  * <pre>
+ *   spark-sql
  * </pre>
  *
  * @author saligia
- * @date 18-1-15
+ * @date 18-3-26
  *
  */
-object SparkSqlTest extends App{
-
+object SparkHSql extends App{
   val spark = SparkSession.builder()
     .appName("SparkSQL_Test")
     .config("spark.rdd.compress", "true")
@@ -24,15 +24,16 @@ object SparkSqlTest extends App{
     .enableHiveSupport()
     .getOrCreate()
 
-
-
-
   val sql = args(1)
   val textFile = args(0)
 
-  if(spark.conf.get("spark.user.cache.sql") != null){
-    spark.sql(spark.conf.get("spark.user.cache.sql"));
+  try{
+    val catchSql = spark.conf.get("spark.user.cache.sql")
+    spark.sql(catchSql)
+  }catch {
+    case e: NoSuchElementException =>{}
   }
+
 
   val sql1 = spark.sql(sql).repartition(20)
     .write.format("csv")
@@ -40,5 +41,4 @@ object SparkSqlTest extends App{
     .save(textFile)
 
   spark.stop();
-
 }

@@ -20,22 +20,11 @@ import static java.lang.System.*;
  * Created by saligia on 17-7-20.
  */
 public class DateTimeGet {
-    // 时区转换
+
+
     public static void timeInZone() {
 
-        //System.setProperty("user.timezone", "UTC");
 
-        //System.out.println("===");
-        //System.out.println(System.getProperty("user.timezone"));
-
-
-        DateTimeZone zone = DateTimeZone.forID("+0800");
-
-        System.out.println(zone.getID());
-
-        //DateTime time = DateTime.parse("2017-09-01", DateTimeFormat.forPattern("yyyy-MM-dd"));
-        //time  = time.withZone(DateTimeZone.UTC);
-        //out.println(time);
     }
 
     // ISO Test
