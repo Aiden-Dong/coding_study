@@ -20,7 +20,8 @@ object SparkSqlTest extends App{
     .config("spark.sql.inMemoryColumnarStorage.batchSize", "1000")
     .config("spark.sql.warehouse.dir", "s3://mob-emr-test/spark-warehouse")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .config("spark.sql.hive.inputformat","input.LocalHiveCombinInputFormat")
+    .config("spark.sql.hive.inputformat","org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat")
+    .config("mapreduce.input.fileinputformat.split.maxsize", "1024000000000")
     .enableHiveSupport()
     .getOrCreate()
 

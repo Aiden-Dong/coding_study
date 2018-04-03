@@ -21,7 +21,6 @@ public class HadoopSaligia extends Configured  implements Tool{
 
         Configuration conf = new Configuration();
 
-
         Job job = Job.getInstance(conf, "TestData");
         job.setJarByClass(HadoopSaligia.class);
 

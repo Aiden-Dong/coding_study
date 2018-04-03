@@ -65,7 +65,7 @@ public class DateTimeGetTest {
     public void testIsoTime(){
         DateTime dateTime = DateTime.now().withTimeAtStartOfDay();
 
-        System.out.println(ISODateTimeFormat.dateTime().print(dateTime));
+        System.out.println(ISODateTimeFormat.date().print(dateTime));
     }
     @Test
     public void testTimePeriod(){
@@ -73,7 +73,7 @@ public class DateTimeGetTest {
     }
 
 
-    @Test
+    //@Test
     public void testTimeTimestamp(){
         DateTime dateTime = DateTime.now();
 

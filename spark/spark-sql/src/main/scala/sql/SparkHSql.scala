@@ -20,7 +20,7 @@ object SparkHSql extends App{
     .config("spark.sql.inMemoryColumnarStorage.batchSize", "1000")
     .config("spark.sql.warehouse.dir", "s3://mob-emr-test/spark-warehouse")
     .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .config("spark.sql.hive.inputformat","input.LocalHiveCombinInputFormat")
+    .config("spark.sql.hive.inputformat","org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat")
     .enableHiveSupport()
     .getOrCreate()
 
@@ -34,6 +34,7 @@ object SparkHSql extends App{
     case e: NoSuchElementException =>{}
   }
 
+  spark.sparkContext.
 
   val sql1 = spark.sql(sql).repartition(20)
     .write.format("csv")

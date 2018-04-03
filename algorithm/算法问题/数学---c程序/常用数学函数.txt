@@ -1,0 +1,15 @@
+         常用数学函数
+1  求绝对值   整型abs（int i） 长整形labs(long n)  实数fabs(double x)
+例如：abs(5)==abs(-5)==5
+2  求不大于x的最大整数，类似【x】   floor（double x）
+   求不小于x的最小整数，     ceil（double x）
+例如：floor（-5.1）==-6  floor(5.9)==5  ceil(-5.1)==-5  ceil(5.9)==6
+3  求平方根  sqrt(double x)   
+例如：sqrt(2)==1.414...
+4 常用对数 log10（double x）
+5 自然对数 log（double x）
+6 求10的P次方  pow10(int p)
+例如:pow10(3)==1000
+7 求X的P次方  pow(double x,double y)
+例如：pow(3,2)==9
+8 正弦sin(double x) 余弦cos(double x) 正切tan(double x)
