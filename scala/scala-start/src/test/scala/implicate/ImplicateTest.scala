@@ -33,7 +33,7 @@ class ImplicateTest {
     return double.toInt
   }
 
-  @Test
+  //@Test
   def testImplicateFunction(): Unit ={
     val a:Int = 3.12
   }
@@ -48,7 +48,7 @@ class ImplicateTest {
     new RichFile(file)
   }
 
-  @Test
+  //@Test
   def testfileSource ():Unit = {
     val file = new File("");
     file.read()
