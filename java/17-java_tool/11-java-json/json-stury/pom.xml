@@ -23,4 +23,12 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </resource>
+        </resources>
+    </build>
 </project>

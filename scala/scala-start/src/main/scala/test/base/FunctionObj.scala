@@ -100,4 +100,23 @@ object FunctionObj {
   def map(func:((Int, Int))=>Int, one:(Int,Int)):Int ={
     func(one._1, one._2)
   }
+
+  val isEnableAssert = true
+  // 使用正常的函数定义
+  def simpleAssert(predicate: () => Boolean) = {
+    if (isEnableAssert && !predicate())
+      throw new AssertionError()
+  }
+
+  //  simpleAssert( 2 > 3) 会报错
+  simpleAssert(() => 2 > 3)
+
+  // 为了省略()=> 可以使用 by name 参数
+  def byNameAssert(predicate: => Boolean) = {
+    if (isEnableAssert && !predicate)
+      throw new AssertionError()
+  }
+
+  byNameAssert(1 > 2)
 }
+
