@@ -4,50 +4,48 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>saligia-test</groupId>
-    <artifactId>spark-test</artifactId>
+    <groupId>com.saligia</groupId>
+    <artifactId>spark-application</artifactId>
     <version>1.0</version>
 
-
     <properties>
-        <scala.version>2.12.3</scala.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <spark.version>2.0.1</spark.version>
+        <scala-version>2.11.8</scala-version>
+        <spark-version>2.0.1</spark-version>
+        <scala.binary.version>2.11</scala.binary.version>
     </properties>
-
 
     <dependencies>
         <!-- scala 依赖包-->
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
+            <version>${scala-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-compiler</artifactId>
-            <version>${scala.version}</version>
+            <version>${scala-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-reflect</artifactId>
-            <version>${scala.version}</version>
+            <version>${scala-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_2.11</artifactId>
-            <version>${spark.version}</version>
+            <version>${spark-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- spark -sql -->
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
-            <version>${spark.version}</version>
+            <version>${spark-version}</version>
             <scope>provided</scope>
         </dependency>
         <!-- sql-hive -->
@@ -55,7 +53,7 @@
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-hive_2.11</artifactId>
-            <version>${spark.version}</version>
+            <version>${spark-version}</version>
         </dependency>
     </dependencies>
 
@@ -80,4 +78,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

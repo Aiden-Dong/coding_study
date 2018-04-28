@@ -117,6 +117,6 @@ object FunctionObj {
       throw new AssertionError()
   }
 
-  byNameAssert(1 > 2)
+  byNameAssert(predicate = {1 > 2; true})
 }
 
