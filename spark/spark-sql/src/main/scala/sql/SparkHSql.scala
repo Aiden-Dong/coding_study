@@ -24,6 +24,9 @@ object SparkHSql extends App{
     .enableHiveSupport()
     .getOrCreate()
 
+
+  org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat
+
   val sql = args(1)
   val textFile = args(0)
 

@@ -69,7 +69,7 @@ object ApplicationMsg {
      * 9 application_memory      double                  application memory GB
      *10 application_start_time  bigint                  applica tion start time
      *11 application_stop_time   bigint                  application stop time
-     *12 application_elapsed_time        int                     application elapsed time
+     *12 application_elapsed_time      int                     application elapsed time
      *13 application_read_byte   bigint                  application read byte
      *14 application_input_dir   string                  application input dir
      *15 application_output_dir  string                  application output dir

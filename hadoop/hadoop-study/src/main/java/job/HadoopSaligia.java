@@ -20,6 +20,8 @@ public class HadoopSaligia extends Configured  implements Tool{
     public int run(String[] args) throws Exception {
 
         Configuration conf = new Configuration();
+        conf.set("mapred.min.split.size", "1");
+        conf.set("mapred.max.split.size", "256000000");
 
         Job job = Job.getInstance(conf, "TestData");
         job.setJarByClass(HadoopSaligia.class);

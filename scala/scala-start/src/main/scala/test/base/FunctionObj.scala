@@ -1,5 +1,7 @@
 package test.base
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
  * <pre>
  *  scala 函数性质
@@ -27,6 +29,11 @@ object FunctionObj {
     }
   }
 
+  def printRefrence(test:String, array:ArrayBuffer[String]=ArrayBuffer()):String = {
+    array += test
+    return array.toString()
+  }
+
   /**
    * <pre>
    *   匿名函数
@@ -52,7 +59,6 @@ object FunctionObj {
    * @param fcunction
    * @return
    */
-
 
   def getValue(x:Double, func : (Double)=>Double) : Double = {
     func(x)

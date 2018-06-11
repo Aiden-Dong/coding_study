@@ -12,6 +12,6 @@ public class RegularlyTest {
     public void testRegularly() throws IOException {
         //  Regularly.regularly();
         //System.setProperty("test", null);
-        new ApplicationKill().getPattern();
+        //new ApplicationKill().getPattern();
     }
 }

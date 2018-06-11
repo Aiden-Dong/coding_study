@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>saligia-study</groupId>
-    <artifactId>regularly-study</artifactId>
+    <artifactId>hadoop-hdfs</artifactId>
     <version>1.0</version>
 
     <properties>
@@ -13,11 +13,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-        </dependency>
         <!-- scala 依赖包-->
         <dependency>
             <groupId>org.scala-lang</groupId>
@@ -34,28 +29,30 @@
             <artifactId>scala-reflect</artifactId>
             <version>${scala.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>2.7.3</version>
+        </dependency>
     </dependencies>
 
     <build>
         <resources>
             <resource>
-                <directory>${project.basedir}/src/main/resources</directory>
+                <directory>${project.basedir}/bin</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>*.log</include>
+                    <include>*.sh</include>
                 </includes>
+                <targetPath>${project.build.directory}/dist/bin</targetPath>
             </resource>
-
-            <resource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>*.log</include>
-                </includes>
-            </resource>
-
         </resources>
-
         <plugins>
             <!-- scala 编译工具　-->
             <plugin>
@@ -65,11 +62,31 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>add-source</goal>
                             <goal>compile</goal>
-                            <goal>testCompile</goal>
                         </goals>
                         <configuration>
                             <includes>**/*.scala</includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.8</version>
+                <executions>
+                    <execution>
+                        <id>dependency-copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeArtifactIds>false</excludeArtifactIds>
+                            <stripVersion>false</stripVersion>
+                            <excludeScope>provided</excludeScope>
+                            <outputDirectory>${project.build.directory}/dist/lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -87,5 +104,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
