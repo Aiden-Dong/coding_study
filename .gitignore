@@ -1,5 +1,9 @@
 # Compiled class file
+
+*.pyc
 *.class
+
+venv/
 
 # Log file
 *.log

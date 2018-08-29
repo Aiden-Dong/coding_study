@@ -10,7 +10,7 @@
 
     <properties>
         <scala-version>2.11.8</scala-version>
-        <spark-version>2.2.1</spark-version>
+        <spark-version>2.3.1</spark-version>
         <scala.binary.version>2.11</scala.binary.version>
     </properties>
 
@@ -42,6 +42,7 @@
             <scope>provided</scope>
         </dependency>
         <!-- spark -sql -->
+
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
