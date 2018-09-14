@@ -59,6 +59,7 @@ public class ClusterMessageMapperTest {
         try{
             sqlSession.getMapper(ClusterMessageMapper.class).insertClusterMessage(clusterMessage);
             System.out.println(clusterMessage);
+            //sqlSession.commit(true);
         }catch (Exception e){
             throw new SQLException("insert cluster_manager error : " + e);
         }finally {
@@ -80,7 +81,7 @@ public class ClusterMessageMapperTest {
 
             Map<Integer, ClusterMessage> cluster = sqlSession.getMapper(ClusterMessageMapper.class).getClusterMessageMapper();
 
-            System.out.println(cluster.get(2));
+            System.out.println(cluster.get(1));
         }catch (Exception e){
             throw new SQLException("get cluster_manager error : " + e);
         }finally {

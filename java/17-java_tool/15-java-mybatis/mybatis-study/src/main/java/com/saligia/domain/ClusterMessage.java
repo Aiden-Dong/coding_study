@@ -3,6 +3,9 @@ package com.saligia.domain;
 /***
  * <pre>
  *     集群管理信息
+ *
+ *     cluster_id -> clusterId // 配置文件操作转换 mapUnderscoreToCamelCase : true
+ *     clusterId -> clusterId  // 不需要手动操作映射
  * </pre>
  * @user : saligia
  * @date : 2018-08-27

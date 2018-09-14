@@ -44,7 +44,6 @@ public class QueryManager {
         initSQLSessionFaction();
     }
 
-
     /**
      * <pre>
      *   初始化数据库连接池
@@ -119,8 +118,13 @@ public class QueryManager {
     }
 
 
+    public SqlSession getUserCommitSession(){
+        return sqlSessionFactory.openSession(false);
+    }
+
     public DataSource getDataSource(){
         return this.dataSource;
     }
+
 
 }

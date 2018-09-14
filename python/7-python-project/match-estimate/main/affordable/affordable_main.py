@@ -5,23 +5,22 @@ from main.affordable.put_consumer import *
 from main.lib.affordable_meta import *
 
 def process():
-    productNum = 1000
+    productNum = 2000
     meta_file = "data/user_id_message.txt"
     write_meta= "data/result_{0}-{1}.txt"
 
-    oliQueue = Queue()
+    #oliQueue = Queue()
     unoliQueue = Queue()
     #nineQueue = Queue()
 
-    oliWriteQueue = Queue()
+    #oliWriteQueue = Queue()
     unoliWriteQueue = Queue()
     #nineWriteQueue = Queue()
 
     with open(meta_file, "r") as f :
         for fline in f :
             userId = fline.replace("\n", "").replace("\r", "")
-
-            oliQueue.put(userId)
+            #oliQueue.put(userId)
             unoliQueue.put(userId)
             #nineQueue.put(userId)
 
@@ -30,13 +29,13 @@ def process():
 
     # producer
     for index in range(productNum):
-        productList.append(GetProducer(oliQueue, oliWriteQueue, pushOil))
+        #productList.append(GetProducer(oliQueue, oliWriteQueue, pushOil))
         productList.append(GetProducer(unoliQueue, unoliWriteQueue, pushUnoil))
         #productList.append(GetProducer(nineQueue, nineWriteQueue, pushNine))
 
 
     # consumer
-    productList.append(PutComsumer(oliWriteQueue, write_meta.format("oli", datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f"))))
+    #productList.append(PutComsumer(oliWriteQueue, write_meta.format("oli", datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f"))))
     #productList.append(consumerOli)
     productList.append(PutComsumer(unoliWriteQueue, write_meta.format("unoli", datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f"))))
     #productList.append(consumerUnoli)
