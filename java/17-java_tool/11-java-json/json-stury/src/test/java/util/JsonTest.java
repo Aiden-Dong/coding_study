@@ -1,12 +1,16 @@
 package util;
 
-import org.codehaus.jackson.JsonNode;
+import bean.Persion;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <pre>
@@ -17,27 +21,56 @@ import java.io.IOException;
  */
 public class JsonTest {
     @Test
-    public void testMap() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(new File("/home/saligia/github/coding_study/java/17-java_tool/11-java-json/json-stury/src/test/resources/test.json")));
+    public void testJsonNode() throws IOException {
+        String str = "[\"test1\", \"test2\", \"test3\"]";
+        Object node = JsonUtil.json2Object(str);
+        System.out.println(node.toString());
+    }
 
-        StringBuffer buffer = new StringBuffer();
+    @Test
+    public void testMapBean() throws IOException {
+        String str = "{\n" +
+                "  \"name\" : \"test\",\n" +
+                "  \"value\" : 20,\n" +
+                "  \"address\" : [\n" +
+                "    {\n" +
+                "     \"addressId\" : \"0001\" \n" +
+                "    },\n" +
+                "    {\n" +
+                "    \"addressId\" : \"0002\"\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
 
-        String sLine = "";
-
-        while((sLine = reader.readLine()) != null){
-            buffer.append(sLine);
-        }
-        reader.close();
-
-        JsonNode node = JsonUtil.parseJSONFromString(buffer.toString());
+        Map map = (Map) JsonUtil.json2Object(str);
+        System.out.println(map.get("address"));
+        List<Map<String, String>> list = (List<Map<String, String>>)map.get("address");
+        System.out.println(list.get(1).get("addressId"));
 
 
-        for(JsonNode property : node.get("conf").get("property")){
-            if(property.get("name").asText().equals("mapreduce.input.fileinputformat.inputdir")){
-                System.out.println(property.get("value").asText());
-            }
-        }
+        String value = JsonUtil.object2Str(map, true);
+        System.out.println(value);
+    }
 
+    @Test
+    public void testBean() throws IOException {
+        String str = "{\n" +
+                "  \"v-name\" : \"test\",\n" +
+                "  \"v-value\" : 20,\n" +
+                "  \"address\" : [\n" +
+                "    {\n" +
+                "     \"addressId\" : \"0001\" \n" +
+                "    },\n" +
+                "    {\n" +
+                "    \"addressId\" : \"0002\"\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
 
+        Persion persion = JsonUtil.str2Bean(str, Persion.class);
+
+        System.out.println(persion);
+        String value = JsonUtil.object2Str(persion, true);
+        System.out.println(value);
     }
 }
