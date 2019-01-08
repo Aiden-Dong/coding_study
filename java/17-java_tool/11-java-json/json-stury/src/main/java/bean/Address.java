@@ -16,6 +16,11 @@ public class Address {
         this.addressId = addressId;
     }
 
+    @JsonProperty("addreddId")
+    public String getAddressId(){
+        return this.addressId;
+    }
+
     @Override
     public String toString() {
         return addressId;

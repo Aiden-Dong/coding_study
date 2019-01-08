@@ -27,7 +27,6 @@ public class AddressDeserde extends JsonDeserializer<List> {
         List<Address> addresses = new LinkedList<Address>();
 
         for(JsonNode node :  Lists.newArrayList(nodes.elements())){
-            System.out.println(node.toString());
             addresses.add(JsonUtil.str2Bean(node.toString(), Address.class));
         }
         return addresses;

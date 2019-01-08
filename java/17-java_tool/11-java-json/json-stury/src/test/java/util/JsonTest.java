@@ -69,7 +69,6 @@ public class JsonTest {
 
         Persion persion = JsonUtil.str2Bean(str, Persion.class);
 
-        System.out.println(persion);
         String value = JsonUtil.object2Str(persion, true);
         System.out.println(value);
     }
