@@ -37,7 +37,7 @@ public class MvcWebConfig extends WebMvcConfigurationSupport {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setCharacterEncoding("UTF-8");
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("classpath:/webapp/");
+        templateResolver.setPrefix("classpath:/webapp/model/");
         templateResolver.setSuffix(".html");
         return templateResolver;
     }

@@ -6,6 +6,10 @@ import org.eclipse.jetty.plus.webapp.PlusConfiguration;
 import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.*;
 
 /***
@@ -24,11 +28,14 @@ public class Main {
         serverConnector.setReuseAddress(true);
         server.setConnectors(new Connector[]{serverConnector});
 
+        WebAppContext context = new WebAppContext();
 
-        WebAppContext context = new WebAppContext("mvc-context", "/");
+        String webDir = Main.class.getClassLoader().getResource("webapp/resource").toExternalForm();
 
-        context.setParentLoaderPriority(true);
-        context.setResourceBase("classpath:/webapp/");
+        context.setResourceBase(webDir);
+        context.setServer(server);
+        context.setContextPath("/");
+
         context.setConfigurations(new Configuration[] {
                 new AnnotationConfiguration(),
                 new WebInfConfiguration(),
@@ -38,8 +45,10 @@ public class Main {
                 new PlusConfiguration(),
                 new FragmentConfiguration(),
         });
+        context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*\\.jar");
 
-        context.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*\\.jar|.*/target/.*");
+        ServletHolder staticServlet = new ServletHolder(new DefaultServlet());
+        context.addServlet(staticServlet, "/css/*");
 
         server.setHandler(context);
 

@@ -4,6 +4,10 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class MvcWebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+    static {
+        System.out.println("=================> hello spring mvc");
+    }
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return null;
