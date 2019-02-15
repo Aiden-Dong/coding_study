@@ -5,6 +5,8 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.util.Date;
+
 /***
  * <pre>
  * </pre>
@@ -13,6 +15,12 @@ import org.quartz.JobExecutionException;
  */
 public class ExecJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+        Date dateNext = jobExecutionContext.getNextFireTime();
+        Date dateNext2 = jobExecutionContext.getTrigger().getFireTimeAfter(dateNext);
+
+        Date dateNow = new Date(dateNext.getTime() - (dateNext2.getTime()-dateNext.getTime()));
+
         System.out.println("JobRunTime : " + ISODateTimeFormat.dateTime().print(jobExecutionContext.getJobRunTime())); // 作业运行的时间量
         System.out.println("FireTime : " + ISODateTimeFormat.dateTime().print(jobExecutionContext.getFireTime().getTime()));   // 触发器的实际时间
         System.out.println("ScheduledFireTime" + ISODateTimeFormat.dateTime().print(jobExecutionContext.getScheduledFireTime().getTime()));    // 触发器的预定时间
