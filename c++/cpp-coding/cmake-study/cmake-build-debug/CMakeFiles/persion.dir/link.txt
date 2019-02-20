@@ -1,0 +1,2 @@
+/Library/Developer/CommandLineTools/usr/bin/ar qc libpersion.a  CMakeFiles/persion.dir/src/persion/persion.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/ranlib libpersion.a

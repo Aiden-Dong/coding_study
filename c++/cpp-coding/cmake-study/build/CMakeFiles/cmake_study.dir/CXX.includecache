@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/src/main.cpp
+iostream
+-
+persion/persion.h
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/src/persion/persion.h
+
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/src/persion/persion.h
+string
+-
+

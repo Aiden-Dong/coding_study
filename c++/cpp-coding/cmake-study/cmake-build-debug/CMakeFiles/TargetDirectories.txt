@@ -1,0 +1,4 @@
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/cmake-build-debug/CMakeFiles/cmake_study.dir
+/Users/saligia/github/coding_study/c++/cpp-coding/cmake-study/cmake-build-debug/CMakeFiles/persion.dir

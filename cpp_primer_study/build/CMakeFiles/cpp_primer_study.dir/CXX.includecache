@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
+string
+-
+iostream
+-
+
+/Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp
+iostream
+-
+class/persion.h
+/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
+
