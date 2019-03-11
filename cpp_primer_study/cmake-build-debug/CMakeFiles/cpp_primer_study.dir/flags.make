@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/saligia/github/coding_study/cpp_primer_study/src/class -I/Users/saligia/github/coding_study/cpp_primer_study/VHEAD 
+CXX_INCLUDES = 
 

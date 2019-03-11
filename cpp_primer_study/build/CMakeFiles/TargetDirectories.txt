@@ -1,5 +1,0 @@
-/Users/saligia/github/coding_study/cpp_primer_study/build/CMakeFiles/rebuild_cache.dir
-/Users/saligia/github/coding_study/cpp_primer_study/build/CMakeFiles/edit_cache.dir
-/Users/saligia/github/coding_study/cpp_primer_study/build/CMakeFiles/main.dir
-/Users/saligia/github/coding_study/cpp_primer_study/build/CMakeFiles/cpp_primer_study.dir
-/Users/saligia/github/coding_study/cpp_primer_study/build/CMakeFiles/vclass.dir

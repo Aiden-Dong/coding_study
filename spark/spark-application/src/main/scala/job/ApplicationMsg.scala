@@ -110,8 +110,8 @@ object ApplicationMsg {
         t1._4 + t2._4,
         t1._5 + t2._5,
         t1._6 + t2._6,
-        t1._7 + t2._7)}
-    ).map(groupRDD=>{
+        t1._7 + t2._7)
+    }).map(groupRDD=>{
         s"${groupRDD._1._1},${groupRDD._1._2},"+
         s"${groupRDD._2._1.toString},"+
         s"${groupRDD._2._2.toString},"+

@@ -57,28 +57,29 @@ include CMakeFiles/cpp_primer_study.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/cpp_primer_study.dir/flags.make
 
-CMakeFiles/cpp_primer_study.dir/src/main.cpp.o: CMakeFiles/cpp_primer_study.dir/flags.make
-CMakeFiles/cpp_primer_study.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpp_primer_study.dir/src/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpp_primer_study.dir/src/main.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp
+CMakeFiles/cpp_primer_study.dir/main.cpp.o: CMakeFiles/cpp_primer_study.dir/flags.make
+CMakeFiles/cpp_primer_study.dir/main.cpp.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/cpp_primer_study.dir/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpp_primer_study.dir/main.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/main.cpp
 
-CMakeFiles/cpp_primer_study.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cpp_primer_study.dir/src/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp > CMakeFiles/cpp_primer_study.dir/src/main.cpp.i
+CMakeFiles/cpp_primer_study.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cpp_primer_study.dir/main.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/main.cpp > CMakeFiles/cpp_primer_study.dir/main.cpp.i
 
-CMakeFiles/cpp_primer_study.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cpp_primer_study.dir/src/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp -o CMakeFiles/cpp_primer_study.dir/src/main.cpp.s
+CMakeFiles/cpp_primer_study.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cpp_primer_study.dir/main.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/main.cpp -o CMakeFiles/cpp_primer_study.dir/main.cpp.s
 
 # Object files for target cpp_primer_study
 cpp_primer_study_OBJECTS = \
-"CMakeFiles/cpp_primer_study.dir/src/main.cpp.o"
+"CMakeFiles/cpp_primer_study.dir/main.cpp.o"
 
 # External object files for target cpp_primer_study
 cpp_primer_study_EXTERNAL_OBJECTS =
 
-cpp_primer_study: CMakeFiles/cpp_primer_study.dir/src/main.cpp.o
+cpp_primer_study: CMakeFiles/cpp_primer_study.dir/main.cpp.o
 cpp_primer_study: CMakeFiles/cpp_primer_study.dir/build.make
+cpp_primer_study: libvclass.a
 cpp_primer_study: CMakeFiles/cpp_primer_study.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable cpp_primer_study"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cpp_primer_study.dir/link.txt --verbose=$(VERBOSE)

@@ -50,7 +50,6 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/main.dir/DependInfo.cmake"
   "CMakeFiles/cpp_primer_study.dir/DependInfo.cmake"
   "CMakeFiles/vclass.dir/DependInfo.cmake"
   )

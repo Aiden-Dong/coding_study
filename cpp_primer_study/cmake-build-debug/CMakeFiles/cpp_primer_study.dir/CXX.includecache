@@ -6,27 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.cpp
-persion.h
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
-
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
+/Users/saligia/github/coding_study/cpp_primer_study/main.cpp
+iostream
+-
+signal.h
+-
+zconf.h
+-
+src/process/unknow_unix_socket.h
+/Users/saligia/github/coding_study/cpp_primer_study/src/process/unknow_unix_socket.h
 string
 -
-iostream
+unistd.h
+-
+fcntl.h
+-
+pthread.h
 -
 
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/student.cpp
-student.h
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/student.h
-
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/student.h
-persion.h
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
-
-/Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp
-iostream
--
-class/persion.h
-/Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.h
+/Users/saligia/github/coding_study/cpp_primer_study/src/process/unknow_unix_socket.h
 

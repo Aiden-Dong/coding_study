@@ -4,18 +4,17 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/saligia/github/coding_study/cpp_primer_study/src/main.cpp" "/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles/cpp_primer_study.dir/src/main.cpp.o"
+  "/Users/saligia/github/coding_study/cpp_primer_study/main.cpp" "/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles/cpp_primer_study.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../src/class"
-  "../VHEAD"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
+  "/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles/vclass.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -65,47 +65,10 @@ CMAKE_SOURCE_DIR = /Users/saligia/github/coding_study/cpp_primer_study
 CMAKE_BINARY_DIR = /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug
 
 #=============================================================================
-# Target rules for target CMakeFiles/main.dir
-
-# All Build rule for target.
-CMakeFiles/main.dir/all:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/depend
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=3,4 "Built target main"
-.PHONY : CMakeFiles/main.dir/all
-
-# Include target in all.
-all: CMakeFiles/main.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/main.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/main.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/main.dir/rule
-
-# Convenience name for target.
-main: CMakeFiles/main.dir/rule
-
-.PHONY : main
-
-# clean rule for target.
-CMakeFiles/main.dir/clean:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/clean
-.PHONY : CMakeFiles/main.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/main.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
 # Target rules for target CMakeFiles/cpp_primer_study.dir
 
 # All Build rule for target.
-CMakeFiles/cpp_primer_study.dir/all:
+CMakeFiles/cpp_primer_study.dir/all: CMakeFiles/vclass.dir/all
 	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/depend
 	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target cpp_primer_study"
@@ -118,7 +81,7 @@ all: CMakeFiles/cpp_primer_study.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cpp_primer_study.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 6
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/cpp_primer_study.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/cpp_primer_study.dir/rule
@@ -142,10 +105,10 @@ clean: CMakeFiles/cpp_primer_study.dir/clean
 # Target rules for target CMakeFiles/vclass.dir
 
 # All Build rule for target.
-CMakeFiles/vclass.dir/all: CMakeFiles/main.dir/all
+CMakeFiles/vclass.dir/all:
 	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/depend
 	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=5,6,7 "Built target vclass"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=3,4,5,6 "Built target vclass"
 .PHONY : CMakeFiles/vclass.dir/all
 
 # Include target in all.
@@ -155,7 +118,7 @@ all: CMakeFiles/vclass.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/vclass.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 4
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/vclass.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/vclass.dir/rule

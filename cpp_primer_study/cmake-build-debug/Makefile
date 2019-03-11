@@ -111,19 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
-
-# Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 main
-.PHONY : main
-
-# fast build rule for target.
-main/fast:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
-
-#=============================================================================
 # Target rules for targets named cpp_primer_study
 
 # Build rule for target.
@@ -149,89 +136,113 @@ vclass/fast:
 	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/build
 .PHONY : vclass/fast
 
-src/class/persion.o: src/class/persion.cpp.o
+main.o: main.cpp.o
 
-.PHONY : src/class/persion.o
-
-# target to build an object file
-src/class/persion.cpp.o:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/persion.cpp.o
-.PHONY : src/class/persion.cpp.o
-
-src/class/persion.i: src/class/persion.cpp.i
-
-.PHONY : src/class/persion.i
-
-# target to preprocess a source file
-src/class/persion.cpp.i:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/persion.cpp.i
-.PHONY : src/class/persion.cpp.i
-
-src/class/persion.s: src/class/persion.cpp.s
-
-.PHONY : src/class/persion.s
-
-# target to generate assembly for a file
-src/class/persion.cpp.s:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/persion.cpp.s
-.PHONY : src/class/persion.cpp.s
-
-src/class/student.o: src/class/student.cpp.o
-
-.PHONY : src/class/student.o
+.PHONY : main.o
 
 # target to build an object file
-src/class/student.cpp.o:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/student.cpp.o
-.PHONY : src/class/student.cpp.o
+main.cpp.o:
+	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-src/class/student.i: src/class/student.cpp.i
+main.i: main.cpp.i
 
-.PHONY : src/class/student.i
+.PHONY : main.i
 
 # target to preprocess a source file
-src/class/student.cpp.i:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/student.cpp.i
-.PHONY : src/class/student.cpp.i
+main.cpp.i:
+	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-src/class/student.s: src/class/student.cpp.s
+main.s: main.cpp.s
 
-.PHONY : src/class/student.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-src/class/student.cpp.s:
-	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/class/student.cpp.s
-.PHONY : src/class/student.cpp.s
+main.cpp.s:
+	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/main.cpp.s
+.PHONY : main.cpp.s
 
-src/main.o: src/main.cpp.o
+src/process/process_manager.o: src/process/process_manager.cpp.o
 
-.PHONY : src/main.o
+.PHONY : src/process/process_manager.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
-	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/process/process_manager.cpp.o:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/process_manager.cpp.o
+.PHONY : src/process/process_manager.cpp.o
 
-src/main.i: src/main.cpp.i
+src/process/process_manager.i: src/process/process_manager.cpp.i
 
-.PHONY : src/main.i
+.PHONY : src/process/process_manager.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
-	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/process/process_manager.cpp.i:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/process_manager.cpp.i
+.PHONY : src/process/process_manager.cpp.i
 
-src/main.s: src/main.cpp.s
+src/process/process_manager.s: src/process/process_manager.cpp.s
 
-.PHONY : src/main.s
+.PHONY : src/process/process_manager.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
-	$(MAKE) -f CMakeFiles/cpp_primer_study.dir/build.make CMakeFiles/cpp_primer_study.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/process/process_manager.cpp.s:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/process_manager.cpp.s
+.PHONY : src/process/process_manager.cpp.s
+
+src/process/test_signal.o: src/process/test_signal.cpp.o
+
+.PHONY : src/process/test_signal.o
+
+# target to build an object file
+src/process/test_signal.cpp.o:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/test_signal.cpp.o
+.PHONY : src/process/test_signal.cpp.o
+
+src/process/test_signal.i: src/process/test_signal.cpp.i
+
+.PHONY : src/process/test_signal.i
+
+# target to preprocess a source file
+src/process/test_signal.cpp.i:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/test_signal.cpp.i
+.PHONY : src/process/test_signal.cpp.i
+
+src/process/test_signal.s: src/process/test_signal.cpp.s
+
+.PHONY : src/process/test_signal.s
+
+# target to generate assembly for a file
+src/process/test_signal.cpp.s:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/test_signal.cpp.s
+.PHONY : src/process/test_signal.cpp.s
+
+src/process/unknow_unix_sock.o: src/process/unknow_unix_sock.cpp.o
+
+.PHONY : src/process/unknow_unix_sock.o
+
+# target to build an object file
+src/process/unknow_unix_sock.cpp.o:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o
+.PHONY : src/process/unknow_unix_sock.cpp.o
+
+src/process/unknow_unix_sock.i: src/process/unknow_unix_sock.cpp.i
+
+.PHONY : src/process/unknow_unix_sock.i
+
+# target to preprocess a source file
+src/process/unknow_unix_sock.cpp.i:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.i
+.PHONY : src/process/unknow_unix_sock.cpp.i
+
+src/process/unknow_unix_sock.s: src/process/unknow_unix_sock.cpp.s
+
+.PHONY : src/process/unknow_unix_sock.s
+
+# target to generate assembly for a file
+src/process/unknow_unix_sock.cpp.s:
+	$(MAKE) -f CMakeFiles/vclass.dir/build.make CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.s
+.PHONY : src/process/unknow_unix_sock.cpp.s
 
 # Help Target
 help:
@@ -241,18 +252,20 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... main"
 	@echo "... cpp_primer_study"
 	@echo "... vclass"
-	@echo "... src/class/persion.o"
-	@echo "... src/class/persion.i"
-	@echo "... src/class/persion.s"
-	@echo "... src/class/student.o"
-	@echo "... src/class/student.i"
-	@echo "... src/class/student.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
+	@echo "... src/process/process_manager.o"
+	@echo "... src/process/process_manager.i"
+	@echo "... src/process/process_manager.s"
+	@echo "... src/process/test_signal.o"
+	@echo "... src/process/test_signal.i"
+	@echo "... src/process/test_signal.s"
+	@echo "... src/process/unknow_unix_sock.o"
+	@echo "... src/process/unknow_unix_sock.i"
+	@echo "... src/process/unknow_unix_sock.s"
 .PHONY : help
 
 

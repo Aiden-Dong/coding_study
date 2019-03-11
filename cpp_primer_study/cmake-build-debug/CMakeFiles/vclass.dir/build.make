@@ -57,45 +57,60 @@ include CMakeFiles/vclass.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/vclass.dir/flags.make
 
-CMakeFiles/vclass.dir/src/class/persion.cpp.o: CMakeFiles/vclass.dir/flags.make
-CMakeFiles/vclass.dir/src/class/persion.cpp.o: ../src/class/persion.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/vclass.dir/src/class/persion.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/vclass.dir/src/class/persion.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.cpp
+CMakeFiles/vclass.dir/src/process/process_manager.cpp.o: CMakeFiles/vclass.dir/flags.make
+CMakeFiles/vclass.dir/src/process/process_manager.cpp.o: ../src/process/process_manager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/vclass.dir/src/process/process_manager.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/vclass.dir/src/process/process_manager.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/process/process_manager.cpp
 
-CMakeFiles/vclass.dir/src/class/persion.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/vclass.dir/src/class/persion.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.cpp > CMakeFiles/vclass.dir/src/class/persion.cpp.i
+CMakeFiles/vclass.dir/src/process/process_manager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/vclass.dir/src/process/process_manager.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/process/process_manager.cpp > CMakeFiles/vclass.dir/src/process/process_manager.cpp.i
 
-CMakeFiles/vclass.dir/src/class/persion.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/vclass.dir/src/class/persion.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/class/persion.cpp -o CMakeFiles/vclass.dir/src/class/persion.cpp.s
+CMakeFiles/vclass.dir/src/process/process_manager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/vclass.dir/src/process/process_manager.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/process/process_manager.cpp -o CMakeFiles/vclass.dir/src/process/process_manager.cpp.s
 
-CMakeFiles/vclass.dir/src/class/student.cpp.o: CMakeFiles/vclass.dir/flags.make
-CMakeFiles/vclass.dir/src/class/student.cpp.o: ../src/class/student.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/vclass.dir/src/class/student.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/vclass.dir/src/class/student.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/class/student.cpp
+CMakeFiles/vclass.dir/src/process/test_signal.cpp.o: CMakeFiles/vclass.dir/flags.make
+CMakeFiles/vclass.dir/src/process/test_signal.cpp.o: ../src/process/test_signal.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/vclass.dir/src/process/test_signal.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/vclass.dir/src/process/test_signal.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/process/test_signal.cpp
 
-CMakeFiles/vclass.dir/src/class/student.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/vclass.dir/src/class/student.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/class/student.cpp > CMakeFiles/vclass.dir/src/class/student.cpp.i
+CMakeFiles/vclass.dir/src/process/test_signal.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/vclass.dir/src/process/test_signal.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/process/test_signal.cpp > CMakeFiles/vclass.dir/src/process/test_signal.cpp.i
 
-CMakeFiles/vclass.dir/src/class/student.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/vclass.dir/src/class/student.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/class/student.cpp -o CMakeFiles/vclass.dir/src/class/student.cpp.s
+CMakeFiles/vclass.dir/src/process/test_signal.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/vclass.dir/src/process/test_signal.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/process/test_signal.cpp -o CMakeFiles/vclass.dir/src/process/test_signal.cpp.s
+
+CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o: CMakeFiles/vclass.dir/flags.make
+CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o: ../src/process/unknow_unix_sock.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o -c /Users/saligia/github/coding_study/cpp_primer_study/src/process/unknow_unix_sock.cpp
+
+CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/saligia/github/coding_study/cpp_primer_study/src/process/unknow_unix_sock.cpp > CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.i
+
+CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/saligia/github/coding_study/cpp_primer_study/src/process/unknow_unix_sock.cpp -o CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.s
 
 # Object files for target vclass
 vclass_OBJECTS = \
-"CMakeFiles/vclass.dir/src/class/persion.cpp.o" \
-"CMakeFiles/vclass.dir/src/class/student.cpp.o"
+"CMakeFiles/vclass.dir/src/process/process_manager.cpp.o" \
+"CMakeFiles/vclass.dir/src/process/test_signal.cpp.o" \
+"CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o"
 
 # External object files for target vclass
 vclass_EXTERNAL_OBJECTS =
 
-libvclass.a: CMakeFiles/vclass.dir/src/class/persion.cpp.o
-libvclass.a: CMakeFiles/vclass.dir/src/class/student.cpp.o
+libvclass.a: CMakeFiles/vclass.dir/src/process/process_manager.cpp.o
+libvclass.a: CMakeFiles/vclass.dir/src/process/test_signal.cpp.o
+libvclass.a: CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o
 libvclass.a: CMakeFiles/vclass.dir/build.make
 libvclass.a: CMakeFiles/vclass.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libvclass.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/saligia/github/coding_study/cpp_primer_study/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX static library libvclass.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/vclass.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/vclass.dir/link.txt --verbose=$(VERBOSE)
 

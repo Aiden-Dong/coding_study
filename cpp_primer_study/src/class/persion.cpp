@@ -1,9 +1,6 @@
-//
-// Created by norma.eva on 2019-02-20.
-//
-
-
 #include "persion.h"
+
+u_int8_t test=1;
 
 Persion::Persion(std::string name, u_int8_t age) {
     this->name = name;

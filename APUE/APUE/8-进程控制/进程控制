@@ -62,8 +62,8 @@
 	       向父进程发的异步通知；
 	       
 			      #include <sys/wait.h>
-			      pid_t wait(int *statloc);			                         // statloc 为返回终止状态， 如果不需要则为 0；
-			      pid_t waitpid(pid_t pid,  int *statloc,  int option);	// 等待指定的子进程终结 
+			      pid_t wait(int *statloc);			                     // statloc 为返回终止状态， 如果不需要则为 0；
+			      pid_t waitpid(pid_t pid,  int *statloc,  int option);	 // 等待指定的子进程终结
 	  说明：
 	       1）	如果进程已经终止，并且是一个僵死进程， 则 wait 立即返回并取得该进程的状态， 否则wait 使其调用者阻塞，直到有一个进程终止
 	       2）	对于 waitpid ：

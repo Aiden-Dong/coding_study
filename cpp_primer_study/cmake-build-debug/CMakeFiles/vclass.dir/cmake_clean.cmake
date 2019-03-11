@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/vclass.dir/src/class/persion.cpp.o"
-  "CMakeFiles/vclass.dir/src/class/student.cpp.o"
+  "CMakeFiles/vclass.dir/src/process/process_manager.cpp.o"
+  "CMakeFiles/vclass.dir/src/process/test_signal.cpp.o"
+  "CMakeFiles/vclass.dir/src/process/unknow_unix_sock.cpp.o"
   "libvclass.pdb"
   "libvclass.a"
 )

@@ -1,2 +1,0 @@
-/Library/Developer/CommandLineTools/usr/bin/ar qc libclass.a  CMakeFiles/class.dir/src/class/persion.cpp.o CMakeFiles/class.dir/src/class/student.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/ranlib libclass.a

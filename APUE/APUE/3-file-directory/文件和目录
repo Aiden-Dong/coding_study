@@ -1,9 +1,9 @@
 struct stat{
-     mode_t 		st_mode;		//	文件模式
-     ino_t			st_ino;		//	inode 节点号
-     dev_t			st_dev;		// 	设备号
-     dev_t			st_rdev;		// 	特殊设备号
-     nlink_t			st_nlink;		// 	文件连接数
+     mode_t 		st_mode;	 //	文件模式
+     ino_t			st_ino;		 //	inode 节点号
+     dev_t			st_dev;		 // 	设备号
+     dev_t			st_rdev;	 // 	特殊设备号
+     nlink_t		st_nlink;	// 	文件连接数
      uid_t			st_uid;		// 	文件所属 UID
      gid_t			st_gid;		// 	文件所属 GID
      off_t			st_size;		// 	文件大小
